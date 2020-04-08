@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHasRecievedMessagesTable extends Migration
+class CreateFileTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class CreateHasRecievedMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('has_recieved_messages', function (Blueprint $table) {
-            $table->id();
+        Schema::create('file', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('type');
+            $table->string('path');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ class CreateHasRecievedMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('has_recieved_messages');
+        Schema::dropIfExists('file');
     }
 }

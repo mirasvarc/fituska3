@@ -15,6 +15,10 @@ class CreateIsFollowingCourseTable extends Migration
     {
         Schema::create('is_following_course', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('course_id');
+            $table->unsignedBigInteger('user_id');
+            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('user_id')->references('id')->on('users');
             $table->timestamps();
         });
     }

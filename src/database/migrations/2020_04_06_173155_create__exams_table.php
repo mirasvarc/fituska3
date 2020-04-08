@@ -13,8 +13,13 @@ class CreateExamsTable extends Migration
      */
     public function up()
     {
-        Schema::create('_exams', function (Blueprint $table) {
-            $table->id();
+        Schema::create('exams', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->unsignedBigInteger('course_id');
+            $table->string('name');
+            $table->string('year');
+            $table->string('content');
+            $table->foreign('course_id')->references('id')->on('courses');
             $table->timestamps();
         });
     }

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateHasSentMessagesTable extends Migration
+class CreateHasReceivedMessagesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateHasSentMessagesTable extends Migration
      */
     public function up()
     {
-        Schema::create('has_sent_messages', function (Blueprint $table) {
+        Schema::create('has_received_messages', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('message_id');
             $table->foreign('message_id')->references('id')->on('messages');
@@ -29,6 +29,6 @@ class CreateHasSentMessagesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('has_sent_messages');
+        Schema::dropIfExists('has_recieved_messages');
     }
 }
