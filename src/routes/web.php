@@ -21,6 +21,8 @@ Route::get('/app', function () {
     return view('layouts/app');
 });
 
+Route::resource('user' , 'UserController' );
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
