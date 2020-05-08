@@ -17,9 +17,9 @@ class CreateUsersTable extends Migration
             $table->id('id');
             $table->string('username');
             $table->string('school_mail');
-            $table->string('mail');
+            $table->string('mail')->default("");
             $table->string('password');
-            $table->string('year_of_study');
+            $table->string('year_of_study')->default("");
             $table->rememberToken();
             $table->timestamps();
         });

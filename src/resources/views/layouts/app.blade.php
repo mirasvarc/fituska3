@@ -56,10 +56,16 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">Zobrazit profil</a>
+                                    @if(Auth::user()->isAdministrator())
+                                        <a class="dropdown-item" href="#">
+                                            {{ __('Administrace') }}
+                                        </a>
+
+                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
+                                        {{ __('Odhlásit') }}
                                     </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
