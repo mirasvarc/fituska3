@@ -49,6 +49,19 @@
                                 </li>
                             @endif
                         @else
+                            @if(Auth::user()->isAdministrator())
+                            <li class="nav-item dropdown">
+                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                        Administrace <span class="caret"></span>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('users')}}">Uživatelé</a>
+
+                                    <a class="dropdown-item" href="#">Test</a>
+
+                                </div>
+                            </li>
+                            @endif
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Přihlášen jako <strong>{{ Auth::user()->username }}</strong> <span class="caret"></span>
@@ -56,12 +69,7 @@
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('user.show', Auth::user()->id) }}">Zobrazit profil</a>
-                                    @if(Auth::user()->isAdministrator())
-                                        <a class="dropdown-item" href="#">
-                                            {{ __('Administrace') }}
-                                        </a>
 
-                                    @endif
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">

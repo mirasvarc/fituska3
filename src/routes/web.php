@@ -26,3 +26,5 @@ Route::resource('user' , 'UserController' );
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+Route::get('/users', 'AdminPanelController@all_users')->name('users');
