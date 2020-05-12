@@ -50,8 +50,11 @@ class UserController extends Controller
         $roles = DB::table('has_role')
             ->join('roles', 'roles.id', '=', 'has_role.role_id')
             ->join('users', 'users.id', '=', 'has_role.user_id')
+            ->where('has_role.user_id', '=', $id)
             ->select('roles.role')
             ->get();
+
+
         $roles_string = '';
         $comma = '';
         foreach($roles as $role){

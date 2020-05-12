@@ -16,11 +16,11 @@
                     <table style="width:100%;font-size:15px;">
                         <tr>
                             <td>Uživatelské jméno:</td>
-                            <td style="font-weight: 800">{{ Auth::user()->username}}<td>
+                            <td style="font-weight: 800">{{ $user->username}}<td>
                         </tr>
                         <tr>
                             <td>Školní mail: </td>
-                            <td style="font-weight: 800">{{ Auth::user()->school_mail}}</td>
+                            <td style="font-weight: 800">{{ $user->school_mail}}</td>
                         </tr>
                         <tr>
                             <td>Role: </td>
