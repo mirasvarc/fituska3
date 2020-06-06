@@ -8,7 +8,7 @@
 </style>
 <div class="container">
     <div class="row justify-content-center">
-        <div class="col-md-8">
+        <div class="col-md-6">
             <div class="card">
                 <div class="card-header">Profil</div>
 
@@ -25,10 +25,28 @@
                         <tr>
                             <td>Role: </td>
                             <td style="font-weight: 800">
-                                {{$roles}}
+                                {{$roles_string}}
                             </td>
                         </tr>
-                    <table>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">Přidat/odebrat role</div>
+
+                <div class="card-body">
+
+                    {!! Form::open(['action' => ['UserController@addRole'], 'method' => 'POST']) !!}
+                        {!! Form::select('roles', $roles_array, null, ['class'=>'form-control']) !!}
+                        {!! Form::hidden('user', $user->id) !!}
+                        {!! Form::submit('Přidat roli') !!}
+                    {!! Form::close() !!}
+                </div>
             </div>
         </div>
     </div>

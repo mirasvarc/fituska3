@@ -22,9 +22,12 @@ Route::get('/app', function () {
 });
 
 Route::resource('user' , 'UserController' );
+Route::post('user.addRole', 'UserController@addRole')->name('addRole');
+Route::get('user.deleteRole', 'UserController@deleteRole')->name('deleteRole');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users', 'AdminPanelController@all_users')->name('users');
+

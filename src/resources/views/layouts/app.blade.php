@@ -55,7 +55,7 @@
                                         Administrace <span class="caret"></span>
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('users')}}">Uživatelé</a>
+                                    <a class="dropdown-item" href="{{ route('user.index')}}">Uživatelé</a>
 
                                     <a class="dropdown-item" href="#">Test</a>
 
