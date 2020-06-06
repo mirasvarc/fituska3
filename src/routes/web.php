@@ -23,7 +23,7 @@ Route::get('/app', function () {
 
 Route::resource('user' , 'UserController' );
 Route::post('user.addRole', 'UserController@addRole')->name('addRole');
-Route::get('user.deleteRole', 'UserController@deleteRole')->name('deleteRole');
+Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole');
 
 Auth::routes();
 

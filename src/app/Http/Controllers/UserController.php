@@ -103,17 +103,6 @@ class UserController extends Controller
         //
     }
 
-    public function changeRole(User $user)
-    {
-        $this->authorize('role', $user);
-
-        $data = request()->validate([
-            'role_id' => ['required']
-        ]);
-        $user->update($data);
-
-        return redirect('/users')->with('success', 'Role changed!');
-    }
 
     public function addRole(Request $request){
         $hasRole = new has_role();
@@ -122,4 +111,21 @@ class UserController extends Controller
         $hasRole->save();
         return redirect()->back()->with('success', 'Role byla úspešně přidána!');
     }
+
+    public function removeRole(Request $request){
+
+        $user_id = $request->input('user');
+        $role_id = $request->input('roles');
+        $db_record = DB::table('has_role')
+        ->where('user_id', '=', $user_id)
+        ->where('role_id', '=', $role_id)
+        ->select('*')
+        ->delete();
+
+
+
+
+        return redirect()->back()->with('success', 'Role byla úspešně odebrána!');
+    }
+
 }
