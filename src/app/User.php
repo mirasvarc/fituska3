@@ -44,4 +44,8 @@ class User extends Authenticatable
     public function isAdministrator() {
         return $this->roles()->where('role', 'Administrátor')->exists();
      }
+
+     public function isSUManagement(){
+        return $this->roles()->where('role', 'Vedení SU')->exists();
+     }
 }

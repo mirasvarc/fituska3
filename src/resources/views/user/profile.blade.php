@@ -32,7 +32,7 @@
                 </div>
             </div>
         </div>
-
+        @if(Auth::user()->isAdministrator() || Auth::user()->isSUManagement())
         <div class="col-md-6">
             <div class="card">
                 <div class="card-header">Přidat role</div>
@@ -55,6 +55,7 @@
                 </div>
             </div>
         </div>
+        @endif
     </div>
 </div>
 @endsection

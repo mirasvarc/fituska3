@@ -49,7 +49,7 @@
                                 </li>
                             @endif
                         @else
-                            @if(Auth::user()->isAdministrator())
+                            @if(Auth::user()->isAdministrator() || Auth::user()->isSUManagement())
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                         Administrace <span class="caret"></span>

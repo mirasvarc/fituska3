@@ -21,13 +21,13 @@ Route::get('/app', function () {
     return view('layouts/app');
 });
 
-Route::resource('user' , 'UserController' );
-Route::post('user.addRole', 'UserController@addRole')->name('addRole');
-Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole');
+Route::resource('user' , 'UserController' )->middleware('auth');
+Route::post('user.addRole', 'UserController@addRole')->name('addRole')->middleware('auth');
+Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole')->middleware('auth');
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/users', 'AdminPanelController@all_users')->name('users');
+Route::get('/users', 'AdminPanelController@all_users')->name('users')->middleware('auth');
 
