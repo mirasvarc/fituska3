@@ -53,8 +53,14 @@ class UserController extends Controller
             ->join('roles', 'roles.id', '=', 'has_role.role_id')
             ->join('users', 'users.id', '=', 'has_role.user_id')
             ->where('has_role.user_id', '=', $id)
-            ->select('*')
+            ->select('roles.id', 'roles.role')
             ->get();
+
+        $all_roles = DB::table('roles')->get();
+
+        $all_roles_array = $all_roles->pluck('role', 'id')->toArray();
+        $roles_user_have_array = $roles->pluck('role', 'id')->toArray();
+        $roles_user_dont_have_array = array_diff($all_roles_array, $roles_user_have_array);
 
         $roles_string = '';
         $comma = '';
@@ -63,10 +69,10 @@ class UserController extends Controller
             $comma = ', ';
         }
 
-        $roles = DB::table('roles')->get();
-        $roles_array = $roles->pluck('role', 'id')->toArray();
 
-        return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles' => $roles, 'roles_array' => $roles_array]);
+
+
+        return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles' => $roles, 'roles_have' => $roles_user_have_array, 'roles_dont_have' => $roles_user_dont_have_array]);
     }
 
     /**
@@ -103,7 +109,12 @@ class UserController extends Controller
         //
     }
 
-
+    /**
+     * Add role to user
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function addRole(Request $request){
         $hasRole = new has_role();
         $hasRole->user_id = $request->input('user');
@@ -112,6 +123,12 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Role byla úspešně přidána!');
     }
 
+    /**
+     * Remove role from user
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
     public function removeRole(Request $request){
 
         $user_id = $request->input('user');
@@ -121,10 +138,6 @@ class UserController extends Controller
         ->where('role_id', '=', $role_id)
         ->select('*')
         ->delete();
-
-
-
-
         return redirect()->back()->with('success', 'Role byla úspešně odebrána!');
     }
 

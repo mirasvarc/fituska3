@@ -42,13 +42,13 @@
                 <div class="card-body">
 
                     {!! Form::open(['action' => ['UserController@addRole'], 'method' => 'POST']) !!}
-                        {!! Form::select('roles', $roles_array, null, ['class'=>'form-control']) !!}
+                        {!! Form::select('roles', $roles_dont_have, null, ['class'=>'form-control']) !!}
                         {!! Form::hidden('user', $user->id) !!}
                         {!! Form::submit('Přidat roli') !!}
                     {!! Form::close() !!}
 
                     {!! Form::open(['action' => ['UserController@removeRole'], 'method' => 'POST']) !!}
-                        {!! Form::select('roles', $roles_array, null, ['class'=>'form-control']) !!}
+                        {!! Form::select('roles', $roles_have, null, ['class'=>'form-control']) !!}
                         {!! Form::hidden('user', $user->id) !!}
                         {!! Form::submit('odebrat roli') !!}
                     {!! Form::close() !!}
