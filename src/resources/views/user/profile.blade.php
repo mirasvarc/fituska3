@@ -31,22 +31,22 @@
                     </table>
                 </div>
             </div>
-
         </div>
-
 
         <div class="col-md-6">
             <div class="card">
-                <div class="card-header">Přidat/odebrat role</div>
-
+                <div class="card-header">Přidat role</div>
                 <div class="card-body">
-
                     {!! Form::open(['action' => ['UserController@addRole'], 'method' => 'POST']) !!}
                         {!! Form::select('roles', $roles_dont_have, null, ['class'=>'form-control']) !!}
                         {!! Form::hidden('user', $user->id) !!}
                         {!! Form::submit('Přidat roli') !!}
                     {!! Form::close() !!}
-
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-header">Odebrat role</div>
+                <div class="card-body">
                     {!! Form::open(['action' => ['UserController@removeRole'], 'method' => 'POST']) !!}
                         {!! Form::select('roles', $roles_have, null, ['class'=>'form-control']) !!}
                         {!! Form::hidden('user', $user->id) !!}
