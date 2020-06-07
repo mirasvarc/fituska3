@@ -54,6 +54,17 @@
                     {!! Form::close() !!}
                 </div>
             </div>
+            <div class="card">
+                <div class="card-header">Správa uživatele</div>
+                <div class="card-body">
+                    {!!Form::open(['action' => ['UserController@destroy', $user], 'method' => 'POST'])!!}
+                        {{Form::hidden('_method', 'DELETE')}}
+                        {{Form::submit('Odstranit uživatele', ['class' => 'btn btn-danger'])}}
+                    {!!Form::close()!!}
+                    &nbsp;
+                    <span style="color:red">Odstraní uživatele a všechna jeho data</span>
+                </div>
+            </div>
         </div>
         @endif
     </div>
