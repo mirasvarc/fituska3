@@ -57,7 +57,7 @@
             <div class="card">
                 <div class="card-header">Správa uživatele</div>
                 <div class="card-body">
-                    {!!Form::open(['action' => ['UserController@destroy', $user], 'method' => 'POST'])!!}
+                    {!!Form::open(['action' => ['UserController@destroy', $user], 'method' => 'POST', 'onsubmit' => 'return confirm("Opravdu chcete odstranit uživatele?")'])!!}
                         {{Form::hidden('_method', 'DELETE')}}
                         {{Form::submit('Odstranit uživatele', ['class' => 'btn btn-danger'])}}
                     {!!Form::close()!!}
