@@ -16,8 +16,8 @@ class CreateHasSentMessagesTable extends Migration
         Schema::create('has_sent_messages', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('message_id');
-            $table->foreign('message_id')->references('id')->on('messages');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

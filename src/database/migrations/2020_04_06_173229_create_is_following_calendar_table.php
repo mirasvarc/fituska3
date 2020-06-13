@@ -16,8 +16,8 @@ class CreateIsFollowingCalendarTable extends Migration
         Schema::create('is_following_calendar', function (Blueprint $table) {
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('calendar_id');
-            $table->foreign('calendar_id')->references('id')->on('calendar');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->foreign('calendar_id')->references('id')->on('calendar')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
         });
     }

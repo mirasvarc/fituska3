@@ -19,7 +19,7 @@ class CreateExamsTable extends Migration
             $table->string('name');
             $table->string('year');
             $table->string('content');
-            $table->foreign('course_id')->references('id')->on('courses');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->timestamps();
         });
     }

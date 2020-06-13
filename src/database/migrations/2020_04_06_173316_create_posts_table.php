@@ -21,7 +21,7 @@ class CreatePostsTable extends Migration
             $table->bigInteger('upvotes');
             $table->bigInteger('downvotes');
             $table->timestamps();
-            $table->foreign('author_id')->references('id')->on('users');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

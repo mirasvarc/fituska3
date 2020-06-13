@@ -21,8 +21,8 @@ class CreateCommentsTable extends Migration
             $table->bigInteger('upvotes');
             $table->bigInteger('downvotes');
             $table->timestamps();
-            $table->foreign('author_id')->references('id')->on('users');
-            $table->foreign('post_id')->references('id')->on('posts');
+            $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
         });
     }
 
