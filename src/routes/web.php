@@ -22,9 +22,9 @@ Route::get('/app', function () {
 });
 
 Route::resource('user' , 'UserController' )->middleware('auth');
-Route::delete('users/{id}', 'UserController@destroy')->middleware(['auth', 'password.confirm']);
-Route::post('user.addRole', 'UserController@addRole')->name('addRole')->middleware('auth')->middleware(['auth', 'password.confirm']);
-Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole')->middleware('auth')->middleware(['auth', 'password.confirm']);
+Route::delete('users/{id}', 'UserController@destroy')->middleware('auth');
+Route::post('user.addRole', 'UserController@addRole')->name('addRole')->middleware('auth');
+Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole')->middleware('auth');
 
 Auth::routes();
 
