@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+window.Tabulator = require('tabulator-tables');
 
 window.Vue = require('vue');
 

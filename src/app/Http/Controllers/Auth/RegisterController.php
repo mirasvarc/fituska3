@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\has_role;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -64,10 +65,19 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+
+        $user = User::create([
             'username' => $data['username'],
             'school_mail' => $data['school_mail'],
             'password' => Hash::make($data['password']),
         ]);
+
+        $hasRole = new has_role();
+        $hasRole->user_id = $user->id;
+        $hasRole->role_id = 1;
+        $hasRole->save();
+
+        return $user;
+
     }
 }
