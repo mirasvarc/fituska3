@@ -26,7 +26,7 @@ Route::delete('users/{id}', 'UserController@destroy')->middleware('auth');
 Route::post('user.addRole', 'UserController@addRole')->name('addRole')->middleware('auth');
 Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole')->middleware('auth');
 
-Route::resource('course', 'CourseController')->middleware('auth');
+Route::resource('courses', 'CourseController')->middleware('auth');
 
 Auth::routes();
 
