@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
-use App\has_role;
+use App\Role;
+use App\hasRole;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -49,30 +50,26 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $roles = DB::table('has_role')
-            ->join('roles', 'roles.id', '=', 'has_role.role_id')
-            ->join('users', 'users.id', '=', 'has_role.user_id')
-            ->where('has_role.user_id', '=', $id)
-            ->select('roles.id', 'roles.role')
-            ->get();
+        $user = User::find($id);
 
-        $all_roles = DB::table('roles')->get();
+        $roles_user_have = $user->roles->pluck('role', 'id')->toArray();
+        $all_roles = Role::All()->pluck('role', 'id')->toArray();
 
-        $all_roles_array = $all_roles->pluck('role', 'id')->toArray();
-        $roles_user_have_array = $roles->pluck('role', 'id')->toArray();
-        $roles_user_dont_have_array = array_diff($all_roles_array, $roles_user_have_array);
+        $roles_user_dont_have = array_diff($all_roles, $roles_user_have);
 
         $roles_string = '';
         $comma = '';
-        foreach($roles as $role){
-            $roles_string = $roles_string.$comma.$role->role;
+
+
+        foreach($roles_user_have as $role){
+            $roles_string = $roles_string.$comma.$role;
             $comma = ', ';
         }
 
 
 
 
-        return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles' => $roles, 'roles_have' => $roles_user_have_array, 'roles_dont_have' => $roles_user_dont_have_array]);
+        return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles_have' => $roles_user_have, 'roles_dont_have' => $roles_user_dont_have]);
     }
 
     /**
@@ -119,7 +116,7 @@ class UserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function addRole(Request $request){
-        $hasRole = new has_role();
+        $hasRole = new hasRole();
         $hasRole->user_id = $request->input('user');
         $hasRole->role_id = $request->input('roles');
         $hasRole->save();
