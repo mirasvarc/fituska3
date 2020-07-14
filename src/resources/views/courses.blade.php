@@ -22,17 +22,20 @@ var tabledata = [
  	{id:5, name:"Margret Marmajuke", age:"16", col:"yellow", dob:"31/01/1999"},
 ];
 
+var data = {!! $courses !!};
+console.log(data)
+
 var table = new Tabulator("#courses-table", {
 	height:"100%",
-	data:tabledata,
+	data:data,
     layout:"fitColumns",
     responsiveLayout: "collapse",
     resizableColumns:false,
     columns:[
-	 	{title:"Name", field:"name", width:150},
-	 	{title:"Age", field:"age", hozAlign:"left", formatter:"progress"},
-	 	{title:"Favourite Color", field:"col"},
-	 	{title:"Date Of Birth", field:"dob", sorter:"date", hozAlign:"center"},
+	 	{title:"Zkratka", field:"code", width:150},
+	 	{title:"Název", field:"full_name", hozAlign:"left"},
+	 	{title:"Rok", field:"year", width:150},
+
  	],
  	rowClick:function(e, row){ //trigger an alert message when the row is clicked
  		alert("Row " + row.getData().id + " Clicked!!!!");

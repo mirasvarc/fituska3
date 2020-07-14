@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Course;
 use Illuminate\Http\Request;
+use phpDocumentor\Reflection\Types\Collection;
 
 class CourseController extends Controller
 {
@@ -13,7 +15,16 @@ class CourseController extends Controller
      */
     public function index()
     {
-        return view('courses');
+        $courses = Course::All();
+
+        $subset = $courses->map(function ($course) {
+            return collect($course)
+                ->only(['id', 'code', 'full_name', 'year'])
+                ->all();
+        });
+
+
+        return view('courses', ['courses' => $subset->toJson()]);
     }
 
     /**
