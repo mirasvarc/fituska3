@@ -60,14 +60,10 @@ class UserController extends Controller
         $roles_string = '';
         $comma = '';
 
-
         foreach($roles_user_have as $role){
             $roles_string = $roles_string.$comma.$role;
             $comma = ', ';
         }
-
-
-
 
         return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles_have' => $roles_user_have, 'roles_dont_have' => $roles_user_dont_have]);
     }
