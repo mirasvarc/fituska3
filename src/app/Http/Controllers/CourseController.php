@@ -19,12 +19,12 @@ class CourseController extends Controller
 
         $subset = $courses->map(function ($course) {
             return collect($course)
-                ->only(['id', 'code', 'full_name', 'year'])
+                ->only(['id', 'code', 'full_name', 'year', 'study_year', 'type'])
                 ->all();
         });
 
 
-        return view('courses', ['courses' => $subset->toJson()]);
+        return view('courses/courses', ['courses' => $subset->toJson()]);
     }
 
     /**
@@ -54,9 +54,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($code, $year)
     {
-        //
+        return view('courses/show');
     }
 
     /**

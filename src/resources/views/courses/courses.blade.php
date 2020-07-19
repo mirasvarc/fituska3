@@ -28,17 +28,20 @@ console.log(data)
 var table = new Tabulator("#courses-table", {
 	height:"100%",
 	data:data,
-    layout:"fitColumns",
+    layout:"fitDataTable",
     responsiveLayout: "collapse",
     resizableColumns:false,
     columns:[
-	 	{title:"Zkratka", field:"code", width:150},
-	 	{title:"Název", field:"full_name", hozAlign:"left"},
-	 	{title:"Rok", field:"year", width:150},
+        {title:"id", field:"id", visible:false},
+	 	{title:"Zkratka", field:"code"},
+	 	{title:"Název", field:"full_name", hozAlign:"left", resizable:true},
+	 	{title:"Rok", field:"year"},
+        {title:"Ročník", field:"study_year"},
+        {title:"Typ", field:"type"},
 
  	],
- 	rowClick:function(e, row){ //trigger an alert message when the row is clicked
- 		alert("Row " + row.getData().id + " Clicked!!!!");
+ 	rowClick:function(e, row){
+        window.location = "/courses/" + row.getData().code + "/" + row.getData().year;
  	},
 });
 

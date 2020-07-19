@@ -64,6 +64,9 @@
                                 </div>
                             </li>
                             @endif
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('courses.index') }}">{{ __('Seznam předmětů') }}</a>
+                            </li>
                             <li class="nav-item dropdown">
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                     Přihlášen jako <strong>{{ Auth::user()->username }}</strong> <span class="caret"></span>
