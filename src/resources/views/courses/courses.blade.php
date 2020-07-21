@@ -32,7 +32,7 @@ var table = new Tabulator("#courses-table", {
 
  	],
  	rowClick:function(e, row){
-        window.location = "/courses/" + row.getData().code + "/" + row.getData().year;
+        window.location = "/course/" + row.getData().code + "/" + row.getData().year;
  	},
 });
 

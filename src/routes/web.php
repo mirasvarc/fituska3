@@ -30,7 +30,9 @@ Route::resource('courses', 'CourseController')
         ->except('show')
         ->middleware('auth');
 
-Route::get('courses/{code}/{year}', 'CourseController@show')->name('course')->middleware('auth');
+Route::get('course/{code}/{year}', 'CourseController@show')->name('course')->middleware('auth');
+
+Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
 
 Auth::routes();
 

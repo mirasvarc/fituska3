@@ -10,12 +10,15 @@
     </div>
     <div class="row">
         <div class="col-12">
-            <div class="course-detail-menu">
-                <div>Vše</div>
-                <div>Zadání písemek</div>
-                <div>Materiály</div>
-                <div>Diskuze</div>
-                <div>Ostatní</div>
+            <div class="course-detail-menu" style="margin-right:50px;">
+                <label for="types" style="margin-right:10px;">Typ: </label>
+                <select id="types" name="types" form="typesform">
+                    <option value="Zadání">Zadání</option>
+                    <option value="Materiály">Materiály</option>
+                    <option value="Diskuze">Diskuze</option>
+                    <option value="Ostatní">Ostatní</option>
+                </select>
+
             </div>
         </div>
     </div>
