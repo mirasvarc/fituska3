@@ -10882,3 +10882,48 @@ a.text-dark:focus {
   }
 }
 
+.course-detail-menu {
+  display: flex;
+  padding-top: 25px;
+}
+
+.course-detail-menu div {
+  margin-right: 15px;
+  padding: 15px;
+  background-color: #f6f8fa;
+  width: 150px;
+  text-align: center;
+  border-radius: 5px;
+}
+
+.course-posts {
+  margin-top: 25px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+}
+
+.course-posts .course-post-header {
+  width: 100%;
+  padding: 15px;
+  margin-left: 0px;
+  background-color: #f6f8fa;
+}
+
+.course-posts .course-post {
+  width: 100%;
+  border-top: 1px solid #e1e4e8;
+  padding: 15px;
+  margin-left: 0px;
+}
+
+.course-posts .post-type {
+  width: 25px;
+  padding: 5px 10px;
+  background-color: aqua;
+  border-radius: 2em;
+}
+
+.course-posts .posts-header {
+  font-weight: bold;
+}
+

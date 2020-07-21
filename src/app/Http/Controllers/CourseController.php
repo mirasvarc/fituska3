@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use App\Post;
+use App\User;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
 
@@ -56,7 +58,13 @@ class CourseController extends Controller
      */
     public function show($code, $year)
     {
-        return view('courses/show');
+        $course = Course::where('code', $code)
+            ->where('year', $year)
+            ->first();
+
+        $posts = Post::where('course_id', $course->id)->get();
+
+        return view('courses/show', ['course' => $course, 'posts' => $posts]);
     }
 
     /**
