@@ -10900,6 +10900,7 @@ a.text-dark:focus {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
   border-radius: 6px;
+  overflow: hidden;
 }
 
 .course-posts .course-post-header {
@@ -10925,5 +10926,22 @@ a.text-dark:focus {
 
 .course-posts .posts-header {
   font-weight: bold;
+}
+
+.post-link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.post-link:hover {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #f6f8fa;
+}
+
+.course-post:hover {
+  background-color: #f6f8fa;
 }
 

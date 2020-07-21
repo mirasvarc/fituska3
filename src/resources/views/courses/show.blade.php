@@ -36,8 +36,12 @@
                     <div class="col-2" style="text-align:center">
                         <span class="posts-header">Autor</span>
                     </div>
+                    <div class="col-2" style="text-align:center">
+                        <span class="posts-header">Komentáře</span>
+                    </div>
                 </div>
                 @foreach($posts as $post)
+                <a href="/post/{{$course->code}}/{{$post->id}}" class="post-link">
                 <div class="row course-post">
                     <div class="col-4">
                         {{$post->title}}
@@ -51,7 +55,12 @@
                     <div class="col-2" style="text-align:center">
                         <span>{{$post->author()->first()->username}}</span>
                     </div>
+                    <div class="col-2" style="text-align:center">
+                        <i class="far fa-comment"></i>
+                        <span>{{count($post->comments()->get())}}</span>
+                    </div>
                 </div>
+                </a>
                 @endforeach
             </div>
         </div>
