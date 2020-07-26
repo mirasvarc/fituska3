@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Post;
+use App\Course;
+
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -21,9 +24,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($code, $year)
     {
-        //
+
+        return view('posts/post_create', ['code' => $code, 'year' => $year]);
     }
 
     /**
@@ -34,7 +38,18 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $course = Course::where('code', $request->code)->where('year', $request->year)->first();
+        $post = new Post;
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->type = $request->type;
+        $post->course_id = $course->id;
+        $post->author_id = auth()->user()->id;
+        $post->upvotes = 0;
+        $post->downvotes = 0;
+        $post->save();
+
+        return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
     }
 
     /**
@@ -45,7 +60,9 @@ class PostController extends Controller
      */
     public function show($code, $id)
     {
-        return view('posts/post');
+        $post = Post::where('id', $id)->first();
+
+        return view('posts/post', ['post' => $post]);
     }
 
     /**
@@ -80,5 +97,12 @@ class PostController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * TODO: All or just one year?
+     */
+    public function followCourse(){
+
     }
 }

@@ -9,7 +9,18 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12">
+        <div class="col-6">
+            <div class="new-post">
+                <button class="btn btn-primary">
+                    <a href="/course/{{$course->code}}/{{$course->year}}/create-post">
+                        <i class="fa fa-plus-circle"></i>
+                        &nbsp;
+                        Nový příspěvek
+                    </a>
+                </button>
+            </div>
+        </div>
+        <div class="col-6">
             <div class="course-detail-menu" style="margin-right:50px;">
                 <label for="types" style="margin-right:10px;">Typ: </label>
                 <select id="types" name="types" form="typesform">

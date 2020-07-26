@@ -10958,3 +10958,35 @@ a.text-dark:focus {
   background-color: #f6f8fa;
 }
 
+.new-post {
+  padding-top: 25px;
+  padding-left: 15px;
+}
+
+.new-post a,
+.new-post a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.post {
+  margin-top: 25px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.post .post-title {
+  width: 100%;
+  padding: 15px;
+  margin-left: 0px;
+  background-color: #f6f8fa;
+}
+
+.post .post-content {
+  width: 100%;
+  border-top: 1px solid #e1e4e8;
+  padding: 15px;
+  margin-left: 0px;
+}
+
