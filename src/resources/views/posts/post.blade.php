@@ -5,6 +5,15 @@
 <div class="container">
     <div class="row">
         <div class="col">
+                <div class="back-button">
+                    <button class="btn btn-primary">
+                        <a href="/course/{{$course->code}}/{{$course->year}}">
+                            <i class="fa fa-undo" aria-hidden="true"></i>
+                            &nbsp;
+                            Zpět
+                        </a>
+                    </button>
+                </div>
             <div class="post">
                 <div class="post-title">
                     <h1>{{$post->title}}</h1>
@@ -12,7 +21,6 @@
                 </div>
                 <div class="post-content">
                     {!!html_entity_decode($post->content)!!}
-
                 </div>
 
             </div>

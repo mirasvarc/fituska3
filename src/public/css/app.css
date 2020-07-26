@@ -10990,3 +10990,14 @@ a.text-dark:focus {
   margin-left: 0px;
 }
 
+.back-button {
+  padding-top: 25px;
+  padding-left: 15px;
+}
+
+.back-button a,
+.back-button a:hover {
+  text-decoration: none;
+  color: white;
+}
+

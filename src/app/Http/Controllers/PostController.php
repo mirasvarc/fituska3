@@ -38,7 +38,9 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+
         $course = Course::where('code', $request->code)->where('year', $request->year)->first();
+
         $post = new Post;
         $post->title = $request->title;
         $post->content = $request->content;
@@ -61,8 +63,9 @@ class PostController extends Controller
     public function show($code, $id)
     {
         $post = Post::where('id', $id)->first();
+        $course = Course::where('id', $post->course_id)->first();
 
-        return view('posts/post', ['post' => $post]);
+        return view('posts/post', ['post' => $post, 'course' => $course]);
     }
 
     /**
