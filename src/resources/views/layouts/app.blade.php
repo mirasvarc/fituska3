@@ -12,7 +12,7 @@
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdn.tiny.cloud/1/qldo7ufx2hm75trpzbk22suj0hn44naz0lzhe9rfm7h4e7lb/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="prism.js"></script>
+    <script src="js/prism.js"></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -22,7 +22,7 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="/css/tabulator_bootstrap4.min.css" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="prism.css">
+    <link rel="stylesheet" type="text/css" href="css/prism.css">
 
 </head>
 <body>
@@ -56,16 +56,8 @@
                             @endif
                         @else
                             @if(Auth::user()->isAdministrator() || Auth::user()->isSUManagement())
-                            <li class="nav-item dropdown">
-                                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                        Administrace <span class="caret"></span>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('user.index')}}">Uživatelé</a>
-
-                                    <a class="dropdown-item" href="#">Test</a>
-
-                                </div>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('adminIndex') }}">{{ __('Administrace') }}</a>
                             </li>
                             @endif
                             <li class="nav-item">

@@ -46,3 +46,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/users', 'AdminPanelController@all_users')->name('users')->middleware('auth');
 
+
+//admin
+
+Route::get('/admin', 'AdminPanelController@index')->name('adminIndex')->middleware('auth'); //TODO: user have to be admin
+
