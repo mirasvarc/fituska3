@@ -26,13 +26,12 @@ var table = new Tabulator("#courses-table", {
         {title:"id", field:"id", visible:false},
 	 	{title:"Zkratka", field:"code"},
 	 	{title:"Název", field:"full_name", hozAlign:"left", resizable:true},
-	 	{title:"Rok", field:"year"},
         {title:"Ročník", field:"study_year"},
         {title:"Typ", field:"type"},
 
  	],
  	rowClick:function(e, row){
-        window.location = "/course/" + row.getData().code + "/" + row.getData().year;
+        window.location = "/course/" + row.getData().code;
  	},
 });
 

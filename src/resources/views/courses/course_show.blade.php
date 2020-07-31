@@ -5,14 +5,13 @@
     <div class="row">
         <div class="col-12">
             <h1>[{{$course->code}}] {{$course->full_name}}</h1>
-            <h3>Rok: {{$course->year}}</h3>
         </div>
     </div>
     <div class="row">
         <div class="col-6">
             <div class="new-post">
                 <button class="btn btn-primary">
-                    <a href="/course/{{$course->code}}/{{$course->year}}/create-post">
+                    <a href="/course/{{$course->code}}/create-post">
                         <i class="fa fa-plus-circle"></i>
                         &nbsp;
                         Nový příspěvek

@@ -24,10 +24,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($code, $year)
+    public function create($code)
     {
 
-        return view('posts/post_create', ['code' => $code, 'year' => $year]);
+        return view('posts/post_create', ['code' => $code]);
     }
 
     /**
@@ -39,7 +39,7 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
-        $course = Course::where('code', $request->code)->where('year', $request->year)->first();
+        $course = Course::where('code', $request->code)->first();
 
         $post = new Post;
         $post->title = $request->title;

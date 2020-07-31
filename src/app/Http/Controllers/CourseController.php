@@ -21,7 +21,7 @@ class CourseController extends Controller
 
         $subset = $courses->map(function ($course) {
             return collect($course)
-                ->only(['id', 'code', 'full_name', 'year', 'study_year', 'type'])
+                ->only(['id', 'code', 'full_name', 'study_year', 'type'])
                 ->all();
         });
 
@@ -56,10 +56,9 @@ class CourseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($code, $year)
+    public function show($code)
     {
         $course = Course::where('code', $code)
-            ->where('year', $year)
             ->first();
 
         $posts = Post::where('course_id', $course->id)->get();

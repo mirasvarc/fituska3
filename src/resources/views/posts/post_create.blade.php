@@ -8,7 +8,6 @@
             <form method="post" action="{{ route('posts.store') }}" class="form form-horizontal">
                 @csrf
                 <input type="hidden" name="code" value="{{$code}}">
-                <input type="hidden" name="year" value="{{$year}}">
                 <div class="form-group">
                     <label>Titulek</label>
                     <input type="text" name="title" class="form-control"/>

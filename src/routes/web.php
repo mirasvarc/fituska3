@@ -30,13 +30,13 @@ Route::resource('courses', 'CourseController')
         ->except('show')
         ->middleware('auth');
 
-Route::get('course/{code}/{year}', 'CourseController@show')->name('course')->middleware('auth');
+Route::get('course/{code}', 'CourseController@show')->name('course')->middleware('auth');
 
 Route::resource('posts', 'PostController')
         ->except('show', 'create')
         ->middleware('auth');
 
-Route::get('course/{code}/{year}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
+Route::get('course/{code}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
 
 Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
 
