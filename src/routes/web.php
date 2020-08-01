@@ -25,6 +25,8 @@ Route::resource('user' , 'UserController' )->middleware('auth');
 Route::delete('users/{id}', 'UserController@destroy')->middleware('auth');
 Route::post('user.addRole', 'UserController@addRole')->name('addRole')->middleware('auth');
 Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole')->middleware('auth');
+Route::post('user.followCourse', 'UserController@followCourse')->name('followCourse')->middleware('auth');
+Route::post('user.unfollowCourse', 'UserController@unfollowCourse')->name('unfollowCourse')->middleware('auth');
 
 Route::resource('courses', 'CourseController')
         ->except('show')

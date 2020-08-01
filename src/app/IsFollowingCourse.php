@@ -12,4 +12,6 @@ class IsFollowingCourse extends Model
      * @var string
      */
     protected $table = 'is_following_course';
+
+    public $foreignKey = 'user_id';
 }

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Role;
 use App\hasRole;
+use App\IsFollowingCourse;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -137,4 +138,22 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Role byla úspešně odebrána!');
     }
 
+    public function followCourse(Request $request){
+        $followedCourse = new IsFollowingCourse();
+        $followedCourse->user_id = $request->input('user');
+        $followedCourse->course_id = $request->input('course');
+        $followedCourse->save();
+        return redirect()->back()->with('success', 'Předmět je sledován!');
+    }
+
+    public function unfollowCourse(Request $request){
+        $user_id = $request->input('user');
+        $course_id = $request->input('course');
+        $db_record = IsFollowingCourse::where('user_id', $user_id)
+                        ->where('course_id', $course_id)
+                        ->first()
+                        ->delete();
+        return redirect()->back()->with('success', 'Předmět odebrán ze sledovaných!');
+
+    }
 }

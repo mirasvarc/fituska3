@@ -47,9 +47,17 @@ class User extends Authenticatable
 
     public function isAdministrator() {
         return $this->roles()->where('role', 'Administrátor')->exists();
-     }
+    }
 
-     public function isSUManagement(){
+    public function isSUManagement(){
         return $this->roles()->where('role', 'Vedení SU')->exists();
-     }
+    }
+
+    public function followedCourses(){
+        return $this->belongsToMany('App\Course', 'is_following_course', 'user_id', 'course_id');
+    }
+
+    public function isFollowingCourse($course_id){
+        return $this->followedCourses()->where('course_id', $course_id)->exists();
+    }
 }
