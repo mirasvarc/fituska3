@@ -19,13 +19,13 @@ var data = {!! $courses !!};
 var table = new Tabulator("#courses-table", {
 	height:"100%",
 	data:data,
-    layout:"fitDataTable",
+    layout:"fitDataFill",
     responsiveLayout: "collapse",
     resizableColumns:false,
     columns:[
         {title:"id", field:"id", visible:false},
 	 	{title:"Zkratka", field:"code"},
-	 	{title:"Název", field:"full_name", hozAlign:"left", resizable:true},
+	 	{title:"Název", field:"full_name", hozAlign:"left", width:400},
         {title:"Ročník", field:"study_year"},
         {title:"Typ", field:"type"},
 

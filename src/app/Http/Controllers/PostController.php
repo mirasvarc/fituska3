@@ -99,7 +99,10 @@ class PostController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $post = Post::find($id);
+        $post->delete();
+        $course = Course::where('id', $post->course_id)->first();
+        return redirect('/course/'.$course->code)->with('success', 'Příspěvek byl úspešně smazán!');
     }
 
     /**
