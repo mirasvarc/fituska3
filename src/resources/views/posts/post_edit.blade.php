@@ -11,7 +11,7 @@
                 <input type="hidden" name="code" value="{{$code}}">
                 <div class="form-group">
                     <label>Titulek</label>
-                    <input type="text" name="title" class="form-control" value="{{$post->title}}"/>
+                    <input type="text" name="title" class="form-control" value="{{$post->title}}" required/>
                 </div>
                 <div class="form-group">
                     <label>Text</label>

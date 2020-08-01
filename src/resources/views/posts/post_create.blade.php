@@ -10,7 +10,7 @@
                 <input type="hidden" name="code" value="{{$code}}">
                 <div class="form-group">
                     <label>Titulek</label>
-                    <input type="text" name="title" class="form-control"/>
+                    <input type="text" name="title" class="form-control" required/>
                 </div>
                 <div class="form-group">
                     <label>Text</label>
