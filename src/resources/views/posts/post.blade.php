@@ -20,12 +20,12 @@
                             {{Form::button('<i class="fa fa-trash-alt"></i> Odstranit', ['type' => 'submit', 'class' => 'btn btn-danger'])}}
                         {!!Form::close()!!}
 
-                    <button class="btn btn-primary" style="float:right;margin-right:5px;">
-                        <a href="/post/{{$course->code}}/{{$post->id}}/edit">
-                            <i class="fa fa-edit"></i>
-                            Upravit
-                        </a>
-                    </button>
+                        {!!Form::open(['action' => ['PostController@edit', $course->code, $post->id], 'method' => 'POST', 'style' => 'float:right;margin-right:5px;'])!!}
+                            {{Form::hidden('_method', 'GET')}}
+                            {{Form::button('<i class="fa fa-edit"></i> Upravit', ['type' => 'submit', 'class' => 'btn btn-primary'])}}
+                        {!!Form::close()!!}
+
+
                     @endif
                 </div>
 
@@ -34,8 +34,8 @@
                     <h1>{{$post->title}}</h1>
                     <p><a href="/user/{{$post->author()->first()->id}}">{{$post->author()->first()->username}}</a>, {{$post->created_at}}</Datum:>
                 </div>
-                <div class="post-content">
-                    {!!html_entity_decode($post->content)!!}
+                <div class="post-content" id="post-content">
+
                 </div>
 
             </div>
@@ -45,3 +45,12 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+var postContent = {!! $content_json !!}
+document.getElementById("post-content").innerHTML = postContent.content;
+
+</script>
+
+@endpush

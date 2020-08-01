@@ -39,6 +39,11 @@ class PostController extends Controller
     public function store(Request $request)
     {
 
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
         $course = Course::where('code', $request->code)->first();
 
         $post = new Post;
@@ -64,8 +69,9 @@ class PostController extends Controller
     {
         $post = Post::where('id', $id)->first();
         $course = Course::where('id', $post->course_id)->first();
+        $post_content = collect($post)->only('content');
 
-        return view('posts/post', ['post' => $post, 'course' => $course]);
+        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson()]);
     }
 
     /**
@@ -74,22 +80,38 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($code, $id)
     {
-        //
+        $post = Post::where('id', $id)->first();
+
+        $subset = collect($post)->only('content');
+
+        return view('posts/post_edit', ['post' => $post, 'code' => $code, 'post_content_json' => $subset->toJson()]);
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+
+        $this->validate($request, [
+            'title' => 'required',
+            'content' => 'required'
+        ]);
+
+        $post = Post::find($id);
+        $post->title = $request->title;
+        $post->content = $request->content;
+        $post->type = $request->type;
+        $post->save();
+
+        return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně upraven!');
     }
+
 
     /**
      * Remove the specified resource from storage.

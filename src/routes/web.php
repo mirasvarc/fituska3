@@ -39,7 +39,7 @@ Route::resource('posts', 'PostController')
         ->middleware('auth');
 
 Route::get('course/{code}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
-
+Route::get('post/{code}/{id}/edit', 'PostController@edit')->name('edit-post')->middleware('auth');
 Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
 
 Auth::routes();

@@ -5,12 +5,13 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <form method="post" action="{{ route('posts.store') }}" class="form form-horizontal">
+            <form method="post" action="{{ route('posts.update', $post->id) }}" class="form form-horizontal">
                 @csrf
+                @method('PUT')
                 <input type="hidden" name="code" value="{{$code}}">
                 <div class="form-group">
                     <label>Titulek</label>
-                    <input type="text" name="title" class="form-control"/>
+                    <input type="text" name="title" class="form-control" value="{{$post->title}}"/>
                 </div>
                 <div class="form-group">
                     <label>Text</label>
@@ -18,7 +19,7 @@
                 </div>
                 <div class="form-group">
                     <label>Typ</label>
-                    <select id="type" name="type" class="form-control">
+                    <select id="type" name="type" class="form-control" value="{{$post->type}}">
                         <option value="Zadání">Zadání</option>
                         <option value="Materiály">Materiály</option>
                         <option value="Diskuze">Diskuze</option>
@@ -36,8 +37,16 @@
 
 @push('scripts')
 <script>
+
+    var postContent = {!! $post_content_json !!}
+
     tinymce.init({
         selector: 'textarea',
+        setup: function (editor) {
+            editor.on('init', function (e) {
+                editor.setContent(postContent.content);
+            });
+        },
         width: "100%",
         height: 500,
         plugins: [
@@ -66,5 +75,7 @@
             //TODO: add languages
         ]
     });
+
+
 </script>
 @endpush
