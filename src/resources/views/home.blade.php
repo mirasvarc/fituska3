@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-main">
-    <div class="row">
+    <div class="row justify-content-around">
         <div class="col-md-4">
             <div class="followed-courses">
                 <div class="followed-courses-heading">
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     @foreach($followed_courses as $followed_course)
-                    <a href="/post/{{$followed_course->code}}" class="followed-courses-content-link">
+                    <a href="/course/{{$followed_course->code}}" class="followed-courses-content-link">
                     <div class="row followed-courses-content-course">
                         <div class="col-2">
                             {{$followed_course->code}}
@@ -45,6 +45,27 @@
 
                 </div>
             </div>
+        </div>
+        <div class="col-md-4">
+                <div class="followed-courses-heading">
+                        Termíny
+                    </div>
+                    <div class="followed-courses-content">
+
+                        <div class="row followed-courses-content-header">
+                            <div class="col-2" style="text-align:center">
+                                <span class="followed-courses-content-header-col">Předmět</span>
+                            </div>
+                            <div class="col-6">
+                                <span class="followed-courses-content-header-col">Termín</span>
+                            </div>
+                            <div class="col-4" style="text-align:center">
+                                <span class="followed-courses-content-header-col">Datum</span>
+                            </div>
+                        </div>
+
+
+                    </div>
         </div>
     </div>
 </div>
