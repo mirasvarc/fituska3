@@ -16,6 +16,9 @@ class Post extends Model
         return $this->hasMany('App\Comment', 'post_id', 'id');
     }
 
+    /**
+     * Check if user is author of the post
+     */
     public function isAuthor(){
         return $this->author()->first() == auth()->user();
     }

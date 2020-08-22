@@ -45,19 +45,47 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'has_role', 'user_id', 'role_id');
     }
 
+    /**
+     * Check if current user is administrator
+     */
     public function isAdministrator() {
         return $this->roles()->where('role', 'Administrátor')->exists();
     }
 
+    /**
+     * Check if current user is member of SU management
+     */
     public function isSUManagement(){
         return $this->roles()->where('role', 'Vedení SU')->exists();
     }
 
+    /**
+     * Get courses followed by user
+     */
     public function followedCourses(){
         return $this->belongsToMany('App\Course', 'is_following_course', 'user_id', 'course_id');
     }
 
+    /**
+     * check if user follow specified course
+     * @param course_id course id
+     */
     public function isFollowingCourse($course_id){
         return $this->followedCourses()->where('course_id', $course_id)->exists();
+    }
+
+    /**
+     * Get all users
+     */
+    public static function getAllUsers(){
+        return User::all();
+    }
+
+    /**
+     * Get user by ID
+     * @param id user id
+     */
+    public static function getUser($id){
+        return User::find($id);
     }
 }

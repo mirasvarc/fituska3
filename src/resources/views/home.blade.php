@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-main">
-    <div class="row justify-content-around">
+    <div class="row justify-content-between">
         <div class="col-md-4">
             <div class="followed-courses">
                 <div class="followed-courses-heading">
