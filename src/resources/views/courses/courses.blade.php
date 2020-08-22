@@ -5,6 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div id="courses-table"></div>
+            {{--<livewire:courses-table />--}}
         </div>
     </div>
 </div>

@@ -11045,3 +11045,55 @@ a.text-dark:focus {
   }
 }
 
+.container-main {
+  padding-left: 25px;
+  padding-right: 25px;
+}
+
+.container-main .followed-courses-heading {
+  font-size: 36px;
+  padding-left: 15px;
+}
+
+.container-main .followed-courses-content {
+  margin-top: 25px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.container-main .followed-courses-content-header {
+  width: 100%;
+  padding: 15px;
+  margin-left: 0px;
+  background-color: #f6f8fa;
+}
+
+.container-main .followed-courses-content-header-col {
+  font-weight: bold;
+}
+
+.container-main .followed-courses-content-course {
+  width: 100%;
+  border-top: 1px solid #e1e4e8;
+  padding: 15px;
+  margin-left: 0px;
+}
+
+.container-main .followed-courses-content-course:hover {
+  background-color: #f6f8fa;
+}
+
+.container-main .followed-courses-content-link {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.container-main .followed-courses-content-link:hover {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+  background-color: #f6f8fa;
+}
+

@@ -1,0 +1,61 @@
+.container-main {
+    padding-left:25px;
+    padding-right:25px;
+
+    .followed-courses {
+
+        &-heading {
+            font-size: 36px;
+            padding-left: 15px;
+        }
+
+        &-content {
+            margin-top:25px;
+            border: 1px solid #e1e4e8;
+            border-radius: 6px;
+            overflow: hidden;
+
+            &-header {
+                width:100%;
+                padding: 15px;
+                margin-left: 0px;
+                background-color: #f6f8fa;
+
+                &-col {
+                    font-weight: bold;
+                }
+            }
+
+            &-course {
+                width:100%;
+                border-top: 1px solid #e1e4e8;
+                padding: 15px;
+                margin-left: 0px;
+
+                &:hover{
+                    background-color: #f6f8fa;
+                }
+            }
+
+            &-link {
+                color:black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            &-link:hover {
+                color:black;
+                text-decoration: none;
+                cursor: pointer;
+                background-color: #f6f8fa;
+
+            }
+
+
+        }
+    }
+}
+
+
+
+
