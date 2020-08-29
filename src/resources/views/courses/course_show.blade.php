@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container-fluid">
     <div class="row">
         <div class="col-12">
             <h1>
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-6">
+        <div class="col-4">
             <div class="new-post">
                 <button class="btn btn-primary">
                     <a href="/course/{{$course->code}}/create-post">
@@ -47,7 +47,7 @@
                 </button>
             </div>
         </div>
-        <div class="col-6">
+        <div class="col-4">
             <div class="course-detail-menu" style="margin-right:50px;">
                 <label for="types" style="margin-right:10px;">Typ: </label>
                 <select id="types" name="types" form="typesform">
@@ -62,7 +62,7 @@
     </div>
 
     <div class="row">
-        <div class="col-12">
+        <div class="col-8">
             <div class="course-posts">
                 <div class="row course-post-header">
                     <div class="col-4">

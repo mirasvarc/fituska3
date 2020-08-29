@@ -52,6 +52,8 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
+        $userSettings = User::find($id)->userSettings()->first();
+        //dd($userSettings->user_settings_json['test']);
 
         $roles_user_have = $user->roles->pluck('role', 'id')->toArray();
         $all_roles = Role::All()->pluck('role', 'id')->toArray();
