@@ -10916,18 +10916,25 @@ a.text-dark:focus {
   overflow: hidden;
 }
 
-.course-posts .course-post-header {
-  width: 100%;
-  padding: 15px;
-  margin-left: 0px;
-  background-color: #f6f8fa;
-}
-
 .course-posts .course-post {
   width: 100%;
   border-top: 1px solid #e1e4e8;
   padding: 15px;
   margin-left: 0px;
+}
+
+.course-posts .course-post-content {
+  padding: 0 18px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
+
+.course-posts .course-post-header {
+  width: 100%;
+  padding: 15px;
+  margin-left: 0px;
+  background-color: #f6f8fa;
 }
 
 .course-posts .post-type {

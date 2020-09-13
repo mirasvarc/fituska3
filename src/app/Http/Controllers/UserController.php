@@ -53,8 +53,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $userSettings = User::find($id)->userSettings()->first();
-        dd($userSettings->user_settings_json);
-
+        //dd($userSettings);
         $roles_user_have = $user->roles->pluck('role', 'id')->toArray();
         $all_roles = Role::All()->pluck('role', 'id')->toArray();
 

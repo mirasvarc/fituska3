@@ -63,9 +63,14 @@ class CourseController extends Controller
 
         $posts = Post::where('course_id', $course->id)->get();
 
+        foreach($posts as $post){
+            $post_content[] = $post->content;
+        }
+
+
         $userSettings = User::find(auth()->user()->id)->userSettings()->first();
 
-        return view('courses/course_show', ['course' => $course, 'posts' => $posts, 'user_settings' => $userSettings->user_settings_json]);
+        return view('courses/course_show', ['course' => $course, 'posts' => $posts, 'user_settings' => $userSettings->user_settings_json, 'content_json' => $post_content]);
     }
 
     /**

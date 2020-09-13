@@ -44,6 +44,13 @@
         </div>
     </div>
     <div class="col-4">
+        <div class="new-post" id="toggle-all">
+            <button class="btn btn-primary">
+                    Rozbalit vše
+            </button>
+        </div>
+    </div>
+    <div class="col-4">
         <div class="course-detail-menu" style="margin-right:50px;">
             <label for="types" style="margin-right:10px;">Typ: </label>
             <select id="types" name="types" form="typesform">

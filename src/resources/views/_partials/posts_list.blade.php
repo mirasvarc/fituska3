@@ -19,7 +19,7 @@
                 </div>
             </div>
             @foreach($posts as $post)
-            <a href="/post/{{$course->code}}/{{$post->id}}" class="post-link">
+            {{--<a href="/post/{{$course->code}}/{{$post->id}}" class="post-link">--}}
             <div class="row course-post">
                 <div class="col-4">
                     {{$post->title}}
@@ -38,8 +38,49 @@
                     <span>{{count($post->comments()->get())}}</span>
                 </div>
             </div>
-            </a>
+            {{--</a>--}}
+            <div class="course-post-content">
+                <div class="post-content">{!! $post->content !!}</div>
+            </div>
             @endforeach
         </div>
     </div>
 </div>
+
+
+@push('scripts')
+
+<script>
+
+var acc = document.getElementsByClassName("course-post");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
+    }
+  });
+}
+
+var toggleAll = document.getElementById('toggle-all');
+toggleAll.addEventListener('click', function(){
+    for (i = 0; i < acc.length; i++) {
+        acc[i].classList.toggle("active");
+        var panel = acc[i].nextElementSibling;
+        if (panel.style.display === "block") {
+            panel.style.display = "none";
+        } else {
+            panel.style.display = "block";
+        }
+    }
+});
+
+</script>
+
+@endpush
