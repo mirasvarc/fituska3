@@ -41,6 +41,9 @@
             {{--</a>--}}
             <div class="course-post-content">
                 <div class="post-content">{!! $post->content !!}</div>
+                <div class="post-link-container text-right">
+                    <a href="/post/{{$course->code}}/{{$post->id}}" class="post-link">Otevřít příspěvek</a>
+                </div>
             </div>
             @endforeach
         </div>

@@ -10909,6 +10909,28 @@ a.text-dark:focus {
   padding: 5px;
 }
 
+.new-post {
+  padding-top: 25px;
+  padding-left: 15px;
+}
+
+.new-post a,
+.new-post a:hover {
+  text-decoration: none;
+  color: white;
+}
+
+.toggle-all {
+  padding-top: 25px;
+  padding-right: 15px;
+}
+
+.toggle-all a,
+.toggle-all a:hover {
+  text-decoration: none;
+  color: white;
+}
+
 .course-posts {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
@@ -10924,7 +10946,7 @@ a.text-dark:focus {
 }
 
 .course-posts .course-post-content {
-  padding: 0 18px;
+  padding: 0 0px;
   background-color: white;
   display: none;
   overflow: hidden;
@@ -10948,6 +10970,11 @@ a.text-dark:focus {
   font-weight: bold;
 }
 
+.post-link-container {
+  border-top: 1px solid #e1e4e8;
+  padding: 10px;
+}
+
 .post-link {
   color: black;
   text-decoration: none;
@@ -10958,22 +10985,10 @@ a.text-dark:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
-  background-color: #f6f8fa;
 }
 
 .course-post:hover {
   background-color: #f6f8fa;
-}
-
-.new-post {
-  padding-top: 25px;
-  padding-left: 15px;
-}
-
-.new-post a,
-.new-post a:hover {
-  text-decoration: none;
-  color: white;
 }
 
 .post {
@@ -10990,10 +11005,10 @@ a.text-dark:focus {
   background-color: #f6f8fa;
 }
 
-.post .post-content {
+.post-content {
   width: 100%;
   border-top: 1px solid #e1e4e8;
-  padding: 15px;
+  padding: 18px;
   margin-left: 0px;
 }
 
@@ -11031,7 +11046,6 @@ a.text-dark:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
-  background-color: #f6f8fa;
 }
 
 .course-post-compact:hover {
