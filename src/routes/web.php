@@ -51,3 +51,5 @@ Route::get('/users', 'AdminPanelController@all_users')->name('users')->middlewar
 
 Route::get('/admin', 'AdminPanelController@index')->name('adminIndex')->middleware('auth'); //TODO: user have to be admin
 
+Route::get('add-comment-form-submit', 'CommentController@index');
+Route::post('add-comment-form-submit', 'CommentController@store');
