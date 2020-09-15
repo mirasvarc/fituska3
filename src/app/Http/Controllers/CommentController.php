@@ -39,6 +39,9 @@ class CommentController extends Controller
         $comment->post_id = $request->post_id;
         $comment->author_id = $request->author_id;
         $comment->content = $request->content;
+        if($request->parent_id){
+            $comment->parent_id = $request->parent_id;
+        }
         $comment->upvotes = 0;
         $comment->downvotes = 0;
         $comment->save();
