@@ -54,6 +54,7 @@ class PostController extends Controller
         $post->author_id = auth()->user()->id;
         $post->upvotes = 0;
         $post->downvotes = 0;
+
         $post->save();
 
         return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
@@ -108,6 +109,7 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->type = $request->type;
+
         $post->save();
 
         return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně upraven!');

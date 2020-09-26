@@ -53,7 +53,7 @@ class UserController extends Controller
     {
         $user = User::find($id);
         $userSettings = User::find($id)->userSettings()->first();
-        //dd($userSettings);
+
         $roles_user_have = $user->roles->pluck('role', 'id')->toArray();
         $all_roles = Role::All()->pluck('role', 'id')->toArray();
 
@@ -102,8 +102,8 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-
         $user->delete();
+
         return redirect('/')->with('success', 'Uživatel byl úspešně smazán!');
     }
 
@@ -113,11 +113,14 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function addRole(Request $request){
+    public function addRole(Request $request)
+    {
         $hasRole = new hasRole();
         $hasRole->user_id = $request->input('user');
         $hasRole->role_id = $request->input('roles');
+
         $hasRole->save();
+
         return redirect()->back()->with('success', 'Role byla úspešně přidána!');
     }
 
@@ -127,8 +130,8 @@ class UserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function removeRole(Request $request){
-
+    public function removeRole(Request $request)
+    {
         $user_id = $request->input('user');
         $role_id = $request->input('roles');
         $db_record = DB::table('has_role')
@@ -136,25 +139,29 @@ class UserController extends Controller
         ->where('role_id', '=', $role_id)
         ->select('*')
         ->delete();
+
         return redirect()->back()->with('success', 'Role byla úspešně odebrána!');
     }
 
-    public function followCourse(Request $request){
+    public function followCourse(Request $request)
+    {
         $followedCourse = new IsFollowingCourse();
         $followedCourse->user_id = $request->input('user');
         $followedCourse->course_id = $request->input('course');
         $followedCourse->save();
+
         return redirect()->back()->with('success', 'Předmět je sledován!');
     }
 
-    public function unfollowCourse(Request $request){
+    public function unfollowCourse(Request $request)
+    {
         $user_id = $request->input('user');
         $course_id = $request->input('course');
         $db_record = IsFollowingCourse::where('user_id', $user_id)
                         ->where('course_id', $course_id)
                         ->first()
                         ->delete();
-        return redirect()->back()->with('success', 'Předmět odebrán ze sledovaných!');
 
+        return redirect()->back()->with('success', 'Předmět odebrán ze sledovaných!');
     }
 }
