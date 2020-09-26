@@ -1,0 +1,60 @@
+.comments {
+    margin-top:25px;
+    border: 1px solid #e1e4e8;
+    border-radius: 6px;
+
+    .comment {
+        display: flex;
+        border-bottom: 1px solid #e1e4e8;
+        padding: 5px 10px 0px 10px;
+
+        &:last-child {
+            border-bottom: 0px solid #e1e4e8;
+        }
+
+        .autor {
+
+        }
+
+        .content {
+
+            .replies {
+                cursor: pointer;
+                font-weight: bold;
+            }
+        }
+
+        .buttons {
+            margin-left: auto;
+
+            #reply {
+                cursor: pointer;
+                color: #3d3d3d;
+            }
+
+            #options {
+                cursor: pointer;
+                color: #3d3d3d;
+            }
+        }
+    }
+
+    .replies-content {
+        display: none;
+        overflow: hidden;
+        padding-top: 15px;
+
+        div {
+            padding-bottom: 5px;
+        }
+    }
+}
+
+#add-comment-form {
+    margin-top: 25px;
+}
+
+#reply-form {
+    display: none;
+    overflow: hidden;
+}

@@ -11066,7 +11066,8 @@ a.text-dark:focus {
 .post {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
-  border-radius: 6px;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
   overflow: hidden;
 }
 
@@ -11137,6 +11138,60 @@ a.text-dark:focus {
   .sidenav a {
     font-size: 18px;
   }
+}
+
+.comments {
+  margin-top: 25px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+}
+
+.comments .comment {
+  display: flex;
+  border-bottom: 1px solid #e1e4e8;
+  padding: 5px 10px 0px 10px;
+}
+
+.comments .comment:last-child {
+  border-bottom: 0px solid #e1e4e8;
+}
+
+.comments .comment .content .replies {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.comments .comment .buttons {
+  margin-left: auto;
+}
+
+.comments .comment .buttons #reply {
+  cursor: pointer;
+  color: #3d3d3d;
+}
+
+.comments .comment .buttons #options {
+  cursor: pointer;
+  color: #3d3d3d;
+}
+
+.comments .replies-content {
+  display: none;
+  overflow: hidden;
+  padding-top: 15px;
+}
+
+.comments .replies-content div {
+  padding-bottom: 5px;
+}
+
+#add-comment-form {
+  margin-top: 25px;
+}
+
+#reply-form {
+  display: none;
+  overflow: hidden;
 }
 
 .container-main {

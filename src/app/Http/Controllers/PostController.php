@@ -54,6 +54,7 @@ class PostController extends Controller
         $post->author_id = auth()->user()->id;
         $post->upvotes = 0;
         $post->downvotes = 0;
+
         $post->save();
 
         return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
@@ -70,8 +71,9 @@ class PostController extends Controller
         $post = Post::where('id', $id)->first();
         $course = Course::where('id', $post->course_id)->first();
         $post_content = collect($post)->only('content');
+        $comments = $post->comments()->get();
 
-        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson()]);
+        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson(), 'comments' => $comments]);
     }
 
     /**
@@ -107,6 +109,7 @@ class PostController extends Controller
         $post->title = $request->title;
         $post->content = $request->content;
         $post->type = $request->type;
+
         $post->save();
 
         return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně upraven!');
