@@ -11012,6 +11012,30 @@ a.text-dark:focus {
   margin-left: 0px;
 }
 
+.border-left {
+  border-left: 1px solid #e1e4e8;
+}
+
+.list {
+  margin-top: 25px;
+}
+
+.list ul {
+  -webkit-padding-start: 0px !important;
+          padding-inline-start: 0px !important;
+}
+
+.list ul li {
+  list-style: none;
+  font-size: 26px;
+  padding: 15px 15px 15px 15px;
+}
+
+.list ul li:hover {
+  background-color: #f6f8fa;
+  cursor: pointer;
+}
+
 .course-posts {
   margin-top: 25px;
   border: 1px solid #e1e4e8;

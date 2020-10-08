@@ -84,3 +84,26 @@
     padding: 18px;
     margin-left: 0px;
 }
+
+.border-left {
+    border-left: 1px solid #e1e4e8;
+}
+
+.list {
+    margin-top: 25px;
+
+    ul {
+        padding-inline-start: 0px !important;
+
+        li {
+            list-style: none;
+            font-size: 26px;
+            padding: 15px 15px 15px 15px;
+
+            &:hover {
+                background-color: #f6f8fa;
+                cursor: pointer;
+            }
+        }
+    }
+}
