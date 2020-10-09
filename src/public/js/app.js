@@ -74186,8 +74186,8 @@ __webpack_require__.r(__webpack_exports__);
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! C:\Users\miras\Documents\School\FIT\BP\fituska3\src\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! C:\Users\miras\Documents\School\FIT\BP\fituska3\src\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! C:\Users\miras\Documents\School\BP\fituska3\src\resources\js\app.js */"./resources/js/app.js");
+module.exports = __webpack_require__(/*! C:\Users\miras\Documents\School\BP\fituska3\src\resources\sass\app.scss */"./resources/sass/app.scss");
 
 
 /***/ })

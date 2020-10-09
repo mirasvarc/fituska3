@@ -48,6 +48,7 @@
             @endforeach
         </div>
     </div>
+    @include('_partials/posts_list_right_panel')
 </div>
 
 
