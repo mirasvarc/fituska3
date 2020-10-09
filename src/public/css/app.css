@@ -11270,3 +11270,11 @@ a.text-dark:focus {
   background-color: #f6f8fa;
 }
 
+.bold {
+  font-weight: bold;
+}
+
+.normal {
+  font-weight: normal !important;
+}
+

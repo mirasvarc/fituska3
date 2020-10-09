@@ -50,6 +50,12 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Role', 'has_role', 'user_id', 'role_id');
     }
 
+
+    public function hasSeenPost()
+    {
+        return $this->belongsToMany('App\Post', 'has_seen_post', 'user_id', 'post_id');
+    }
+
     /**
      * Check if current user is administrator
      */

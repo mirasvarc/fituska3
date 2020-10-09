@@ -67,10 +67,11 @@ class CourseController extends Controller
             $post_content[] = $post->content;
         }
 
+        $user = User::find(auth()->user()->id);
 
-        $userSettings = User::find(auth()->user()->id)->userSettings()->first();
+        $userSettings = $user->userSettings()->first();
 
-        return view('courses/course_show', ['course' => $course, 'posts' => $posts, 'user_settings' => $userSettings->user_settings_json, 'content_json' => $post_content]);
+        return view('courses/course_show', ['course' => $course, 'posts' => $posts, 'user_settings' => $userSettings->user_settings_json, 'content_json' => $post_content, 'user' => $user]);
     }
 
     /**
