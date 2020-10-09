@@ -20,24 +20,28 @@
             </div>
             @foreach($posts as $post)
             <a href="/post/{{$course->code}}/{{$post->id}}" class="post-link">
-            <div class="row course-post-compact">
-                <div class="col-4">
-                    {{$post->title}}
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <span>{{$post->type}}</span>
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <span>{{$post->created_at}}</span>
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <span>{{$post->author()->first()->username}}</span>
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <i class="far fa-comment"></i>
-                    <span>{{count($post->comments()->get())}}</span>
-                </div>
-            </div>
+                @if(!$user->hasSeenPost()->where('post_id', $post->id)->exists())
+                    <div class="row course-post-compact bold">
+                @else
+                    <div class="row course-post-compact">
+                @endif
+                        <div class="col-4">
+                            {{$post->title}}
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <span class="normal">{{$post->type}}</span>
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <span>{{$post->created_at}}</span>
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <span>{{$post->author()->first()->username}}</span>
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <i class="far fa-comment"></i>
+                            <span>{{count($post->comments()->get())}}</span>
+                        </div>
+                    </div>
             </a>
             @endforeach
         </div>

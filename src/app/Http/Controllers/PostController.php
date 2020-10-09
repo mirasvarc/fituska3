@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Post;
 use App\Course;
+use App\HasSeenPost;
+use App\User;
 
 use Illuminate\Http\Request;
 
@@ -73,7 +75,17 @@ class PostController extends Controller
         $post_content = collect($post)->only('content');
         $comments = $post->comments()->get();
 
-        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson(), 'comments' => $comments]);
+        $user = User::find(auth()->user()->id);
+
+
+        if(!$user->hasSeenPost()->where('post_id', $post->id)->exists()){
+            $hasSeenPost = new HasSeenPost();
+            $hasSeenPost->user_id = $user->id;
+            $hasSeenPost->post_id = $post->id;
+            $hasSeenPost->save();
+        }
+
+        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson(), 'comments' => $comments, 'user' => $user]);
     }
 
     /**
