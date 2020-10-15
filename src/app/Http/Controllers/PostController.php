@@ -148,4 +148,18 @@ class PostController extends Controller
     public function followCourse(){
 
     }
+
+    public function openPost(Request $request){
+
+        $post = Post::find($request['id']);
+
+        if(!HasSeenPost::where('user_id', auth()->user()->id)->where('post_id', $post->id)->exists()){
+            $hasSeenPost = new HasSeenPost();
+            $hasSeenPost->user_id = auth()->user()->id;
+            $hasSeenPost->post_id = $post->id;
+            $hasSeenPost->save();
+        }
+
+
+    }
 }

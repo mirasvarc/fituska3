@@ -21,9 +21,9 @@
             @foreach($posts as $post)
             {{--<a href="/post/{{$course->code}}/{{$post->id}}" class="post-link">--}}
                 @if(!$user->hasSeenPost()->where('post_id', $post->id)->exists())
-                    <div class="row course-post bold">
+                    <div class="row course-post bold" id="{{$post->id}}">
                 @else
-                    <div class="row course-post">
+                    <div class="row course-post" id="{{$post->id}}">
                 @endif
                         <div class="col-4">
                             {{$post->title}}
@@ -64,17 +64,43 @@ var acc = document.getElementsByClassName("course-post");
 var i;
 
 for (i = 0; i < acc.length; i++) {
-  acc[i].addEventListener("click", function() {
+    acc[i].addEventListener("click", function(e) {
 
-    this.classList.toggle("active");
-    var panel = this.nextElementSibling;
-    if (panel.style.display === "block") {
-      panel.style.display = "none";
-    } else {
-      panel.style.display = "block";
-    }
-  });
+        this.classList.toggle("active");
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+        panel.style.display = "none";
+        } else {
+        panel.style.display = "block";
+        }
+
+
+
+    });
 }
+
+$(".course-post").click(function(e){
+    $(this).removeClass('bold');
+    e.preventDefault();
+    $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+    });
+
+    $.ajax({
+        url: "{{ url('open-post')}}",
+        method: 'post',
+        data:  {id: $(this).attr('id')},
+        success: function(response){
+
+        },
+        error: function(response){
+            console.log(response);
+        }
+
+    });
+});
 
 var toggleAll = document.getElementById('toggle-all');
 toggleAll.addEventListener('click', function(){
@@ -88,6 +114,7 @@ toggleAll.addEventListener('click', function(){
         }
     }
 });
+
 
 </script>
 

@@ -53,3 +53,5 @@ Route::get('/admin', 'AdminPanelController@index')->name('adminIndex')->middlewa
 
 Route::get('add-comment-form-submit', 'CommentController@index');
 Route::post('add-comment-form-submit', 'CommentController@store');
+
+Route::post('open-post', 'PostController@openPost');
