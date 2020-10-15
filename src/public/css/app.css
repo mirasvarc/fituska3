@@ -10959,6 +10959,11 @@ a.text-dark:focus {
   background-color: #f6f8fa;
 }
 
+.course-posts .course-post:hover {
+  cursor: pointer;
+  background-color: #f6f8fa;
+}
+
 .course-posts .post-type {
   width: 25px;
   padding: 5px 10px;
@@ -10985,10 +10990,6 @@ a.text-dark:focus {
   color: black;
   text-decoration: none;
   cursor: pointer;
-}
-
-.course-post:hover {
-  background-color: #f6f8fa;
 }
 
 .post {

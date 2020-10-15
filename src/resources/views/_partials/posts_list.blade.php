@@ -63,6 +63,7 @@
 var acc = document.getElementsByClassName("course-post");
 var i;
 
+// Expand post
 for (i = 0; i < acc.length; i++) {
     acc[i].addEventListener("click", function(e) {
 
@@ -79,6 +80,7 @@ for (i = 0; i < acc.length; i++) {
     });
 }
 
+// Mark post as read
 $(".course-post").click(function(e){
     $(this).removeClass('bold');
     e.preventDefault();
@@ -102,6 +104,7 @@ $(".course-post").click(function(e){
     });
 });
 
+// expand all posts
 var toggleAll = document.getElementById('toggle-all');
 toggleAll.addEventListener('click', function(){
     for (i = 0; i < acc.length; i++) {

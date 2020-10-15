@@ -63,6 +63,8 @@ class CourseController extends Controller
 
         $posts = Post::where('course_id', $course->id)->get();
 
+        $post_content = array();
+
         foreach($posts as $post){
             $post_content[] = $post->content;
         }

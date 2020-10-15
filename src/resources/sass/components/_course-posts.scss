@@ -25,6 +25,11 @@
             margin-left: 0px;
             background-color: #f6f8fa;
         }
+
+        &:hover{
+            cursor: pointer;
+            background-color: #f6f8fa;
+        }
     }
 
     .post-type {
@@ -55,10 +60,6 @@
     color:black;
     text-decoration: none;
     cursor: pointer;
-}
-
-.course-post:hover {
-    background-color: #f6f8fa;
 }
 
 .post {
