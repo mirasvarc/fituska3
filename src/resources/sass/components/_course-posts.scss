@@ -105,6 +105,24 @@
                 background-color: #f6f8fa;
                 cursor: pointer;
             }
+
+            a {
+                color: black;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: none;
+                    background-color: #f6f8fa;
+                }
+            }
         }
+    }
+}
+
+
+.replies {
+
+    &-content {
+        //border-bottom: 1px solid #e1e4e8;
     }
 }

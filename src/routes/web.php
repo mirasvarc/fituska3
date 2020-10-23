@@ -31,6 +31,7 @@ Route::resource('courses', 'CourseController')
         ->middleware('auth');
 
 Route::get('course/{code}', 'CourseController@show')->name('course')->middleware('auth');
+Route::get('course/{code}/files', 'CourseController@showFiles')->name('show.files')->middleware('auth');
 
 Route::resource('posts', 'PostController')
         ->except('show', 'create')
@@ -39,6 +40,7 @@ Route::resource('posts', 'PostController')
 Route::get('course/{code}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
 Route::get('post/{code}/{id}/edit', 'PostController@edit')->name('edit-post')->middleware('auth');
 Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
+
 
 Auth::routes();
 
