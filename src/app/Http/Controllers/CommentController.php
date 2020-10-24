@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use App\User;
 
 class CommentController extends Controller
 {
@@ -12,9 +13,16 @@ class CommentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($post_id)
     {
-        return view("posts.post");
+        $comments = Comment::where('post_id', $post_id)->get();
+        $comments_data = [];
+
+        foreach($comments as $comment){
+            $author = User::find($comment->author_id);
+            $author_name = $author->name;
+            $replies = $this->replies($comment->id);
+        }
     }
 
     /**
