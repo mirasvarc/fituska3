@@ -6,20 +6,13 @@ use App\Post;
 use App\Course;
 use App\HasSeenPost;
 use App\User;
+use App\File;
+use App\HasFile;
 
 use Illuminate\Http\Request;
 
 class PostController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
 
     /**
      * Show the form for creating a new resource.
@@ -46,8 +39,10 @@ class PostController extends Controller
             'content' => 'required'
         ]);
 
+        // find course
         $course = Course::where('code', $request->code)->first();
 
+        // create new post and save it to DB
         $post = new Post;
         $post->title = $request->title;
         $post->content = $request->content;
@@ -58,6 +53,23 @@ class PostController extends Controller
         $post->downvotes = 0;
 
         $post->save();
+
+        // check for files in request
+        foreach($request->file('files') as $file){
+
+            // upload files and store path to DB
+            $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
+            $new_file = new File;
+            $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
+            $new_file->type = $file->getClientOriginalExtension();
+            $new_file->path = $file->getClientOriginalName();
+            $new_file->save();
+
+            $has_file = new HasFile;
+            $has_file->post_id = $post->id;
+            $has_file->file_id = $new_file->id;
+            $has_file->save();
+        }
 
         return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
     }
@@ -70,14 +82,15 @@ class PostController extends Controller
      */
     public function show($code, $id)
     {
-        $post = Post::where('id', $id)->first();
-        $course = Course::where('id', $post->course_id)->first();
-        $post_content = collect($post)->only('content');
-        $comments = $post->comments()->get();
+        $post = Post::where('id', $id)->first(); // get post
+        $course = Course::where('id', $post->course_id)->first(); // find course which the post belongs to
+        $post_content = collect($post)->only('content'); // get content of all comments
+        $comments = $post->comments()->get(); // get all comments
 
         $user = User::find(auth()->user()->id);
 
 
+        // check if user has already seen the post
         if(!$user->hasSeenPost()->where('post_id', $post->id)->exists()){
             $hasSeenPost = new HasSeenPost();
             $hasSeenPost->user_id = $user->id;
@@ -143,7 +156,7 @@ class PostController extends Controller
     }
 
     /**
-     * TODO: All or just one year?
+     * //TODO
      */
     public function followCourse(){
 

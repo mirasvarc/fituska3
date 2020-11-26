@@ -16,6 +16,14 @@ class Post extends Model
     }
 
     /**
+     * Files that belong to the post.
+     */
+    public function files()
+    {
+        return $this->belongsToMany('App\File', 'has_file', 'post_id', 'file_id');
+    }
+
+    /**
      * Check if user is author of the post
      */
     public function isAuthor(){

@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\UserSettings;
 use App\Role;
 use App\hasRole;
 use App\IsFollowingCourse;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
@@ -67,7 +69,7 @@ class UserController extends Controller
             $comma = ', ';
         }
 
-        return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles_have' => $roles_user_have, 'roles_dont_have' => $roles_user_dont_have]);
+        return view('user.profile', ['user' => User::findOrFail($id), 'roles_string' => $roles_string, 'roles_have' => $roles_user_have, 'roles_dont_have' => $roles_user_dont_have, 'user_settings' => $userSettings]);
     }
 
     /**
@@ -78,7 +80,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $user = User::find($id);
+
+        return view('user.edit', ['user' =>$user]);
     }
 
     /**
@@ -90,7 +94,30 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        if(!Hash::check($request->old_password, auth()->user()->password)){
+            return back()->with('error','You have entered wrong password');
+
+        } else {
+            if(isset($request->new_password)){
+                $user->password = bcrypt($request->new_password);
+            }
+
+            $user->username = $request->username;
+            $user->first_name = $request->first_name ? $request->first_name : "";
+            $user->surname = $request->surname ? $request->surname : "";
+            $user->mail = $request->mail ? $request->mail : "";
+            $user->about = $request->about ? $request->about : "";
+            $user->save();
+
+            return redirect('/user/' . $user->id);
+        }
+
+
+
+
+
     }
 
     /**
@@ -163,5 +190,45 @@ class UserController extends Controller
                         ->delete();
 
         return redirect()->back()->with('success', 'Předmět odebrán ze sledovaných!');
+    }
+
+    public function changeSettings(Request $request){
+
+        $userSettings = User::find($request->user)->userSettings()->first();
+        $userSettingsJson = $userSettings->user_settings_json;
+        if(isset($request->compact) && $request->compact == 'on'){
+            $userSettingsJson['compact_mode'] = 'true';
+            $userSettings->user_settings_json = $userSettingsJson;
+        } else if(!isset($request->compact)) {
+            $userSettingsJson['compact_mode'] = 'false';
+            $userSettings->user_settings_json = $userSettingsJson;
+        }
+
+        $userSettings->save();
+
+        return redirect()->back();
+    }
+
+    public function contacts(){
+
+        $su = User::whereHas(
+            'roles', function($q){
+                $q->where('role', 'Vedení SU');
+            }
+        )->get();
+
+        $moderators = User::whereHas(
+            'roles', function($q){
+                $q->where('role', 'Moderátor');
+            }
+        )->get();
+
+        $admins = User::whereHas(
+            'roles', function($q){
+                $q->where('role', 'Administrátor');
+            }
+        )->get();
+
+        return view('contacts', ['su' => $su, 'moderators' => $moderators, 'admins' => $admins]);
     }
 }

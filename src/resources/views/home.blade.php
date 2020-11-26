@@ -47,7 +47,7 @@
             </div>
         </div>
         <div class="col-md-4">
-                <div class="followed-courses-heading">
+                {{--<div class="followed-courses-heading">
                         Termíny
                     </div>
                     <div class="followed-courses-content">
@@ -65,7 +65,14 @@
                         </div>
 
 
-                    </div>
+                    </div>--}}
+                    @foreach($modules as $module)
+                        @if($module->name == 'Google calendar')
+                            @if($module->installed == 1)
+                                @include('_partials.google_calendar')
+                            @endif
+                        @endif
+                    @endforeach
         </div>
     </div>
 </div>

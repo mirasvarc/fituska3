@@ -1,6 +1,6 @@
 .course-posts {
     margin-top:25px;
-    border: 1px solid #e1e4e8;
+    border: 1px solid $light-grey-border;
     border-radius: 6px;
     overflow: hidden;
 
@@ -8,7 +8,7 @@
 
     .course-post {
         width:100%;
-        border-top: 1px solid #e1e4e8;
+        border-top: 1px solid $light-grey-border;
         padding: 15px;
         margin-left: 0px;
 
@@ -23,12 +23,12 @@
             width:100%;
             padding: 15px;
             margin-left: 0px;
-            background-color: #f6f8fa;
+            background-color: $light-grey;
         }
 
         &:hover{
             cursor: pointer;
-            background-color: #f6f8fa;
+            background-color: $light-grey;
         }
     }
 
@@ -46,7 +46,7 @@
 }
 
 .post-link-container {
-    border-top: 1px solid #e1e4e8;
+    border-top: 1px solid $light-grey-border;
     padding:10px;
 }
 
@@ -65,7 +65,7 @@
 .post {
 
     margin-top:25px;
-    border: 1px solid #e1e4e8;
+    border: 1px solid $light-grey-border;
     border-radius: 6px;
     overflow: hidden;
 
@@ -73,7 +73,7 @@
         width:100%;
         padding: 15px;
         margin-left: 0px;
-        background-color: #f6f8fa;
+        background-color: $light-grey;
     }
 
 
@@ -81,13 +81,13 @@
 
 .post-content {
     width:100%;
-    border-top: 1px solid #e1e4e8;
+    border-top: 1px solid $light-grey-border;
     padding: 18px;
     margin-left: 0px;
 }
 
 .border-left {
-    border-left: 1px solid #e1e4e8;
+    border-left: 1px solid $light-grey-border;
 }
 
 .list {
@@ -102,9 +102,43 @@
             padding: 15px 15px 15px 15px;
 
             &:hover {
-                background-color: #f6f8fa;
+                background-color: $light-grey;
                 cursor: pointer;
             }
+
+            a {
+                color: black;
+                text-decoration: none;
+
+                &:hover {
+                    text-decoration: none;
+                    background-color: $light-grey;
+                }
+            }
         }
+    }
+}
+
+
+.replies {
+
+    &-content {
+        //border-bottom: 1px solid #e1e4e8;
+    }
+}
+
+
+.post-files {
+    margin-left: 15px;
+    margin-right: 15px;
+    border-top: 1px solid $light-grey-border;
+    padding-bottom: 15px;
+
+    &-header {
+        padding-top: 15px;
+    }
+
+    .post-file {
+        margin-bottom: 0rem;
     }
 }

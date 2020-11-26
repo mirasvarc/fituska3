@@ -42,7 +42,12 @@
                 <div class="post-content" id="post-content">
 
                 </div>
-
+                <div class="post-files">
+                    <p class="bold post-files-header">Přiložené soubory:</p>
+                    @foreach($post->files()->get() as $file)
+                        <p class="post-file"><a href="/storage/files/{{$course->code}}/{{$file->path}}" target="_blank">{{$file->name}}</a></p>
+                    @endforeach
+                </div>
             </div>
 
             <div class="comments">
@@ -54,40 +59,46 @@
                                     {{$comment->author()->first()->username}}
                                 </a>
                                 :
-                                &nbsp;
-                                &nbsp;
                             </div>
-                            <div class="content">
+                            <div class="content ml-10">
                                 {!! $comment->content !!}
                                 <br>
                                 @if(count($comment->replies()->get()) < 1)
-                                    <span class="replies"></span>
+                                    <div class="replies mb-5">
+                                        Odpovědět
+                                    </div>
                                 @elseif(count($comment->replies()->get()) == 1)
-                                    <span class="replies">
+                                    <div class="replies mb-5">
                                         {{count($comment->replies()->get())}}
-                                        reply
-                                    </span>
+                                        odpověď
+                                    </div>
+                                @elseif(count($comment->replies()->get()) == 2
+                                || count($comment->replies()->get()) == 3
+                                || count($comment->replies()->get()) == 4
+                                )
+                                <div class="replies mb-5">
+                                    {{count($comment->replies()->get())}}
+                                    odpověďi
+                                </div>
                                 @else
-                                    <span class="replies">
+                                    <div class="replies mb-5">
                                         {{count($comment->replies()->get())}}
-                                        replies
-                                    </span>
+                                        odpovědí
+                                    </div>
                                 @endif
                                 <div id="replies-content" class="replies-content">
                                     @foreach($comment->replies()->get() as $reply)
-                                    <div>
+                                    <div class="border-bottom">
                                         <a href="/user/{{$reply->author()->first()->id}}">
                                             {{$reply->author()->first()->username}}
                                         </a>
                                         :
-                                        &nbsp;
-                                        {!! $reply->content !!}
-                                        <br>
+                                        <span class="ml-10"> {!! $reply->content !!}</span>
                                     </div>
                                     @endforeach
                                 </div>
-                                <div id="reply-form">
-                                    <form method="post" action="javascript:void(0)" class="form form-horizontal add-reply-form">
+                                <div id="reply-form" class="mt-25">
+                                    <form method="post" action="javascript:void(0)" class="form form-horizontal" id="add-reply-form">
                                         @csrf
                                         <input type="hidden" name="post_id" value="{{$post->id}}">
                                         <input type="hidden" name="author_id" value="{{auth()->user()->id}}">
@@ -102,11 +113,11 @@
                                     </form>
                                 </div>
                             </div>
-                            <div class="buttons">
+                           {{-- <div class="buttons">
                                 <span class="reply-icon"><i id="reply" class="fas fa-reply"></i></span>
                                 &nbsp;
                                 <i id="options" class="fas fa-ellipsis-v"></i>
-                            </div>
+                            </div>--}}
 
                         </div>
                     @endif
@@ -206,17 +217,34 @@ document.getElementById("post-content").innerHTML = postContent.content;
                 }
             });
         });
+
+        $('.add-reply').click(function(e){
+            e.preventDefault();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            // manually get content of text editor
+            var content =   tinyMCE.activeEditor.getContent();
+            $('textarea[name=content]').val(content);
+            $.ajax({
+                url: "{{ url('add-comment-form-submit')}}",
+                method: 'post',
+                data: $('#add-reply-form').serialize(),
+                success: function(response){
+                    console.log($('#add-reply-form').serialize());
+                    $('.add-reply').html('Submit');
+                    document.getElementById("add-reply-form").reset();
+                }
+            });
+        });
     });
 
 
 </script>
 
 <script>
-    $(document).ready(function(){
-        $('#reply').click(function(){
-
-        });
-    });
 
     var acc = document.getElementsByClassName("replies");
     var i;
@@ -243,14 +271,15 @@ document.getElementById("post-content").innerHTML = postContent.content;
 
 
 // TODO: nextElementSibling not working, obviously
+// FIXME
     var acc2 = document.getElementsByClassName("reply-icon");
     var j;
 
     for (j = 0; j < acc2.length; j++) {
     acc2[j].addEventListener("click", function() {
         this.classList.toggle("active");
-        var panel = this.nextElementSibling;
-        var form = panel.nextElementSibling;
+        var panel = this.previousElementSibling;
+        var form = panel.child().last();
         if (panel.style.display === "block") {
             panel.style.display = "none";
         } else {
