@@ -5,7 +5,7 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <form method="post" action="{{ route('posts.store') }}" class="form form-horizontal">
+            <form method="post" action="{{ route('posts.store') }}" class="form form-horizontal" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="code" value="{{$code}}">
                 <div class="form-group">
@@ -15,6 +15,10 @@
                 <div class="form-group">
                     <label>Text</label>
                     <textarea name="content" rows="5" cols="40" class="form-control tinymce-editor"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="files">Přiložit soubory</label>
+                    <input type="file" id="files" class="form-control-file" name="files[]" multiple>
                 </div>
                 <div class="form-group">
                     <label>Typ</label>

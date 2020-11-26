@@ -10,6 +10,7 @@
                         <tr>
                             <th>ID</th>
                             <th>Uživatelské jméno</th>
+                            <th>Jméno a příjmení</th>
                             <th>Školní email</th>
                             <th>Email</th>
                             <th>Ročník</th>
@@ -20,6 +21,7 @@
                             <tr>
                                 <td>{{$user->id}}</td>
                                 <td><a href="{{ route('user.show',$user->id) }}">{{$user->username}}</a></td>
+                                <td><a href="{{ route('user.show',$user->id) }}">{{$user->first_name}} {{$user->surname}}</a></td>
                                 <td>{{$user->school_mail}}</td>
                                 <td>{{$user->mail}}</td>
                                 <td>{{$user->year_of_study}}</td>

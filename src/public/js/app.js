@@ -62308,7 +62308,7 @@ var render = function() {
                               _vm._v(
                                 "Votes: " +
                                   _vm._s(comment.votes) +
-                                  "\n                               "
+                                  "\r\n                               "
                               ),
                               !comment.votedByUser
                                 ? _c(
@@ -62505,9 +62505,9 @@ var render = function() {
                                                   },
                                                   [
                                                     _vm._v(
-                                                      "\n                                           " +
+                                                      "\r\n                                           " +
                                                         _vm._s(replies.name) +
-                                                        "\n                                       "
+                                                        "\r\n                                       "
                                                     )
                                                   ]
                                                 ),
@@ -62538,7 +62538,7 @@ var render = function() {
                                                           _vm._s(
                                                             replies.votes
                                                           ) +
-                                                          "\n                                           "
+                                                          "\r\n                                           "
                                                       ),
                                                       !replies.votedByUser
                                                         ? _c(

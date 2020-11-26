@@ -76,8 +76,14 @@ class CourseController extends Controller
         return view('courses/course_show', ['course' => $course, 'posts' => $posts, 'user_settings' => $userSettings->user_settings_json, 'content_json' => $post_content, 'user' => $user]);
     }
 
-    public function showFiles(){
+    public function showFiles($code){
 
-        return view('courses.course_files');
+        $course = Course::where('code', $code)
+            ->first();
+
+        $user = User::find(auth()->user()->id);
+        $files = Course::getCourseFiles($course->id);
+
+        return view('courses.course_files', ['course' => $course, 'user' => $user, 'files' => $files]);
     }
 }

@@ -11037,6 +11037,21 @@ a.text-dark:focus {
   background-color: #f6f8fa;
 }
 
+.post-files {
+  margin-left: 15px;
+  margin-right: 15px;
+  border-top: 1px solid #e1e4e8;
+  padding-bottom: 15px;
+}
+
+.post-files-header {
+  padding-top: 15px;
+}
+
+.post-files .post-file {
+  margin-bottom: 0rem;
+}
+
 .course-posts {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
@@ -11053,7 +11068,7 @@ a.text-dark:focus {
 
 .course-posts .course-post-compact {
   width: 100%;
-  border-top: 1px solid #e1e4e8;
+  border-top: 1px solid #f6f8fa;
   margin-left: 0px;
 }
 
@@ -11219,6 +11234,35 @@ a.text-dark:focus {
   overflow: hidden;
 }
 
+.add-file-btn .btn {
+  padding: 30px 49px;
+  border-radius: 0;
+  background-color: #f6f8fa;
+  border: 1px solid #e1e4e8;
+}
+
+.add-file-btn .btn span {
+  padding-left: 15px;
+}
+
+.login-window {
+  margin-top: 15%;
+}
+
+.login-page {
+  height: 100vh;
+  background-color: #2f2f2f;
+}
+
+.user-info-table {
+  width: 100%;
+  font-size: 15px;
+}
+
+.user-info-table tr td {
+  width: 25%;
+}
+
 .container-main {
   padding-left: 25px;
   padding-right: 25px;
@@ -11269,6 +11313,10 @@ a.text-dark:focus {
   text-decoration: none;
   cursor: pointer;
   background-color: #f6f8fa;
+}
+
+body {
+  height: 100vh;
 }
 
 .bold {
@@ -11377,5 +11425,9 @@ a.text-dark:focus {
 
 .border-bottom {
   border-bottom: 1px solid #e1e4e8;
+}
+
+.hidden {
+  display: none;
 }
 

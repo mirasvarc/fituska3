@@ -1,0 +1,13 @@
+.add-file-btn {
+
+    .btn {
+        padding: 30px 49px;
+        border-radius: 0;
+        background-color: $light-grey;
+        border: 1px solid $light-grey-border;
+
+        span {
+            padding-left: 15px;
+        }
+    }
+}

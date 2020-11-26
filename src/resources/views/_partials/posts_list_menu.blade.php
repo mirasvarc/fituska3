@@ -32,7 +32,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-2">
+    <div class="col-md-2 col-6">
         <div class="new-post">
             <button class="btn btn-primary">
                 <a href="/course/{{$course->code}}/create-post">
@@ -44,7 +44,7 @@
         </div>
     </div>
 
-    <div class="col-5">
+    <div class="col-md-5 col-12 hidden"> //TODO:
         <div class="course-detail-menu">
             <label for="types" style="margin-right:10px;">Typ: </label>
             <select id="types" name="types" form="typesform">
@@ -57,7 +57,7 @@
         </div>
     </div>
 
-    <div class="col-1 text-right">
+    <div class="col-md-6 col-6 text-right">
             <div class="toggle-all">
                 <button class="btn btn-primary" id="toggle-all">
                         Rozbalit vše

@@ -28,13 +28,9 @@
 <body>
     <div id="app">
         <div class="sidenav">
-            <a href="#">Dashboard</a>
-            <a href="#">Moduly</a>
-            <a href="#">Statistiky</a>
+            <a href="/">Zpět</a>
+            <a href="/admin/modules">Moduly</a>
           </div>
-
-
-
 
         <main class="py-4">
             @yield('content')

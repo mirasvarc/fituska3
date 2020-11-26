@@ -14,10 +14,16 @@
                     <a class="nav-link" href="{{ route('courses.index') }}">{{ __('Předměty') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">{{ __('Uživatelé') }}</a>
+                    <a class="nav-link" href="/user">{{ __('Uživatelé') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="">{{ __('Termíny') }}</a>
+                    <a class="nav-link disabled" href="">{{ __('Termíny') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/forum">{{ __('Diskuze') }}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/kontakty">{{ __('Kontakty') }}</a>
                 </li>
             </ul>
 

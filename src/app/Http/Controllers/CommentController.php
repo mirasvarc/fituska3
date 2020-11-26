@@ -22,8 +22,59 @@ class CommentController extends Controller
             $author = User::find($comment->author_id);
             $author_name = $author->name;
             $replies = $this->replies($comment->id);
+            $reply = 0;
+            $vote = 0;
+
+            if(sizeof($replies) > 0){
+                $reply = 1;
+            }
+
+            array_push($comments_data, [
+                "author" => $author_name,
+                "comment_id" => $comment->id,
+                "content" => $comment->content,
+                "reply" => $reply,
+                "replies" => $replies,
+                "date" => $comment->created_at->toDateTimeString()
+
+            ]);
         }
+
+        $comments_collection = collect($comments_data);
+        return $comments_collection;
     }
+
+    protected function replies($comment_id)
+    {
+        $comments = Comment::where('parent_id', $comment_id)->get();
+        $replies = [];
+
+        foreach($comments as $comment){
+            $author = User::find($comment->author_id);
+            $author_name = $author->name;
+            $replies = $this->replies($comment->id);
+            $reply = 0;
+            $vote = 0;
+
+            if(sizeof($replies) > 0){
+                $reply = 1;
+            }
+
+            array_push($replies, [
+                "author" => $author_name,
+                "comment_id" => $comment->id,
+                "content" => $comment->content,
+                "reply" => $reply,
+                "replies" => $replies,
+                "date" => $comment->created_at->toDateTimeString()
+
+            ]);
+        }
+
+        $comments_collection = collect($replies);
+        return $comments_collection;
+    }
+
 
     /**
      * Show the form for creating a new resource.
