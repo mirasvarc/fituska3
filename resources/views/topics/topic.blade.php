@@ -3,22 +3,14 @@
 @section('content')
 <div class="container-fluid">
 
-    @include('_partials.course_header')
-    @include('_partials/topics_list_menu')
+    @include('_partials/course_header')
 
-    <span id="discussion-body">
-        @include('_partials.topics')
-    </span>
 
-    <span id="files-body" style="display: none">
-        @include('courses.course_files')
-    </span>
-
-    {{--@if($user_settings['compact_mode'] == 'true')
+    @if($user_settings['compact_mode'] == 'true')
         @include('_partials/posts_list_compact')
     @else
         @include('_partials/posts_list')
-    @endif--}}
+    @endif
 
 </div>
 @endsection

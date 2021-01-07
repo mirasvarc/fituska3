@@ -31,6 +31,7 @@ Route::resource('courses', 'CourseController')
         ->except('show')
         ->middleware('auth');
 
+Route::get('course/{code}/topic/{id}', 'TopicController@show')->name('topic')->middleware('auth');
 Route::get('course/{code}', 'CourseController@show')->name('course')->middleware('auth');
 Route::get('course/{code}/files', 'CourseController@showFiles')->name('show.files')->middleware('auth');
 
@@ -38,7 +39,8 @@ Route::resource('posts', 'PostController')
         ->except('show', 'create')
         ->middleware('auth');
 
-Route::get('course/{code}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
+Route::get('course/{code}/topic/{topic_id}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
+
 Route::get('post/{code}/{id}/edit', 'PostController@edit')->name('edit-post')->middleware('auth');
 Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
 
@@ -54,6 +56,8 @@ Route::get('/kontakty', 'UserController@contacts')->name('contacts')->middleware
 Route::get('/forum', 'ForumController@index')->name('forum')->middleware('auth');
 Route::get('forum/{id}', 'ForumController@show')->name('forum.show')->middleware('auth');
 
+Route::get('/vote', 'UserController@voteIndex')->name('voteIndex')->middleware('auth');
+Route::post('/vote', 'UserController@vote')->name('voteIndex')->middleware('auth');
 
 //admin
 

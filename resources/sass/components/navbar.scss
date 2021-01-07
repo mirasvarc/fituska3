@@ -1,0 +1,38 @@
+.navbar {
+    background-color: $dark-grey !important;
+
+    &-brand {
+        color: $light-grey !important;
+    }
+
+    .nav-link {
+        color: $light-grey !important;
+        transition: transform 0.5s;
+
+        &:hover {
+            color: white !important;
+            transform: translate(0px, -2px);
+            transition: transform 0.2s;
+        }
+    }
+
+    .nav-link.dropdown-toggle {
+        &:hover {
+            transform: translate(0px, 0px);
+        }
+    }
+}
+
+.dropdown-menu {
+    background-color: $dark-grey !important;
+    border: 0px solid black;
+}
+
+.dropdown-item {
+    color: $light-grey;
+
+    &:hover {
+        background-color: $dark-grey;
+        color: white;
+    }
+}

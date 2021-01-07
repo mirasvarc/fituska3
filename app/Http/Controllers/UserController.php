@@ -231,4 +231,10 @@ class UserController extends Controller
 
         return view('contacts', ['su' => $su, 'moderators' => $moderators, 'admins' => $admins]);
     }
+
+    public function voteIndex() {
+
+
+        return view('_partials.vote');
+    }
 }

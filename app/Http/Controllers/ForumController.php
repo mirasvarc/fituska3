@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Forums;
 use App\Post;
+use App\Topics;
 use App\User;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
@@ -51,9 +52,10 @@ class ForumController extends Controller
      */
     public function show($id)
     {
-        $posts = Post::where('forum_id', $id)->get();
+        $forum = Forums::find($id);
+        $topics = Topics::where('forum_id', $id)->get();
 
-        return view('forum.posts', ['posts' => $posts]);
+        return view('forum.topics', ['topics' => $topics, 'forum' => $forum]);
     }
 
 }

@@ -8,6 +8,7 @@
             <form method="post" action="{{ route('posts.store') }}" class="form form-horizontal" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="code" value="{{$code}}">
+                <input type="hidden" name="topic_id" value="{{$topic_id}}">
                 <div class="form-group">
                     <label>Titulek</label>
                     <input type="text" name="title" class="form-control" required/>

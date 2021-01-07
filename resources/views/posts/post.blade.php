@@ -7,7 +7,7 @@
         <div class="col">
             <div class="back-button">
                 <button class="btn btn-primary">
-                    <a href="/course/{{$course->code}}">
+                    <a href="/course/{{$course->code}}/topic/{{$topic->id}}">
                         <i class="fa fa-undo" aria-hidden="true"></i>
                         &nbsp;
                         Zpět

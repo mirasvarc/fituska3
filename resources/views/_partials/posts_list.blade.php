@@ -1,4 +1,49 @@
 <div class="row">
+    <div class="col-md-2 col-2">
+        <div class="row">
+            <div class="new-post">
+                <button class="btn btn-primary">
+                    <a href="/course/{{$course->code}}">
+                        <i class="fa fa-angle-left"></i>
+                        &nbsp;
+                        Zpět
+                    </a>
+                </button>
+            </div>
+            <div class="new-post">
+                <button class="btn btn-primary">
+                    <a href="/course/{{$course->code}}/topic/{{$topic_id}}/create-post">
+                        <i class="fa fa-plus-circle"></i>
+                        &nbsp;
+                        Nový příspěvek
+                    </a>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-5 col-12 hidden"> //TODO:
+        <div class="course-detail-menu">
+            <label for="types" style="margin-right:10px;">Typ: </label>
+            <select id="types" name="types" form="typesform">
+                <option value="Zadání">Zadání</option>
+                <option value="Materiály">Materiály</option>
+                <option value="Diskuze">Diskuze</option>
+                <option value="Ostatní">Ostatní</option>
+            </select>
+
+        </div>
+    </div>
+
+    <div class="col-md-6 col-6 text-right">
+        <div class="toggle-all">
+            <button class="btn btn-primary" id="toggle-all">
+                    Rozbalit vše
+            </button>
+        </div>
+    </div>
+</div>
+<div class="row">
     <div class="col-lg-8 col-12">
         <div class="course-posts">
             <div class="row course-post-header">
@@ -52,7 +97,6 @@
             @endforeach
         </div>
     </div>
-    @include('_partials/posts_list_right_panel')
 </div>
 
 

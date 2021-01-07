@@ -8,7 +8,7 @@ use App\HasSeenPost;
 use App\User;
 use App\File;
 use App\HasFile;
-
+use App\Topics;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -19,10 +19,10 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create($code)
+    public function create($code, $topic_id)
     {
 
-        return view('posts/post_create', ['code' => $code]);
+        return view('posts/post_create', ['code' => $code, 'topic_id' => $topic_id]);
     }
 
     /**
@@ -42,34 +42,40 @@ class PostController extends Controller
         // find course
         $course = Course::where('code', $request->code)->first();
 
+        // find topic
+        $topic = Topics::where('id', $request->topic_id)->first();
+
         // create new post and save it to DB
         $post = new Post;
         $post->title = $request->title;
         $post->content = $request->content;
         $post->type = $request->type;
-        $post->course_id = $course->id;
+        $post->topic_id = $topic->id;
         $post->author_id = auth()->user()->id;
         $post->upvotes = 0;
         $post->downvotes = 0;
 
         $post->save();
 
-        // check for files in request
-        foreach($request->file('files') as $file){
+        if($request->file('files')){
+            // check for files in request
+            foreach($request->file('files') as $file){
 
-            // upload files and store path to DB
-            $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
-            $new_file = new File;
-            $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
-            $new_file->type = $file->getClientOriginalExtension();
-            $new_file->path = $file->getClientOriginalName();
-            $new_file->save();
+                // upload files and store path to DB
+                $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
+                $new_file = new File;
+                $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
+                $new_file->type = $file->getClientOriginalExtension();
+                $new_file->path = $file->getClientOriginalName();
+                $new_file->save();
 
-            $has_file = new HasFile;
-            $has_file->post_id = $post->id;
-            $has_file->file_id = $new_file->id;
-            $has_file->save();
+                $has_file = new HasFile;
+                $has_file->post_id = $post->id;
+                $has_file->file_id = $new_file->id;
+                $has_file->save();
+            }
         }
+
 
         return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
     }
@@ -83,7 +89,9 @@ class PostController extends Controller
     public function show($code, $id)
     {
         $post = Post::where('id', $id)->first(); // get post
-        $course = Course::where('id', $post->course_id)->first(); // find course which the post belongs to
+        $topic = Topics::where('id', $post->topic_id)->first();
+        $course = Course::where('id', $topic->course_id)->first(); // find course which the post belongs to
+
         $post_content = collect($post)->only('content'); // get content of all comments
         $comments = $post->comments()->get(); // get all comments
 
@@ -98,7 +106,7 @@ class PostController extends Controller
             $hasSeenPost->save();
         }
 
-        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson(), 'comments' => $comments, 'user' => $user]);
+        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson(), 'comments' => $comments, 'user' => $user, 'topic' => $topic]);
     }
 
     /**
@@ -156,12 +164,9 @@ class PostController extends Controller
     }
 
     /**
-     * //TODO
+     * Mark post as seen
+     * @param  \Illuminate\Http\Request  $request
      */
-    public function followCourse(){
-
-    }
-
     public function openPost(Request $request){
 
         $post = Post::find($request['id']);

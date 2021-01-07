@@ -1,7 +1,6 @@
 <div class="row">
     <div class="col-12">
         <h1>
-
             @if(!auth()->user()->isFollowingCourse($course->id))
             <form method="POST" action="{{ action('UserController@followCourse') }}">
                 @csrf
@@ -30,38 +29,4 @@
             @endif
         </h1>
     </div>
-</div>
-<div class="row">
-    <div class="col-md-2 col-6">
-        <div class="new-post">
-            <button class="btn btn-primary">
-                <a href="/course/{{$course->code}}/create-post">
-                    <i class="fa fa-plus-circle"></i>
-                    &nbsp;
-                    Nový příspěvek
-                </a>
-            </button>
-        </div>
-    </div>
-
-    <div class="col-md-5 col-12 hidden"> //TODO:
-        <div class="course-detail-menu">
-            <label for="types" style="margin-right:10px;">Typ: </label>
-            <select id="types" name="types" form="typesform">
-                <option value="Zadání">Zadání</option>
-                <option value="Materiály">Materiály</option>
-                <option value="Diskuze">Diskuze</option>
-                <option value="Ostatní">Ostatní</option>
-            </select>
-
-        </div>
-    </div>
-
-    <div class="col-md-6 col-6 text-right">
-            <div class="toggle-all">
-                <button class="btn btn-primary" id="toggle-all">
-                        Rozbalit vše
-                </button>
-            </div>
-        </div>
 </div>

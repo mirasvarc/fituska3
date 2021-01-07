@@ -25,6 +25,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/kontakty">{{ __('Kontakty') }}</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/hromadne">{{ __('Hromadné zprávy') }}</a>
+                </li>
             </ul>
 
 

@@ -10901,7 +10901,7 @@ a.text-dark:focus {
 
 .new-post {
   padding-top: 25px;
-  padding-left: 15px;
+  margin-left: 15px;
 }
 
 .new-post a,
@@ -11052,6 +11052,30 @@ a.text-dark:focus {
   margin-bottom: 0rem;
 }
 
+.course-upper-menu {
+  display: flex;
+  flex-direction: row;
+  margin-top: 50px;
+}
+
+.course-upper-menu .active-btn {
+  border: 2px solid black;
+}
+
+.course-upper-menu div {
+  cursor: pointer;
+  padding: 10px 35px;
+  font-size: 26px;
+  border: 1px solid #e1e4e8;
+  margin-right: 15px;
+  transition: transform 0.5s;
+}
+
+.course-upper-menu div:hover {
+  transform: translate(0px, -2px);
+  transition: transform 0.5s;
+}
+
 .course-posts {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
@@ -11090,17 +11114,6 @@ a.text-dark:focus {
 
 .course-post-compact:hover {
   background-color: #f6f8fa;
-}
-
-.new-post {
-  padding-top: 25px;
-  padding-left: 15px;
-}
-
-.new-post a,
-.new-post a:hover {
-  text-decoration: none;
-  color: white;
 }
 
 .post {
@@ -11263,6 +11276,43 @@ a.text-dark:focus {
   width: 25%;
 }
 
+.navbar {
+  background-color: #333333 !important;
+}
+
+.navbar-brand {
+  color: #f6f8fa !important;
+}
+
+.navbar .nav-link {
+  color: #f6f8fa !important;
+  transition: transform 0.5s;
+}
+
+.navbar .nav-link:hover {
+  color: white !important;
+  transform: translate(0px, -2px);
+  transition: transform 0.2s;
+}
+
+.navbar .nav-link.dropdown-toggle:hover {
+  transform: translate(0px, 0px);
+}
+
+.dropdown-menu {
+  background-color: #333333 !important;
+  border: 0px solid black;
+}
+
+.dropdown-item {
+  color: #f6f8fa;
+}
+
+.dropdown-item:hover {
+  background-color: #333333;
+  color: white;
+}
+
 .container-main {
   padding-left: 25px;
   padding-right: 25px;
@@ -11313,6 +11363,10 @@ a.text-dark:focus {
   text-decoration: none;
   cursor: pointer;
   background-color: #f6f8fa;
+}
+
+* {
+  font-family: "Open Sans", sans-serif;
 }
 
 body {

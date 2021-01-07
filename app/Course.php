@@ -34,11 +34,19 @@ class Course extends Model
     }
 
     /**
-     * get all posts for given course
+     * get all tpoics for given course
      * @param course_id course id
      */
-    public static function getPosts($course_id){
-        return Post::where('course_id', $course_id)->get();
+    public static function getTopics($course_id){
+        return Topics::where('course_id', $course_id)->get();
+    }
+
+    /**
+     * get all posts for given topic
+     * @param topic_id topic id
+     */
+    public static function getPosts($topic_id){
+        return Post::where('topic_id', $topic_id)->get();
     }
 
     /**
@@ -46,16 +54,20 @@ class Course extends Model
      * @param course course id
      */
     public static function getCourseFiles($course_id){
-        $posts = Course::getPosts($course_id);
+        $topics = Course::getTopics($course_id);
         $files = [];
-        foreach($posts as $post){
-            if($post->files()->get()){
-                foreach($post->files()->get() as $file){
-                    $files[] = $file;
+        foreach($topics as $topic){
+            $posts = Course::getPosts($topic->id);
+            foreach($posts as $post){
+                if($post->files()->get()){
+                    foreach($post->files()->get() as $file){
+                        $files[] = $file;
+                    }
                 }
-            }
 
+            }
         }
+
 
         return $files;
     }

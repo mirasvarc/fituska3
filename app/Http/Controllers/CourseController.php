@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Course;
 use App\Post;
 use App\User;
+use App\Topics;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
 
@@ -30,27 +31,6 @@ class CourseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  int  $id
@@ -61,19 +41,15 @@ class CourseController extends Controller
         $course = Course::where('code', $code)
             ->first();
 
-        $posts = Post::where('course_id', $course->id)->get();
-
-        $post_content = array();
-
-        foreach($posts as $post){
-            $post_content[] = $post->content;
-        }
+        $topics = Topics::where('course_id', $course->id)->get();
 
         $user = User::find(auth()->user()->id);
 
         $userSettings = $user->userSettings()->first();
 
-        return view('courses/course_show', ['course' => $course, 'posts' => $posts, 'user_settings' => $userSettings->user_settings_json, 'content_json' => $post_content, 'user' => $user]);
+        $files = Course::getCourseFiles($course->id);
+
+        return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files]);
     }
 
     public function showFiles($code){
