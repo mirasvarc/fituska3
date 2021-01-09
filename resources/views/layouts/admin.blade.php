@@ -30,6 +30,7 @@
         <div class="sidenav">
             <a href="/">Zpět</a>
             <a href="/admin/modules">Moduly</a>
+            <a href="/admin/vote">Hlasování</a>
           </div>
 
         <main class="py-4">

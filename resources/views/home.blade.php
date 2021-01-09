@@ -1,3 +1,5 @@
+@inject('modules', 'App\Modules')
+
 @extends('layouts.app')
 
 @section('content')
@@ -66,13 +68,9 @@
 
 
                     </div>--}}
-                    @foreach($modules as $module)
-                        @if($module->name == 'Google calendar')
-                            @if($module->installed == 1)
-                                @include('_partials.google_calendar')
-                            @endif
-                        @endif
-                    @endforeach
+                    @if($modules->checkModule("Google calendar"))
+                        @include('_partials.google_calendar')
+                    @endif
         </div>
     </div>
 </div>

@@ -12,4 +12,20 @@ class Modules extends Model
      * @var string
      */
     protected $table = 'modules';
+
+
+
+    public function checkModule($module_name){
+
+        $modules = Modules::all();
+
+        foreach($modules as $module){
+            if($module->name == $module_name){
+                if($module->installed == 1){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
 }

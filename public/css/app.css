@@ -11313,6 +11313,30 @@ a.text-dark:focus {
   color: white;
 }
 
+.multimsg-upper-menu {
+  display: flex;
+  flex-direction: row;
+  margin-top: 10px;
+}
+
+.multimsg-upper-menu .active-btn {
+  border: 2px solid black;
+}
+
+.multimsg-upper-menu div {
+  cursor: pointer;
+  padding: 10px 35px;
+  font-size: 26px;
+  border: 1px solid #e1e4e8;
+  margin-right: 15px;
+  transition: transform 0.5s;
+}
+
+.multimsg-upper-menu div:hover {
+  transform: translate(0px, -2px);
+  transition: transform 0.5s;
+}
+
 .container-main {
   padding-left: 25px;
   padding-right: 25px;

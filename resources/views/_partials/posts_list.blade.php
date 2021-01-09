@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-md-2 col-2">
+    <div class="col-md-4 col-2">
         <div class="row">
             <div class="new-post">
                 <button class="btn btn-primary">
@@ -19,6 +19,37 @@
                     </a>
                 </button>
             </div>
+            @if(Auth::user()->canModerate())
+            <div class="new-post">
+                <button class="btn btn-danger" data-toggle="modal" data-target="#delete-topic">
+                    <i class="fa fa-trash-alt"></i>
+                    &nbsp;
+                    Odstranit téma
+                </button>
+            </div>
+            @endif
+        </div>
+    </div>
+
+    <!-- delte topic modal -->
+    <div class="modal fade" id="delete-topic" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Opravdu chcete odstranit toto téma?</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                </div>
+                <div class="modal-body text-center">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Zpět</button>
+                    <a href="/course/{{$course->code}}/topic/{{$topic_id}}/delete" class="btn btn-danger">
+                        <i class="fa fa-trash-alt"></i>
+                        &nbsp;
+                        Odstranit
+                    </a>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -34,8 +65,7 @@
 
         </div>
     </div>
-
-    <div class="col-md-6 col-6 text-right">
+    <div class="col-md-4 col-4 text-right">
         <div class="toggle-all">
             <button class="btn btn-primary" id="toggle-all">
                     Rozbalit vše

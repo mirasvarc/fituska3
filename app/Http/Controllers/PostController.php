@@ -36,7 +36,6 @@ class PostController extends Controller
 
         $this->validate($request, [
             'title' => 'required',
-            'content' => 'required'
         ]);
 
         // find course
@@ -64,6 +63,7 @@ class PostController extends Controller
                 // upload files and store path to DB
                 $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
                 $new_file = new File;
+                $new_file->author_id = auth()->user()->id;
                 $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
                 $new_file->type = $file->getClientOriginalExtension();
                 $new_file->path = $file->getClientOriginalName();
@@ -71,6 +71,7 @@ class PostController extends Controller
 
                 $has_file = new HasFile;
                 $has_file->post_id = $post->id;
+                $has_file->course_id = $course->id;
                 $has_file->file_id = $new_file->id;
                 $has_file->save();
             }

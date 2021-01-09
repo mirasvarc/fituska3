@@ -71,6 +71,17 @@ class User extends Authenticatable
     }
 
     /**
+     * Check if current user is moderator
+     */
+    public function isModerator(){
+        return $this->roles()->where('role', 'Moderátor')->exists();
+    }
+
+    public function canModerate(){
+        return $this->isAdministrator() || $this->isSUManagement() || $this->isModerator();
+    }
+
+    /**
      * Get courses followed by user
      */
     public function followedCourses(){

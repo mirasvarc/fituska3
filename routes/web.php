@@ -32,6 +32,8 @@ Route::resource('courses', 'CourseController')
         ->middleware('auth');
 
 Route::get('course/{code}/topic/{id}', 'TopicController@show')->name('topic')->middleware('auth');
+Route::post('course/{code}/create-topic', 'TopicController@store')->name('create-topic')->middleware('auth');
+Route::get('course/{code}/topic/{id}/delete', 'TopicController@destroy')->name('delete-topic')->middleware('auth');
 Route::get('course/{code}', 'CourseController@show')->name('course')->middleware('auth');
 Route::get('course/{code}/files', 'CourseController@showFiles')->name('show.files')->middleware('auth');
 
@@ -61,10 +63,16 @@ Route::post('/vote', 'UserController@vote')->name('voteIndex')->middleware('auth
 
 //admin
 
-Route::get('/admin', 'AdminPanelController@index')->name('adminIndex')->middleware('auth'); //TODO: user have to be admin
-Route::get('/admin/modules', 'AdminPanelController@modulesIndex')->name('modulesIndex')->middleware('auth');
-Route::post('admin.installModule', 'AdminPanelController@installModule')->name('installModule')->middleware('auth');
-Route::post('admin.uninstallModule', 'AdminPanelController@uninstallModule')->name('uninstallModule')->middleware('auth');
+Route::prefix('admin')->group(function () {
+    Route::get('/', 'AdminPanelController@index')->name('adminIndex')->middleware('auth'); //TODO: user have to be admin
+    Route::get('/modules', 'AdminPanelController@modulesIndex')->name('modulesIndex')->middleware('auth');
+    Route::post('.installModule', 'AdminPanelController@installModule')->name('installModule')->middleware('auth');
+    Route::post('.uninstallModule', 'AdminPanelController@uninstallModule')->name('uninstallModule')->middleware('auth');
+    Route::get('/vote', 'AdminPanelController@voteIndex')->name('voteIndex')->middleware('auth');
+    Route::post('voteYes', 'AdminPanelController@voteYes')->name('voteYes')->middleware('auth');
+    Route::post('voteNo', 'AdminPanelController@voteNo')->name('voteNo')->middleware('auth');
+});
+
 
 
 Route::get('add-comment-form-submit', 'CommentController@index');
@@ -72,3 +80,7 @@ Route::post('add-comment-form-submit', 'CommentController@store');
 
 Route::post('open-post', 'PostController@openPost');
 
+Route::get('/hromadne', 'ModuleController@showMultiMsg');
+
+Route::post('/file/upload', 'CourseController@uploadFile')->name('file.upload')->middleware('auth');
+Route::post('/exam/upload', 'CourseController@uploadExam')->name('exam.upload')->middleware('auth');

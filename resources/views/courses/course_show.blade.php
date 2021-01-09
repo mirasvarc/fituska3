@@ -14,6 +14,10 @@
         @include('courses.course_files')
     </span>
 
+    <span id="exams-body" style="display: none">
+        @include('courses.course_exams')
+    </span>
+
     {{--@if($user_settings['compact_mode'] == 'true')
         @include('_partials/posts_list_compact')
     @else

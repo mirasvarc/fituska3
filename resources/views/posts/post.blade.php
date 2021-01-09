@@ -42,12 +42,14 @@
                 <div class="post-content" id="post-content">
 
                 </div>
+                @if(count($post->files()->get()))
                 <div class="post-files">
                     <p class="bold post-files-header">Přiložené soubory:</p>
                     @foreach($post->files()->get() as $file)
                         <p class="post-file"><a href="/storage/files/{{$course->code}}/{{$file->path}}" target="_blank">{{$file->name}}</a></p>
                     @endforeach
                 </div>
+                @endif
             </div>
 
             <div class="comments">
@@ -98,7 +100,7 @@
                                     @endforeach
                                 </div>
                                 <div id="reply-form" class="mt-25">
-                                    <form method="post" action="javascript:void(0)" class="form form-horizontal" id="add-reply-form">
+                                    <form method="post" action="javascript:void(0)" class="form form-horizontal add-reply-form">
                                         @csrf
                                         <input type="hidden" name="post_id" value="{{$post->id}}">
                                         <input type="hidden" name="author_id" value="{{auth()->user()->id}}">
@@ -231,11 +233,11 @@ document.getElementById("post-content").innerHTML = postContent.content;
             $.ajax({
                 url: "{{ url('add-comment-form-submit')}}",
                 method: 'post',
-                data: $('#add-reply-form').serialize(),
+                data: $('.add-reply-form').serialize(),
                 success: function(response){
-                    console.log($('#add-reply-form').serialize());
+                    console.log($('.add-reply-form').serialize());
                     $('.add-reply').html('Submit');
-                    document.getElementById("add-reply-form").reset();
+                    document.getElementsByClassName("add-reply-form").reset();
                 }
             });
         });

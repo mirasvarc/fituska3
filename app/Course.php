@@ -9,6 +9,15 @@ use App\IsFollowingCourse;
 class Course extends Model
 {
 
+  /**
+     * Files that belong to the course.
+     */
+    public function files()
+    {
+        return $this->belongsToMany('App\File', 'has_file', 'course_id', 'file_id');
+    }
+
+
     /**
      * get all courses from db
      */
@@ -71,4 +80,5 @@ class Course extends Model
 
         return $files;
     }
+
 }

@@ -4,17 +4,15 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class File extends Model
+class Vote extends Model
 {
     /**
      * The table associated with the model.
      *
      * @var string
      */
-    protected $table = 'file';
+    protected $table = 'user_vote';
 
 
-    public function author(){
-        return $this->hasOne('App\User', 'id', 'author_id');
-    }
+
 }

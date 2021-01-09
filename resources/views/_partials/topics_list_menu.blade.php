@@ -20,12 +20,15 @@
     $('#discussion-btn').on('click', function(){
         $('#discussion-body').show();
         $('#files-body').hide();
+        $('#exams-body').hide();
     });
     $('#files-btn').on('click', function(){
         $('#discussion-body').hide();
         $('#files-body').show();
+        $('#exams-body').hide();
     });
     $('#exams-btn').on('click', function(){
+        $('#exams-body').show();
         $('#discussion-body').hide();
         $('#files-body').hide();
     });

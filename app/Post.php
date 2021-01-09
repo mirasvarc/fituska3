@@ -29,4 +29,9 @@ class Post extends Model
     public function isAuthor(){
         return $this->author()->first() == auth()->user();
     }
+
+
+    public function getPost($id){
+        return Post::find($id);
+    }
 }

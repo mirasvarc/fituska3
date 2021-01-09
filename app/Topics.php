@@ -12,4 +12,8 @@ class Topics extends Model
      * @var string
      */
     protected $table = 'topics';
+
+    public function posts(){
+        return $this->hasMany('App\Post', 'topic_id', 'id');
+    }
 }

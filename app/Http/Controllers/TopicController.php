@@ -34,6 +34,13 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
+        $course = Course::where('code', $request->course_code)->first();
+        $topic = new Topics();
+        $topic->course_id = $course->id;
+        $topic->name = $request->topic_name;
+        $topic->save();
+
+        return redirect()->back();
 
     }
 
@@ -84,8 +91,13 @@ class TopicController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($code, $id)
     {
+        $topic = Topics::find($id);
+        $topic->delete();
+
+        return redirect('/course/'.$code)->with('success', 'Uživatel byl úspešně smazán!');
+
     }
 
 
