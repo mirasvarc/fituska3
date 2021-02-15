@@ -14,8 +14,8 @@ class CreateHasSeenPostTable extends Migration
     public function up()
     {
         Schema::create('has_seen_post', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('post_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('post_id');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();

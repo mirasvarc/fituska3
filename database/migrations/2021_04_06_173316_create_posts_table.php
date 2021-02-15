@@ -14,14 +14,17 @@ class CreatePostsTable extends Migration
     public function up()
     {
         Schema::create('posts', function (Blueprint $table) {
-            $table->id('id');
-            $table->unsignedBigInteger('author_id');
+            $table->increments('id');
+            $table->unsignedInteger('author_id');
+            $table->unsignedInteger('topic_id');
             $table->string('title');
             $table->string('content');
-            $table->bigInteger('upvotes');
-            $table->bigInteger('downvotes');
+            $table->integer('upvotes');
+            $table->integer('downvotes');
+            $table->enum('type', ['Zadání', 'Materiály', 'Diskuze', 'Otázka', 'Ostatní']);
             $table->timestamps();
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
         });
     }
 

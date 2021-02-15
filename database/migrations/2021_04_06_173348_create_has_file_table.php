@@ -14,9 +14,11 @@ class CreateHasFileTable extends Migration
     public function up()
     {
         Schema::create('has_file', function (Blueprint $table) {
-            $table->unsignedBigInteger('post_id');
-            $table->unsignedBigInteger('file_id');
+            $table->unsignedInteger('post_id')->nullable();
+            $table->unsignedInteger('course_id')->nullable();
+            $table->unsignedInteger('file_id');
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
+            $table->foreign('course_id')->references('id')->on('courses')->onDelete('cascade');
             $table->foreign('file_id')->references('id')->on('file')->onDelete('cascade');
             $table->timestamps();
         });

@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddTypeToPosts extends Migration
+class CreateModulesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddTypeToPosts extends Migration
      */
     public function up()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            $table->enum('type', ['Zadání', 'Materiály', 'Diskuze', 'Otázka', 'Ostatní']);
+        Schema::create('modules', function (Blueprint $table) {
+            $table->increments('id');
+            $table->string('name');
+            $table->tinyInteger('installed');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddTypeToPosts extends Migration
      */
     public function down()
     {
-        Schema::table('posts', function (Blueprint $table) {
-            //
-        });
+        Schema::dropIfExists('modules');
     }
 }

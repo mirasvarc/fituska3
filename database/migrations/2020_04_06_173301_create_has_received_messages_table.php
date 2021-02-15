@@ -14,8 +14,8 @@ class CreateHasReceivedMessagesTable extends Migration
     public function up()
     {
         Schema::create('has_received_messages', function (Blueprint $table) {
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('message_id');
+            $table->unsignedInteger('user_id');
+            $table->unsignedInteger('message_id');
             $table->foreign('message_id')->references('id')->on('messages')->onDelete('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->timestamps();
