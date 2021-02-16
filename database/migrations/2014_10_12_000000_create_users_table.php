@@ -17,6 +17,9 @@ class CreateUsersTable extends Migration
             $table->increments('id');
             $table->string('username');
             $table->string('school_mail');
+            $table->string('first_name')->nullable();
+            $table->string('surname')->nullable();
+            $table->longText('about');
             $table->string('mail')->default("");
             $table->string('password');
             $table->string('year_of_study')->default("");
