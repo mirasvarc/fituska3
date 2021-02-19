@@ -84,3 +84,5 @@ Route::get('/hromadne', 'ModuleController@showMultiMsg');
 
 Route::post('/file/upload', 'CourseController@uploadFile')->name('file.upload')->middleware('auth');
 Route::post('/exam/upload', 'CourseController@uploadExam')->name('exam.upload')->middleware('auth');
+
+Route::get('/search','SearchController@search');

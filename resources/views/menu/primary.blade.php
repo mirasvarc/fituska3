@@ -45,7 +45,9 @@
                     @endif
                 @else
 
-
+                    <li class="nav-item" style="margin-right:20px">
+                        <a class="nav-link text-white search-btn" href="#">Hledat <i class="fas fa-search text-white"></i></a>
+                    </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                             Přihlášen jako <strong>{{ Auth::user()->username }}</strong> <span class="caret"></span>
@@ -71,6 +73,41 @@
                     </li>
                 @endguest
             </ul>
+
         </div>
     </div>
 </nav>
+<div class="search-block hidden">
+    <input type="text" class="form-controller" id="search" name="search" autocomplete="off"></input>
+    <div class="search-results">
+
+    </div>
+</div>
+
+<script>
+    $('.search-btn').on('click', function(){
+        $('.search-block').toggle();
+        $('#search').focus();
+    });
+
+</script>
+
+
+<script type="text/javascript">
+    $('#search').on('keyup',function(){
+        $value = $(this).val();
+        $.ajax({
+            type : 'get',
+            url : '{{ URL::to('search') }}',
+            data: { 'search' : $value },
+            success: function(data) {
+            $('.search-results').html(data);
+        }
+        });
+    })
+
+</script>
+
+<script type="text/javascript">
+    $.ajaxSetup({ headers: { 'csrftoken' : '{{ csrf_token() }}' } });
+</script>
