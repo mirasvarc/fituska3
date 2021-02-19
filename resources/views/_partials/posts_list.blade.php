@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <div class="col-md-5 col-12 hidden"> //TODO:
+    <div class="col-md-5 col-12 hidden">
         <div class="course-detail-menu">
             <label for="types" style="margin-right:10px;">Typ: </label>
             <select id="types" name="types" form="typesform">
