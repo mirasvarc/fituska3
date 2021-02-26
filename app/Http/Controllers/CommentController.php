@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Comment;
 use App\User;
+use App\HasSeenPost;
 
 class CommentController extends Controller
 {
@@ -107,6 +108,14 @@ class CommentController extends Controller
         $comment->downvotes = 0;
 
         $comment->save();
+
+        $hasSeenEntries = HasSeenPost::where('post_id', $request->post_id)->where('user_id', '!=', $request->author_id)->get();
+        foreach($hasSeenEntries as $entry) {
+            $toDelete = HasSeenPost::find($entry->id);
+            $toDelete->delete();
+        }
+
+        return Response("Comment test");
     }
 
     /**

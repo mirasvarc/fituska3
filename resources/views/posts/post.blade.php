@@ -216,6 +216,7 @@ document.getElementById("post-content").innerHTML = postContent.content;
                     console.log($('#add-comment-form').serialize());
                     $('#add-comment').html('Submit');
                     document.getElementById("add-comment-form").reset();
+                    console.log(response);
                 }
             });
         });

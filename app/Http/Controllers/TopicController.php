@@ -54,7 +54,7 @@ class TopicController extends Controller
     {
         $course = Course::where('code', $code)
             ->first();
-        $posts = Post::where('topic_id', $id)->get();
+        $posts = Post::where('topic_id', $id)->paginate(10);
         $user = User::find(auth()->user()->id);
         $userSettings = $user->userSettings()->first();
 

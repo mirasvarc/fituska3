@@ -11076,6 +11076,10 @@ a.text-dark:focus {
   transition: transform 0.5s;
 }
 
+.posts-pagination {
+  margin-top: 25px;
+}
+
 .course-posts {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
@@ -11334,6 +11338,7 @@ a.text-dark:focus {
   border-bottom-left-radius: 6px;
   border-bottom-right-radius: 6px;
   overflow: hidden;
+  box-shadow: 0px 0px 10px 1px rgba(0, 0, 0, 0.1);
 }
 
 .search-block input {

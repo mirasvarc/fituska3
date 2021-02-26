@@ -46,7 +46,7 @@
                 @else
 
                     <li class="nav-item" style="margin-right:20px">
-                        <a class="nav-link text-white search-btn" href="#">Hledat <i class="fas fa-search text-white"></i></a>
+                        <a class="nav-link text-white search-btn" href="#">Hledat &nbsp;<i class="fas fa-search text-white"></i></a>
                     </li>
                     <li class="nav-item dropdown">
                         <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
@@ -78,7 +78,7 @@
     </div>
 </nav>
 <div class="search-block hidden">
-    <input type="text" class="form-controller" id="search" name="search" autocomplete="off"></input>
+    <input type="text" class="form-controller" id="search" name="search" autocomplete="off" placeholder="Hledaný výraz"></input>
     <div class="search-results">
 
     </div>
@@ -101,8 +101,8 @@
             url : '{{ URL::to('search') }}',
             data: { 'search' : $value },
             success: function(data) {
-            $('.search-results').html(data);
-        }
+                $('.search-results').html(data);
+            }
         });
     })
 
