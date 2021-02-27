@@ -29,8 +29,33 @@ async def on_message(message):
             "Username: %s\nJméno: %s\nPříjmení: %s\n"%(data['username'], data['first_name'], data['surname'])
         )
 
+    if str(message.content).split(" ")[0] == "$getposts":
+
+        if len(str(message.content).split(" ")) != 2:
+            await message.channel.send("Zadej zkratku předmětu")
+            return
+
+        subject_code = str(message.content.split(" ")[1])
+        r = requests.get("http://localhost:8000/api/posts/get/{code}".format(code = subject_code))
 
 
+        try:
+            data = r.json()
+
+            embed = discord.Embed(title='Příspěvky')
+
+            msg = ""
+            for post in data:
+
+                msg += "#" + str(post['id']) + " [" + str(post['title']) + "](http://localhost:8000/post/" + subject_code  + "/" + str(post['id']) + ")" + '\n'
+
+            embed.add_field(name="Seznam příspěvků", value=msg, inline=False)
+
+            await message.channel.send(embed=embed)
+
+        except:
+            await message.channel.send("Neznámá zkratka předmětu.")
+            return
 
 
 client.run('ODEyMzMzMjk2MDI4ODc2ODEx.YC_OVg.YUHowf7VO3ZDunRpU6e2D4oOhUQ')

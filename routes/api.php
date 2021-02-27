@@ -24,3 +24,4 @@ Route::get('/user/get/{id}', function($id) {
     return User::find($id);
 });
 
+Route::get('/posts/get/{code}', 'ApiController@getCoursePosts');
