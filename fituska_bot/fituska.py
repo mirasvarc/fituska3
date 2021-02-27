@@ -46,8 +46,8 @@ async def on_message(message):
 
             msg = ""
             for post in data:
-
-                msg += "#" + str(post['id']) + " [" + str(post['title']) + "](http://localhost:8000/post/" + subject_code  + "/" + str(post['id']) + ")" + '\n'
+                msg += "#" + str(post['id']) + " " + str(post['title']) + '\n'
+                #msg += "#" + str(post['id']) + " [" + str(post['title']) + "](http://localhost:8000/post/" + subject_code  + "/" + str(post['id']) + ")" + '\n'
 
             embed.add_field(name="Seznam příspěvků", value=msg, inline=False)
 
@@ -57,5 +57,31 @@ async def on_message(message):
             await message.channel.send("Neznámá zkratka předmětu.")
             return
 
+    if str(message.content).split(" ")[0] == "$getpost":
 
-client.run('ODEyMzMzMjk2MDI4ODc2ODEx.YC_OVg.YUHowf7VO3ZDunRpU6e2D4oOhUQ')
+        if len(str(message.content).split(" ")) != 2:
+            await message.channel.send("Zadej id příspěvku")
+            return
+
+        id = str(message.content.split(" ")[1])
+        r = requests.get("http://localhost:8000/api/post/get/{id}".format(id = id))
+
+        try:
+            data = r.json()
+
+            embed = discord.Embed(title='Příspěvek #' + id)
+
+            #title += "#" + str(post['id']) + " [" + str(post['title']) + "](http://localhost:8000/post/" + subject_code  + "/" + str(post['id']) + ")" + '\n'
+            text = str(data['content']) #TODO: format html
+
+            embed.add_field(name=data['title'], value=text, inline=False)
+
+            await message.channel.send(embed=embed)
+
+        except:
+            await message.channel.send("Neznámý příspěvek.")
+            return
+
+
+
+client.run('ODEyMzMzMjk2MDI4ODc2ODEx.YC_OVg.YUHowf7VO3ZDunRpU6e2D4oOhUQ') # TODO: read token from .env file

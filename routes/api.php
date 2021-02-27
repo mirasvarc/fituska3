@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\User;
+use App\Post;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,7 @@ Route::get('/user/get/{id}', function($id) {
 });
 
 Route::get('/posts/get/{code}', 'ApiController@getCoursePosts');
+
+Route::get('/post/get/{id}', function($id){
+    return Post::find($id);
+});

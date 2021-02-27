@@ -21,7 +21,7 @@ class ApiController extends Controller
         foreach($topics as $topic){
             $topics_ids[] = $topic->id;
         }
-        $posts = Post::whereIn('topic_id', $topics_ids)->take(5)->get();
+        $posts = Post::whereIn('topic_id', $topics_ids)->get();
 
         return $posts;
     }
