@@ -11356,6 +11356,11 @@ a.text-dark:focus {
   border-bottom: 1px solid #e1e4e8;
 }
 
+.search-block .search-results {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
 .search-block .search-results a {
   color: black;
   text-decoration: none;
@@ -11363,6 +11368,8 @@ a.text-dark:focus {
 
 .search-block .search-results a .search-result {
   padding: 10px 10px;
+  display: flex;
+  justify-content: space-between;
 }
 
 .search-block .search-results a .search-result:hover {

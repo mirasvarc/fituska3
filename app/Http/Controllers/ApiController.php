@@ -10,6 +10,7 @@ use App\Topics;
 class ApiController extends Controller
 {
     public function getCoursePosts($code){
+
         $course = Course::where('code', $code)->first();
         if(!isset($course) || $course == null){
             return "ERR";

@@ -160,8 +160,9 @@ class PostController extends Controller
     {
         $post = Post::find($id);
         $post->delete();
+        $topic = Topics::where('id', $post->topic_id)->first();
         $course = Course::where('id', $post->course_id)->first();
-        return redirect('/course/'.$course->code)->with('success', 'Příspěvek byl úspešně smazán!');
+        return redirect('/course/'.$course->code.'/topic/'.$topic->id)->with('success', 'Příspěvek byl úspešně smazán!');
     }
 
     /**

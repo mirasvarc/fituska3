@@ -13,8 +13,20 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith('$hello'):
-        await message.channel.send('Hello!')
+    if message.content.startswith('$fituska') or client.user.mentioned_in(message):
+        if len(str(message.content).split(" ")) == 1:
+            await message.channel.send('Ahoj, mé jméno je FITuška.\nJestli chceš ukázat, co všechno umím, napiš příkaz $fituska help nebo @FITuška help.')
+            return
+        elif len(str(message.content).split(" ")) == 2:
+            if str(message.content.split(" ")[1]) == "help":
+                await message.channel.send('HELP!') #TODO: help (in embed probably)
+                return
+            else:
+                await message.channel.send('Neznámý příkaz.')
+                return
+        else:
+            await message.channel.send('Neznámý příkaz.')
+            return
 
     if str(message.content).split(" ")[0] == "$getuser":
 
