@@ -39,26 +39,3 @@
     background-color: $light-grey;
 }
 
-
-.post {
-
-    margin-top:25px;
-    border: 1px solid $light-grey-border;
-    border-top-left-radius: 6px;
-    border-top-right-radius: 6px;
-    overflow: hidden;
-
-    .post-title {
-        width:100%;
-        padding: 15px;
-        margin-left: 0px;
-        background-color: $light-grey;
-    }
-
-    .post-content {
-        width:100%;
-        border-top: 1px solid $light-grey-border;
-        padding: 15px;
-        margin-left: 0px;
-    }
-}

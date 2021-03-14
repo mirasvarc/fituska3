@@ -55,8 +55,11 @@ Route::get('/users', 'AdminPanelController@all_users')->name('users')->middlewar
 
 Route::get('/kontakty', 'UserController@contacts')->name('contacts')->middleware('auth');
 
+
 Route::get('/forum', 'ForumController@index')->name('forum')->middleware('auth');
 Route::get('forum/{id}', 'ForumController@show')->name('forum.show')->middleware('auth');
+Route::post('forum/create-topic', 'TopicController@store')->name('create-topic')->middleware('auth');
+Route::get('forum/topic/{id}/create-post', 'PostController@forumCreate')->name('create-forum-post')->middleware('auth');
 
 Route::get('/vote', 'UserController@voteIndex')->name('voteIndex')->middleware('auth');
 Route::post('/vote', 'UserController@vote')->name('voteIndex')->middleware('auth');
@@ -86,3 +89,7 @@ Route::post('/file/upload', 'CourseController@uploadFile')->name('file.upload')-
 Route::post('/exam/upload', 'CourseController@uploadExam')->name('exam.upload')->middleware('auth');
 
 Route::get('/search','SearchController@search');
+
+Route::post('multimsg/send', 'ModuleController@sendFbMultimsg')->name('send-fb-multimsg')->middleware('auth');
+
+Route::post('/chooseAdmin', 'UserController@chooseAdmin')->name('chooseAdmin')->middleware('auth');

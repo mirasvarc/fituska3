@@ -12,6 +12,8 @@ use App\HasFile;
 
 use Illuminate\Http\Request;
 
+use function Symfony\Component\String\b;
+
 class TopicController extends Controller
 {
 
@@ -34,9 +36,17 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        $course = Course::where('code', $request->course_code)->first();
+
         $topic = new Topics();
-        $topic->course_id = $course->id;
+
+        if($request->forum_id != 1){
+            $course = Course::where('code', $request->course_code)->first();
+            $topic->course_id = $course->id;
+        }
+        else {
+            $topic->forum_id = 1;
+        }
+
         $topic->name = $request->topic_name;
         $topic->save();
 

@@ -15,8 +15,11 @@ class CreateFileTable extends Migration
     {
         Schema::create('file', function (Blueprint $table) {
             $table->increments('id');
+            $table->text('name')->nullable();
+            $table->unsignedInteger('author_id')->nullable();
             $table->string('type');
             $table->string('path');
+            $table->tinyInteger('is_exam')->nullable();
             $table->timestamps();
         });
     }

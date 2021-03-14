@@ -66,14 +66,24 @@
 
     margin-top:25px;
     border: 1px solid $light-grey-border;
-    border-radius: 6px;
+    border-radius: 25px;
     overflow: hidden;
+    background-color: white;
+
+    -webkit-box-shadow: 0px 0px 20px 0px rgb(0 0 0 / 30%);
+    -moz-box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.3);
+    box-shadow: 0px 0px 5px 0px rgb(0 0 0 / 5%);
 
     .post-title {
         width:100%;
-        padding: 15px;
+        padding: 15px 25px 0px;
         margin-left: 0px;
-        background-color: $light-grey;
+        background-color: white;
+
+        p {
+            border-bottom: 1px solid $light-grey-border;
+            padding-bottom: 25px;
+        }
     }
 
 
@@ -81,9 +91,9 @@
 
 .post-content {
     width:100%;
-    border-top: 1px solid $light-grey-border;
-    padding: 18px;
+    padding: 0px 25px 15px;
     margin-left: 0px;
+    background-color: white;
 }
 
 .border-left {
@@ -150,6 +160,7 @@
 
     .active-btn {
         border: 2px solid black;
+        border-radius: 25px;
     }
 
     div {
@@ -159,6 +170,7 @@
         border: 1px solid $light-grey-border;
         margin-right: 15px;
         transition: transform 0.5s;
+        border-radius: 25px;
 
         &:hover {
           transform: translate(0px, -2px);

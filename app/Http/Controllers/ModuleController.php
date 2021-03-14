@@ -28,6 +28,14 @@ class ModuleController extends Controller
     }
 
 
+    /**
+     *  Send request to facebook API
+     */
+    public function sendFbMultimsg(Request $request){
+        dd($request);
+        // TODO: FB Api
+    }
+
 
 
 }

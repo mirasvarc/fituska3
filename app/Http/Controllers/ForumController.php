@@ -19,7 +19,7 @@ class ForumController extends Controller
      */
     public function index()
     {
-        $forums = Forums::get();
+        $forums = Topics::where('forum_id', 1)->get();
         return view('forum.index', ['forums' => $forums]);
     }
 
@@ -52,10 +52,11 @@ class ForumController extends Controller
      */
     public function show($id)
     {
-        $forum = Forums::find($id);
-        $topics = Topics::where('forum_id', $id)->get();
+        $topic = Topics::where('id', $id)->first();
+        $posts = Post::where('topic_id', $topic->id)->get();
 
-        return view('forum.topics', ['topics' => $topics, 'forum' => $forum]);
+
+        return view('forum.topics', ['posts' => $posts, 'topic' => $topic]);
     }
 
 }

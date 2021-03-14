@@ -10985,22 +10985,29 @@ a.text-dark:focus {
 .post {
   margin-top: 25px;
   border: 1px solid #e1e4e8;
-  border-radius: 6px;
+  border-radius: 25px;
   overflow: hidden;
+  background-color: white;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.05);
 }
 
 .post .post-title {
   width: 100%;
-  padding: 15px;
+  padding: 15px 25px 0px;
   margin-left: 0px;
-  background-color: #f6f8fa;
+  background-color: white;
+}
+
+.post .post-title p {
+  border-bottom: 1px solid #e1e4e8;
+  padding-bottom: 25px;
 }
 
 .post-content {
   width: 100%;
-  border-top: 1px solid #e1e4e8;
-  padding: 18px;
+  padding: 0px 25px 15px;
   margin-left: 0px;
+  background-color: white;
 }
 
 .border-left {
@@ -11060,6 +11067,7 @@ a.text-dark:focus {
 
 .course-upper-menu .active-btn {
   border: 2px solid black;
+  border-radius: 25px;
 }
 
 .course-upper-menu div {
@@ -11069,6 +11077,7 @@ a.text-dark:focus {
   border: 1px solid #e1e4e8;
   margin-right: 15px;
   transition: transform 0.5s;
+  border-radius: 25px;
 }
 
 .course-upper-menu div:hover {
@@ -11120,28 +11129,6 @@ a.text-dark:focus {
   background-color: #f6f8fa;
 }
 
-.post {
-  margin-top: 25px;
-  border: 1px solid #e1e4e8;
-  border-top-left-radius: 6px;
-  border-top-right-radius: 6px;
-  overflow: hidden;
-}
-
-.post .post-title {
-  width: 100%;
-  padding: 15px;
-  margin-left: 0px;
-  background-color: #f6f8fa;
-}
-
-.post .post-content {
-  width: 100%;
-  border-top: 1px solid #e1e4e8;
-  padding: 15px;
-  margin-left: 0px;
-}
-
 .back-button {
   padding-top: 25px;
   padding-left: 15px;
@@ -11151,6 +11138,10 @@ a.text-dark:focus {
 .back-button a:hover {
   text-decoration: none;
   color: white;
+}
+
+.btn {
+  border-radius: 25px;
 }
 
 .sidenav {
@@ -11199,18 +11190,16 @@ a.text-dark:focus {
 
 .comments {
   margin-top: 25px;
-  border: 1px solid #e1e4e8;
-  border-radius: 6px;
 }
 
 .comments .comment {
   display: flex;
-  border-bottom: 1px solid #e1e4e8;
-  padding: 5px 10px 0px 10px;
-}
-
-.comments .comment:last-child {
-  border-bottom: 0px solid #e1e4e8;
+  border: 1px solid #e1e4e8;
+  padding: 10px 25px 10px 25px;
+  border-radius: 25px;
+  margin-top: 10px;
+  background-color: white;
+  box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.05);
 }
 
 .comments .comment .content .replies {
@@ -11239,7 +11228,12 @@ a.text-dark:focus {
 }
 
 .comments .replies-content div {
-  padding-bottom: 5px;
+  padding-top: 10px;
+}
+
+.comments .replies-content .reply-item {
+  display: flex;
+  flex-direction: row;
 }
 
 #add-comment-form {
@@ -11249,6 +11243,18 @@ a.text-dark:focus {
 #reply-form {
   display: none;
   overflow: hidden;
+}
+
+.tox-tinymce {
+  border-radius: 25px !important;
+  padding: 5px 25px;
+  background-color: white;
+}
+
+.add-reply,
+#add-comment {
+  border-radius: 25px;
+  padding: 10px 35px;
 }
 
 .add-file-btn .btn {
@@ -11387,6 +11393,7 @@ a.text-dark:focus {
   display: flex;
   flex-direction: row;
   margin-top: 10px;
+  margin-left: 35px;
 }
 
 .multimsg-upper-menu .active-btn {
@@ -11405,6 +11412,51 @@ a.text-dark:focus {
 .multimsg-upper-menu div:hover {
   transform: translate(0px, -2px);
   transition: transform 0.5s;
+}
+
+.multi-msg-form {
+  margin-top: 100px;
+}
+
+.multi-msg-form .heading {
+  margin-left: 50px;
+  font-size: 22px;
+}
+
+.multi-msg-form .groups-panel {
+  margin-left: 50px;
+  padding: 25px;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px 0px 0px 6px;
+}
+
+.multi-msg-form .groups-panel label {
+  padding-right: 15px;
+}
+
+.multi-msg-form .msg-panel {
+  padding: 0;
+  border: 1px solid #e1e4e8;
+  border-radius: 0px 6px 6px 0px;
+  border-left: 0;
+}
+
+.multi-msg-form .msg-panel .form-group {
+  margin-bottom: 0rem !important;
+}
+
+.multi-msg-form .msg-panel .form-group textarea {
+  border: 0;
+  outline: 0;
+  height: 400px;
+  width: 100%;
+  background-color: transparent;
+  padding: 15px 30px;
+}
+
+.multi-msg-form .multimsg-submit {
+  margin-left: 100px;
+  margin-top: 25px;
 }
 
 .container-main {

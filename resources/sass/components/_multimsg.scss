@@ -1,0 +1,74 @@
+.multimsg-upper-menu {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-left: 35px;
+
+    .active-btn {
+        border: 2px solid black;
+    }
+
+    div {
+        cursor: pointer;
+        padding: 10px 35px;
+        font-size: 26px;
+        border: 1px solid $light-grey-border;
+        margin-right: 15px;
+        transition: transform 0.5s;
+
+        &:hover {
+          transform: translate(0px, -2px);
+          transition: transform 0.5s;
+        }
+    }
+}
+
+
+.multi-msg-form {
+    margin-top: 100px;
+
+    .heading {
+        margin-left: 50px;
+        font-size: 22px;
+    }
+
+    .groups-panel {
+
+        margin-left: 50px;
+        padding: 25px;
+        border: 1px solid $light-grey-border;
+        border-radius: 6px 0px 0px 6px;
+
+        label {
+            padding-right: 15px;
+        }
+    }
+
+    .msg-panel {
+
+        padding: 0;
+        border: 1px solid $light-grey-border;
+        border-radius: 0px 6px 6px 0px;
+        border-left: 0;
+
+        .form-group {
+            margin-bottom: 0rem !important;
+
+            textarea {
+                border: 0;
+                outline: 0;
+                height: 400px;
+                width: 100%;
+                background-color: transparent;
+                padding: 15px 30px;
+            }
+        }
+
+
+    }
+
+    .multimsg-submit {
+        margin-left: 100px;
+        margin-top: 25px;
+    }
+}

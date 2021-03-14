@@ -5,6 +5,8 @@ namespace App;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\HasRole;
+use App\Role;
 
 class User extends Authenticatable
 {
@@ -109,5 +111,13 @@ class User extends Authenticatable
      */
     public static function getUser($id){
         return User::find($id);
+    }
+
+    public static function isMoreThanOneAdmin(){
+
+        $role = Role::where('role', 'Administrátor')->first();
+        $admins = HasRole::where('role_id', $role->id)->get();
+
+        return count($admins) > 1 ? true : false;
     }
 }

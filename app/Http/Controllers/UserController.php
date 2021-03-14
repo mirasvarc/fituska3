@@ -129,9 +129,20 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = User::find($id);
-        $user->delete();
 
-        return redirect('/')->with('success', 'Uživatel byl úspešně smazán!');
+        if($user->isAdministrator()){
+            if($user->isMoreThanOneAdmin()) {
+                $user->delete();
+                return redirect('/')->with('success', 'Uživatel byl úspešně smazán!');
+            }
+            else {
+                return redirect('/user/'.$user->id.'?delErr');
+            }
+        }
+
+
+
+
     }
 
     /**
@@ -148,7 +159,7 @@ class UserController extends Controller
 
         $hasRole->save();
 
-        return redirect()->back()->with('success', 'Role byla úspešně přidána!');
+        return redirect('/user/'.$request->user);
     }
 
     /**
@@ -161,13 +172,19 @@ class UserController extends Controller
     {
         $user_id = $request->input('user');
         $role_id = $request->input('roles');
-        $db_record = DB::table('has_role')
-        ->where('user_id', '=', $user_id)
-        ->where('role_id', '=', $role_id)
-        ->select('*')
-        ->delete();
 
-        return redirect()->back()->with('success', 'Role byla úspešně odebrána!');
+        $role = Role::where('id', $role_id)->first();
+        if($role->role == "Administrátor"){
+            return redirect('/user/'.$user_id.'?err');
+        }
+
+        $db_record = DB::table('has_role')
+                        ->where('user_id', '=', $user_id)
+                        ->where('role_id', '=', $role_id)
+                        ->select('*')
+                        ->delete();
+
+        return redirect('/user/'.$user_id);
     }
 
     public function followCourse(Request $request)
@@ -236,5 +253,42 @@ class UserController extends Controller
 
 
         return view('_partials.vote');
+    }
+
+
+    public function chooseAdmin(Request $request){
+
+
+        $su = User::whereHas(
+            'roles', function($q){
+                $q->where('role', 'Vedení SU');
+            }
+        )->where('id', '<>', $request->curr_user)->inRandomOrder()->first();
+
+        if($su == null){
+            return redirect('/user/'.$request->curr_user.'?errChooseAdmin');
+        }
+
+        $role = Role::where('role', 'Administrátor')->first();
+
+        $db_record = DB::table('has_role')
+                        ->where('user_id', '=', $request->curr_user)
+                        ->where('role_id', '=', $role->id)
+                        ->select('*')
+                        ->delete();
+
+
+        $hasRole = new hasRole();
+        $hasRole->user_id = $su->id;
+        $hasRole->role_id = $role->id;
+
+        $hasRole->save();
+
+        if($request->del == 1){
+            User::find($request->curr_user)->delete();
+            return redirect('/');
+        }
+
+        return redirect('/user/'.$request->curr_user);
     }
 }

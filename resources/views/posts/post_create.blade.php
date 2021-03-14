@@ -1,13 +1,16 @@
 @extends('layouts.app')
 
 @section('content')
-
 <div class="container">
     <div class="row">
         <div class="col">
             <form method="post" action="{{ route('posts.store') }}" class="form form-horizontal" enctype="multipart/form-data">
                 @csrf
-                <input type="hidden" name="code" value="{{$code}}">
+                @if(!isset($isForum))
+                    <input type="hidden" name="code" value="{{$code}}">
+                @else
+                    <input type="hidden" name="isforum" value="{{$isForum}}">
+                @endif
                 <input type="hidden" name="topic_id" value="{{$topic_id}}">
                 <div class="form-group">
                     <label>Titulek</label>
@@ -17,10 +20,12 @@
                     <label>Text</label>
                     <textarea name="content" rows="5" cols="40" class="form-control tinymce-editor"></textarea>
                 </div>
+                @if(!isset($isForum))
                 <div class="form-group">
                     <label for="files">Přiložit soubory</label>
                     <input type="file" id="files" class="form-control-file" name="files[]" multiple>
                 </div>
+
                 <div class="form-group">
                     <label>Typ</label>
                     <select id="type" name="type" class="form-control">
@@ -30,6 +35,7 @@
                         <option value="Ostatní">Ostatní</option>
                     </select>
                 </div>
+                @endif
                 <div class="form-group">
                     <input type="submit" value="Submit" class="btn btn-primary"/>
                 </div>

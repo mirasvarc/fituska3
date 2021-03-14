@@ -53,14 +53,14 @@
             </div>
 
             <div class="comments">
-                @foreach($comments as $comment)
+                @foreach($comments as $key => $comment)
                     @if(!$comment->parent_id)
-                        <div class="comment">
+                        <div id="comment-{{$key}}" class="comment">
                             <div class="author">
                                 <a href="/user/{{$comment->author()->first()->id}}">
                                     {{$comment->author()->first()->username}}
                                 </a>
-                                :
+                                <span>:</span>
                             </div>
                             <div class="content ml-10">
                                 {!! $comment->content !!}
@@ -89,18 +89,20 @@
                                     </div>
                                 @endif
                                 <div id="replies-content" class="replies-content">
-                                    @foreach($comment->replies()->get() as $reply)
-                                    <div class="border-bottom">
-                                        <a href="/user/{{$reply->author()->first()->id}}">
-                                            {{$reply->author()->first()->username}}
-                                        </a>
-                                        :
-                                        <span class="ml-10"> {!! $reply->content !!}</span>
+                                    @foreach($comment->replies()->get() as $key => $reply)
+                                    <div class="border-bottom reply-item">
+                                        <span class="reply-author">
+                                            <a href="/user/{{$reply->author()->first()->id}}">
+                                                {{$reply->author()->first()->username}}
+                                            </a>
+                                            :
+                                        </span>
+                                        <span class="ml-10 reply-content"> {!! $reply->content !!}</span>
                                     </div>
                                     @endforeach
                                 </div>
                                 <div id="reply-form" class="mt-25">
-                                    <form method="post" action="javascript:void(0)" class="form form-horizontal add-reply-form">
+                                    <form method="post" action="javascript:void(0)" class="form form-horizontal add-reply-form-{{$comment->id}}" id="form-{{$comment->id}}">
                                         @csrf
                                         <input type="hidden" name="post_id" value="{{$post->id}}">
                                         <input type="hidden" name="author_id" value="{{auth()->user()->id}}">
@@ -109,8 +111,8 @@
                                         <div class="form-group">
                                             <textarea name="content" rows="5" cols="40" class="form-control tinymce-editor"></textarea>
                                         </div>
-                                        <div class="form-group">
-                                            <input type="submit" value="Odeslat" class="btn btn-primary add-reply"/>
+                                        <div class="form-group text-right">
+                                            <input type="submit" value="Odeslat" class="btn btn-primary add-reply" id="{{$comment->id}}"/>
                                         </div>
                                     </form>
                                 </div>
@@ -136,7 +138,7 @@
                     <div class="form-group">
                         <textarea name="content" rows="5" cols="40" class="form-control tinymce-editor"></textarea>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group text-right">
                         <input id="add-comment" type="submit" value="Odeslat" class="btn btn-primary"/>
                     </div>
                 </form>
@@ -217,11 +219,13 @@ document.getElementById("post-content").innerHTML = postContent.content;
                     $('#add-comment').html('Submit');
                     document.getElementById("add-comment-form").reset();
                     console.log(response);
+
                 }
             });
         });
 
         $('.add-reply').click(function(e){
+            var comm_id = $(this).attr('id');
             e.preventDefault();
             $.ajaxSetup({
                 headers: {
@@ -234,11 +238,11 @@ document.getElementById("post-content").innerHTML = postContent.content;
             $.ajax({
                 url: "{{ url('add-comment-form-submit')}}",
                 method: 'post',
-                data: $('.add-reply-form').serialize(),
+                data: $('.add-reply-form-' + comm_id).serialize(),
                 success: function(response){
-                    console.log($('.add-reply-form').serialize());
-                    $('.add-reply').html('Submit');
-                    document.getElementsByClassName("add-reply-form").reset();
+                    console.log($('.add-reply-form-' + comm_id).serialize());
+                    $(this).html('Submit');
+                    document.getElementById("form-" + comm_id).reset();
                 }
             });
         });

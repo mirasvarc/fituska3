@@ -17,7 +17,7 @@ class CreatePostsTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('author_id');
             $table->unsignedInteger('topic_id');
-            $table->unsignedInteger('course_id');
+            $table->unsignedInteger('course_id')->nullable();
             $table->string('title');
             $table->string('content');
             $table->integer('upvotes');

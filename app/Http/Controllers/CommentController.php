@@ -115,7 +115,7 @@ class CommentController extends Controller
             $toDelete->delete();
         }
 
-        return Response("Comment test");
+        return Response($comment);
     }
 
     /**
