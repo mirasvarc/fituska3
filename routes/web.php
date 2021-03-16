@@ -74,6 +74,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/vote', 'AdminPanelController@voteIndex')->name('voteIndex')->middleware('auth');
     Route::post('voteYes', 'AdminPanelController@voteYes')->name('voteYes')->middleware('auth');
     Route::post('voteNo', 'AdminPanelController@voteNo')->name('voteNo')->middleware('auth');
+    Route::post('createVote', 'AdminPanelController@createVote')->name('createVote')->middleware('auth');
+
 });
 
 
@@ -93,3 +95,4 @@ Route::get('/search','SearchController@search');
 Route::post('multimsg/send', 'ModuleController@sendFbMultimsg')->name('send-fb-multimsg')->middleware('auth');
 
 Route::post('/chooseAdmin', 'UserController@chooseAdmin')->name('chooseAdmin')->middleware('auth');
+

@@ -1,0 +1,47 @@
+.calendar-container {
+
+    .calendar-header {
+        display: flex;
+        flex-direction: row;
+
+        h1 {
+            margin-right: 25px;
+        }
+    }
+
+    .calendar-body {
+        margin-top: 25px;
+        border: 1px solid $light-grey-border;
+        border-radius: 5px;
+        min-height: 75vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        background-color: #f8fafc;
+
+        .calendar-event {
+            padding: 10px 10px;
+            display: flex;
+            justify-content: space-between;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: white;
+            border: 1px solid $light-grey-border;
+            transition: transform 50ms;
+
+            &:hover {
+                cursor: pointer;
+                transform: scale(1.01);
+                transition: transform 50ms;
+            }
+
+            .event-name {
+
+            }
+
+            .event-date {
+
+            }
+        }
+    }
+}

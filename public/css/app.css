@@ -11144,6 +11144,12 @@ a.text-dark:focus {
   border-radius: 25px;
 }
 
+.btn-addEvent {
+  width: 98%;
+  border-radius: 5px;
+  margin-bottom: 10px;
+}
+
 .sidenav {
   height: 100%;
   width: 160px;
@@ -11459,6 +11465,43 @@ a.text-dark:focus {
   margin-top: 25px;
 }
 
+.calendar-container .calendar-header {
+  display: flex;
+  flex-direction: row;
+}
+
+.calendar-container .calendar-header h1 {
+  margin-right: 25px;
+}
+
+.calendar-container .calendar-body {
+  margin-top: 25px;
+  border: 1px solid #e1e4e8;
+  border-radius: 5px;
+  min-height: 75vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #f8fafc;
+}
+
+.calendar-container .calendar-body .calendar-event {
+  padding: 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  margin: 5px;
+  border-radius: 5px;
+  background-color: white;
+  border: 1px solid #e1e4e8;
+  transition: transform 50ms;
+}
+
+.calendar-container .calendar-body .calendar-event:hover {
+  cursor: pointer;
+  transform: scale(1.01);
+  transition: transform 50ms;
+}
+
 .container-main {
   padding-left: 25px;
   padding-right: 25px;
@@ -11525,6 +11568,10 @@ body {
 
 .normal {
   font-weight: normal !important;
+}
+
+.red {
+  color: #e3342f;
 }
 
 .pt-5 {

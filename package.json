@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "bootstrap-select": "^1.13.18",
+        "moment": "^2.29.1",
         "tabulator-tables": "^4.6.3",
         "vue-resource": "^1.5.1"
     }

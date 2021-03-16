@@ -5,6 +5,7 @@
  */
 
 require('./bootstrap');
+window.moment = require('moment');
 import VueResource from "vue-resource"
 window.Tabulator = require('tabulator-tables');
 
