@@ -56,6 +56,9 @@ class CourseController extends Controller
         return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files, 'all_files' => $all_files]);
     }
 
+    /**
+     * show all uploaded files
+     */
     public function showFiles($code){
 
         $course = Course::where('code', $code)
@@ -67,6 +70,9 @@ class CourseController extends Controller
         return view('courses.course_files', ['course' => $course, 'user' => $user, 'files' => $files]);
     }
 
+    /**
+     * upload file to server
+     */
     public function uploadFile(Request $request){
 
         $course = Course::find($request->course_id);
@@ -96,6 +102,9 @@ class CourseController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * upload exam file to server
+     */
     public function uploadExam(Request $request){
 
         $course = Course::find($request->course_id);

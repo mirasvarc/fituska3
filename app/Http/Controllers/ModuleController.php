@@ -39,7 +39,7 @@ class ModuleController extends Controller
     }
 
     /**
-     *  Send request to dc API
+     *  Send message to discord
      */
     public function sendDCMultimsg(Request $request){
 
@@ -53,6 +53,9 @@ class ModuleController extends Controller
     }
 
 
+    /**
+     * Show all members of SU
+     */
     public function showSUMembers(){
 
         $su_management = User::whereHas(
@@ -72,10 +75,17 @@ class ModuleController extends Controller
 
     }
 
+    /**
+     * Show page with SU contact form
+     */
     public function showSUContact(){
         return view('su.contact');
     }
 
+
+    /**
+     * Save contact form to db
+     */
     public function SUContactFormSave(Request $request) {
         $form = new Form();
         $form->full_name = $request->full_name;
@@ -86,6 +96,9 @@ class ModuleController extends Controller
         return redirect('/su-contact?success');
     }
 
+    /**
+     * show all submited forms
+     */
     public function showSUForms(){
 
         $forms = Form::all();

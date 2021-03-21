@@ -60,6 +60,11 @@ class ForumController extends Controller
         return view('forum.topics', ['posts' => $posts, 'topic' => $topic]);
     }
 
+    /**
+     * show forum post detail
+     * @param Request
+     * @return view
+     */
     public function showPost($id, $post_id) {
         $post = Post::where('id', $post_id)->first(); // get post
         $topic = Topics::where('id', $id)->first();
