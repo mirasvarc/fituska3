@@ -58,6 +58,7 @@ Route::get('/kontakty', 'UserController@contacts')->name('contacts')->middleware
 
 Route::get('/forum', 'ForumController@index')->name('forum')->middleware('auth');
 Route::get('forum/{id}', 'ForumController@show')->name('forum.show')->middleware('auth');
+Route::get('forum/{id}/post/{post_id}', 'ForumController@showPost')->name('forum.show-post')->middleware('auth');
 Route::post('forum/create-topic', 'TopicController@store')->name('create-topic')->middleware('auth');
 Route::get('forum/topic/{id}/create-post', 'PostController@forumCreate')->name('create-forum-post')->middleware('auth');
 
@@ -85,14 +86,19 @@ Route::post('add-comment-form-submit', 'CommentController@store');
 
 Route::post('open-post', 'PostController@openPost');
 
-Route::get('/hromadne', 'ModuleController@showMultiMsg');
+Route::get('/hromadne', 'ModuleController@showMultiMsg')->middleware('auth');
+Route::get('/su-members', 'ModuleController@showSUMembers')->middleware('auth');
+Route::get('/su-contact', 'ModuleController@showSUContact')->middleware('auth');
+Route::get('/su-forms', 'ModuleController@showSUForms')->middleware('auth');
+Route::post('/su-contact/form-send', 'ModuleController@SUContactFormSave')->name('su-send-form')->middleware('auth');
 
 Route::post('/file/upload', 'CourseController@uploadFile')->name('file.upload')->middleware('auth');
 Route::post('/exam/upload', 'CourseController@uploadExam')->name('exam.upload')->middleware('auth');
 
 Route::get('/search','SearchController@search');
 
-Route::post('multimsg/send', 'ModuleController@sendFbMultimsg')->name('send-fb-multimsg')->middleware('auth');
+Route::post('multimsg/fb/send', 'ModuleController@sendFbMultimsg')->name('send-fb-multimsg')->middleware('auth');
+Route::post('multimsg/dc/send', 'ModuleController@sendDCMultimsg')->name('send-dc-multimsg')->middleware('auth');
 
 Route::post('/chooseAdmin', 'UserController@chooseAdmin')->name('chooseAdmin')->middleware('auth');
 

@@ -10,6 +10,7 @@ use App\File;
 use App\HasFile;
 use App\Topics;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 
 class PostController extends Controller
 {
@@ -91,6 +92,14 @@ class PostController extends Controller
                     $has_file->save();
                 }
             }
+        }
+
+        if(!isset($request->isforum)){
+            $response = Http::post('http://127.0.0.1:5000/send', [
+                'course' => $course->code,
+                'post'  => $post,
+                'author' => auth()->user()->username
+            ]);
         }
 
         if(!isset($request->isforum)){

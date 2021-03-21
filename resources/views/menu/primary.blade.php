@@ -25,8 +25,18 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/kontakty">{{ __('Kontakty') }}</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/hromadne">{{ __('Hromadné zprávy') }}</a>
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ __('Studentská unie') }}
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                        @if(Auth::user() && Auth::user()->isSUManagement())
+                            <a class="dropdown-item" href="/hromadne">{{ __('Hromadné zprávy') }}</a>
+                            <a class="dropdown-item" href="/su-forms">{{ __('Formuláře') }}</a>
+                        @endif
+                        <a class="dropdown-item" href="/su-members">{{ __('Členové') }}</a>
+                        <a class="dropdown-item" href="/su-contact">{{ __('Kontakt') }}</a>
+                    </div>
                 </li>
             </ul>
 
