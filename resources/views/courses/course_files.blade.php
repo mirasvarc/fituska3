@@ -37,7 +37,7 @@
 </div>
 <h2 class="mt-25">Soubory z příspěvků</h2>
 <div class="row">
-    <div class="col-8">
+    <div class="col-10">
         <div class="course-posts">
             <div class="row course-post-header-compact">
                 <div class="col-4">
@@ -77,7 +77,7 @@
 
 <h2 class="mt-25">Ostatní soubory</h2>
 <div class="row">
-    <div class="col-8">
+    <div class="col-10">
         <div class="course-posts">
             <div class="row course-post-header-compact">
                 <div class="col-4">

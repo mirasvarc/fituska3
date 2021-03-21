@@ -1,3 +1,9 @@
+@if(isset($course->calendar_id))
+    <input type="hidden" value="{{$course->calendar_id}}" id="course-name">
+@else
+    <input type="hidden" value="primary" id="course-name">
+@endif
+
 <div class="calendar-container">
     <div class="calendar-header">
         <h1>Kalendář</h1>
@@ -56,6 +62,8 @@
 
 <script type="text/javascript">
 
+    var calendar_id = $('#course-name').val();
+
     moment.locale('cs');
 
     function addCalEvent(){
@@ -78,7 +86,7 @@
         };
 
         var request = gapi.client.calendar.events.insert({
-            'calendarId': 'primary',
+            'calendarId': calendar_id,
             'resource': event
         });
 
@@ -184,7 +192,7 @@
     */
     function listUpcomingEvents() {
         gapi.client.calendar.events.list({
-            'calendarId': 'primary',
+            'calendarId': calendar_id,
             'timeMin': (new Date()).toISOString(),
             'showDeleted': false,
             'singleEvents': true,

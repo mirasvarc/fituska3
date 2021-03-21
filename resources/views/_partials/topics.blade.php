@@ -43,7 +43,7 @@
 </div>
 
 <div class="row">
-    <div class="col-lg-8 col-12">
+    <div class="col-lg-10 col-12">
         <div class="course-posts">
             <div class="row course-post-header">
                 <div class="col-lg-8 col-2">
