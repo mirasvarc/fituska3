@@ -26,7 +26,7 @@
             @endif--}}
         </div>
         <div class="col-md-4">
-            @include('_partials.google_calendar')
+            {{--@include('_partials.google_calendar')--}}
         </div>
     </div>
 </div>

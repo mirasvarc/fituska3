@@ -11,6 +11,7 @@
                 <i class="fa fa-plus-circle"></i>
                 &nbsp;Nové hlasování
             </button>
+            <span class="vote-err"></span>
         </div>
     </div>
     <br>
@@ -110,3 +111,13 @@
 
 
 @endsection
+
+@push('scripts')
+
+@if(isset($_REQUEST['createVoteErr']))
+<script>
+    $('.vote-err').text('Hlasování lze vytvořit pouze pro uživatele s rolí Učitel nebo Doktorand.')
+</script>
+@endif
+
+@endpush

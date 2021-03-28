@@ -35,6 +35,9 @@
         </div>
     </div>
 </div>
+
+@include('_partials.google_docs')
+
 <h2 class="mt-25">Soubory z příspěvků</h2>
 <div class="row">
     <div class="col-10">

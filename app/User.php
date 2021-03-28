@@ -83,6 +83,14 @@ class User extends Authenticatable
         return $this->isAdministrator() || $this->isSUManagement() || $this->isModerator();
     }
 
+    public function isTeacher(){
+        return $this->roles()->where('role', 'Učitel')->exists();
+    }
+
+    public function isDoctoral(){
+        return $this->roles()->where('role', 'Doktorand')->exists();
+    }
+
     /**
      * Get courses followed by user
      */

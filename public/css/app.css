@@ -11502,6 +11502,11 @@ a.text-dark:focus {
   transition: transform 50ms;
 }
 
+.vote-err {
+  color: red;
+  margin-left: 25px;
+}
+
 .container-main {
   padding-left: 25px;
   padding-right: 25px;

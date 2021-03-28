@@ -98,15 +98,36 @@ class AdminPanelController extends Controller
 
     public function createVote(Request $request){
 
-        $user_roles = HasRole::where('user_id', $request->users)->get();
-        dd($user_roles);
+        $user = User::find($request->users);
 
-        foreach($user_roles as $role) {
-            // TODO:
+        $role_teacher = Role::where('role', 'Učitel')->first();
+        $role_doctoral = Role::where('role', 'Doktorand')->first();
+
+        $role_teacher_approved = Role::where('role', 'Ověřený učitel')->first();
+        $role_doctoral_approved = Role::where('role', 'Ověřený doktorand')->first();
+
+        if($user->isTeacher()){
+            $vote = new Vote();
+            $vote->user_id = $user->id;
+            $vote->role_current = $role_teacher->id;
+            $vote->role_new = $role_teacher_approved->id;
+            $vote->vote_yes = 0;
+            $vote->vote_no = 0;
+            $vote->save();
+        } elseif( $user->isDoctoral()) {
+            $vote = new Vote();
+            $vote->user_id = $user->id;
+            $vote->role_current = $role_doctoral->id;
+            $vote->role_new = $role_doctoral_approved->id;
+            $vote->vote_yes = 0;
+            $vote->vote_no = 0;
+            $vote->save();
+        } else {
+            return redirect('/admin/vote?createVoteErr');
         }
 
-        //$vote = new Vote();
-        //$vote->
+        return redirect('/admin/vote');
+
     }
 
 }
