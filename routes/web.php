@@ -102,3 +102,4 @@ Route::post('multimsg/dc/send', 'ModuleController@sendDCMultimsg')->name('send-d
 
 Route::post('/chooseAdmin', 'UserController@chooseAdmin')->name('chooseAdmin')->middleware('auth');
 
+Route::get('/test', 'AdminPanelController@test')->name('test');

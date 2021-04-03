@@ -1,4 +1,9 @@
-<h2 class="mt-25">Sdílené dokumenty</h2>
+<h2 class="mt-25">
+    Sdílené dokumenty
+    <button type="button" class="btn btn-primary " style="width: unset" title="Vytvořit nový soubor" data-toggle="modal" data-target="#add-shared-file-modal">
+        <i class="fa fa-plus-circle"></i>&nbsp;Vytvořit
+    </button>
+</h2>
 
 <button id="authorize_button" style="display: none;" class="btn btn-secondary">Autorizovat</button>
 <button id="signout_button" style="display: none;" class="btn btn-secondary">Odhlásit</button>
@@ -10,40 +15,46 @@
                     <span class="posts-header">Název souboru</span>
                 </div>
                 <div class="col-2" style="text-align:center">
-                    <span class="posts-header">Typ</span>
+
                 </div>
                 <div class="col-2" style="text-align:center">
-                    <span class="posts-header">Datum vložení</span>
+
                 </div>
                 <div class="col-2" style="text-align:center">
-                    <span class="posts-header">Autor</span>
+
                 </div>
             </div>
-            <pre id="content"></pre>
+            <div id="shared-files">
 
-            <div class="row course-post-compact">
-                <div class="col-4">
-                    <a href="" target="_blank"></a>
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <span class="normal"></span>
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <span></span>
-                </div>
-                <div class="col-2" style="text-align:center">
-                    <span><a href=""></a></span>
-
-                </div>
             </div>
         </div>
     </div>
 </div>
 
 
-
-
-
+<!-- Modal -->
+<div class="modal fade" id="add-shared-file-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Přidat událost do kalendáře</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="javascript:void(0);">
+                    @csrf
+                    <div class="form-group">
+                        <label for="event_name">Název: *&nbsp;</label>
+                        <input type="text" name="shared_file_name" class="form-control" required id="EventName">
+                    </div>
+                    <input type="submit" onclick="createSharedFile()" data-dismiss="modal" class="btn btn-success btn-addEvent" value="Přidat">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -61,6 +72,22 @@
 
     var authorizeButton = document.getElementById('authorize_button');
     var signoutButton = document.getElementById('signout_button');
+
+
+    function createSharedFile(){
+
+        var fileName = $('input[name=shared_file_name]').val();
+        var fileMetadata = {
+            'name' : fileName,
+            'mimeType' : 'application/vnd.google-apps.document'
+        };
+
+        gapi.client.drive.files.create({
+            'name': fileMetadata,
+        }).execute();
+    }
+
+
 
     /**
      *  On load, called to load the auth2 library and API client library.
@@ -99,7 +126,7 @@
     function updateSigninStatus(isSignedIn) {
       if (isSignedIn) {
         authorizeButton.style.display = 'none';
-        signoutButton.style.display = 'block';
+        //signoutButton.style.display = 'block';
         listFiles();
       } else {
         authorizeButton.style.display = 'block';
@@ -128,9 +155,18 @@
      * @param {string} message Text to be placed in pre element.
      */
     function appendPre(message) {
-      var pre = document.getElementById('content');
-      var textContent = document.createTextNode(message + '\n');
-      pre.appendChild(textContent);
+      var pre = $('#shared-files');
+      console.log(message)
+
+      pre.append('<div class="row course-post-compact">' +
+                '<div class="col-4"><span>' + message.name + '</span>' +
+                '</div><div class="col-2" style="text-align:center"> ' +
+                '<a href="https://docs.google.com/document/d/' + message.id + ' " target="_blank">Otevřít</a>' +
+                '<span class="normal"></span></div><div class="col-2" style="text-align:center"> ' +
+                '<span></span></div><div class="col-2" style="text-align:center"><span><a href=""></a>' +
+                '</span></div></div>');
+
+
     }
 
     /**
@@ -141,12 +177,11 @@
         'pageSize': 10,
         'fields': "nextPageToken, files(id, name)"
       }).then(function(response) {
-        appendPre('Files:');
         var files = response.result.files;
         if (files && files.length > 0) {
           for (var i = 0; i < files.length; i++) {
             var file = files[i];
-            appendPre(file.name + ' (' + file.id + ')');
+            appendPre(file);
           }
         } else {
           appendPre('No files found.');

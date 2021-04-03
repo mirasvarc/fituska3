@@ -8,6 +8,7 @@ use App\Vote;
 use App\UserHasVoted;
 use App\HasRole;
 use App\User;
+use App\Facebook;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -128,6 +129,14 @@ class AdminPanelController extends Controller
 
         return redirect('/admin/vote');
 
+    }
+
+
+    public function test(){
+
+        $facebook = new Facebook();
+        //dd($facebook->getPostsFromGroup('1722428574572165'));
+        dd($facebook->parsePost("[IFJ] sss"));
     }
 
 }
