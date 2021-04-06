@@ -23,6 +23,7 @@ class CreatePostsTable extends Migration
             $table->integer('upvotes');
             $table->integer('downvotes');
             $table->enum('type', ['Zadání', 'Materiály', 'Diskuze', 'Otázka', 'Ostatní']);
+            $table->string('facebook_post_id')->nullable();
             $table->timestamps();
             $table->foreign('author_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');

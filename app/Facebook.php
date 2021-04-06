@@ -27,7 +27,7 @@ class Facebook extends Model
      * @param data post content
      */
     public function postToGroup($group_id, $data) {
-
+        // TODO: can't be done without submitting app for review (currently stopped by facebook due covid-19)
     }
 
 
@@ -38,14 +38,15 @@ class Facebook extends Model
      * @param author author of the post
      * @return array return false when course tag is not present, otherwise return array with course code, content, comments and author of the post
      */
-    public function parsePost($message, $comments = null, $author = null) {
+    public function parsePost($id, $message, $comments = null, $author = null) {
+
         preg_match('/(?<=\[).+?(?=\])/', $message, $course_code);
 
         if(!$course_code) return false;
 
         $content = str_replace("[".$course_code[0]."]", "", $message);
 
-        $response = ['course_code' => $course_code[0], 'content' => $content, 'comments' => $comments, 'author' => $author];
+        $response = ['course_code' => $course_code[0], 'id' => $id, 'content' => $content, 'comments' => $comments, 'author' => $author];
         return $response;
     }
 
