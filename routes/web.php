@@ -19,63 +19,72 @@ Route::get('/app', function () {
     return view('layouts/app');
 });
 
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+
 Route::resource('user' , 'UserController' )->middleware('auth');
 Route::delete('users/{id}', 'UserController@destroy')->middleware('auth');
-Route::post('user.addRole', 'UserController@addRole')->name('addRole')->middleware('auth');
-Route::post('user.changeSettings', 'UserController@changeSettings')->name('changeSettings')->middleware('auth');
-Route::post('user.removeRole', 'UserController@removeRole')->name('removeRole')->middleware('auth');
-Route::post('user.followCourse', 'UserController@followCourse')->name('followCourse')->middleware('auth');
-Route::post('user.unfollowCourse', 'UserController@unfollowCourse')->name('unfollowCourse')->middleware('auth');
+Route::get('/users', 'AdminPanelController@all_users')->name('users')->middleware('auth');
+Route::get('/kontakty', 'UserController@contacts')->name('contacts')->middleware('auth');
+
+
+Route::prefix('/user')->middleware('auth')->group(function() {
+    Route::post('.addRole', 'UserController@addRole')->name('addRole');
+    Route::post('.changeSettings', 'UserController@changeSettings')->name('changeSettings');
+    Route::post('.removeRole', 'UserController@removeRole')->name('removeRole');
+    Route::post('.followCourse', 'UserController@followCourse')->name('followCourse');
+    Route::post('.unfollowCourse', 'UserController@unfollowCourse')->name('unfollowCourse');
+});
 
 Route::resource('courses', 'CourseController')
         ->except('show')
         ->middleware('auth');
 
-Route::get('course/{code}/topic/{id}', 'TopicController@show')->name('topic')->middleware('auth');
-Route::post('course/{code}/create-topic', 'TopicController@store')->name('create-topic')->middleware('auth');
-Route::get('course/{code}/topic/{id}/delete', 'TopicController@destroy')->name('delete-topic')->middleware('auth');
-Route::get('course/{code}', 'CourseController@show')->name('course')->middleware('auth');
-Route::get('course/{code}/files', 'CourseController@showFiles')->name('show.files')->middleware('auth');
+Route::prefix('/course')->middleware('auth')->group(function() {
+    Route::get('/{code}/topic/{id}', 'TopicController@show')->name('topic');
+    Route::post('/{code}/create-topic', 'TopicController@store')->name('create-topic');
+    Route::get('/{code}/topic/{id}/delete', 'TopicController@destroy')->name('delete-topic');
+    Route::get('/{code}', 'CourseController@show')->name('course');
+    Route::get('/{code}/files', 'CourseController@showFiles')->name('show.files');
+    Route::get('/{code}/topic/{topic_id}/create-post', 'PostController@create')->name('create-post');
+});
 
 Route::resource('posts', 'PostController')
         ->except('show', 'create')
         ->middleware('auth');
 
-Route::get('course/{code}/topic/{topic_id}/create-post', 'PostController@create')->name('create-post')->middleware('auth');
 
 Route::get('post/{code}/{id}/edit', 'PostController@edit')->name('edit-post')->middleware('auth');
 Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
 
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/users', 'AdminPanelController@all_users')->name('users')->middleware('auth');
-
-Route::get('/kontakty', 'UserController@contacts')->name('contacts')->middleware('auth');
-
-
-Route::get('/forum', 'ForumController@index')->name('forum')->middleware('auth');
-Route::get('forum/{id}', 'ForumController@show')->name('forum.show')->middleware('auth');
-Route::get('forum/{id}/post/{post_id}', 'ForumController@showPost')->name('forum.show-post')->middleware('auth');
-Route::post('forum/create-topic', 'TopicController@store')->name('create-topic')->middleware('auth');
-Route::get('forum/topic/{id}/create-post', 'PostController@forumCreate')->name('create-forum-post')->middleware('auth');
+Route::prefix('/forum')->middleware('auth')->group(function() {
+    Route::get('/', 'ForumController@index')->name('forum');
+    Route::get('/{id}', 'ForumController@show')->name('forum.show');
+    Route::get('/{id}/post/{post_id}', 'ForumController@showPost')->name('forum.show-post');
+    Route::post('/create-topic', 'TopicController@store')->name('create-topic');
+    Route::get('/topic/{id}/create-post', 'PostController@forumCreate')->name('create-forum-post');
+});
 
 Route::get('/vote', 'UserController@voteIndex')->name('voteIndex')->middleware('auth');
 Route::post('/vote', 'UserController@vote')->name('voteIndex')->middleware('auth');
 
 //admin
 
-Route::prefix('admin')->group(function () {
-    Route::get('/', 'AdminPanelController@index')->name('adminIndex')->middleware('auth'); //TODO: user have to be admin
-    Route::get('/modules', 'AdminPanelController@modulesIndex')->name('modulesIndex')->middleware('auth');
-    Route::post('.installModule', 'AdminPanelController@installModule')->name('installModule')->middleware('auth');
-    Route::post('.uninstallModule', 'AdminPanelController@uninstallModule')->name('uninstallModule')->middleware('auth');
-    Route::get('/vote', 'AdminPanelController@voteIndex')->name('voteIndex')->middleware('auth');
-    Route::post('voteYes', 'AdminPanelController@voteYes')->name('voteYes')->middleware('auth');
-    Route::post('voteNo', 'AdminPanelController@voteNo')->name('voteNo')->middleware('auth');
-    Route::post('createVote', 'AdminPanelController@createVote')->name('createVote')->middleware('auth');
+Route::prefix('admin')->middleware(['auth', 'mod'])->group(function () {
+
+    Route::get('/', 'AdminPanelController@index')->name('adminIndex');
+
+    // Modules
+    Route::get('/modules', 'AdminPanelController@modulesIndex')->name('modulesIndex');
+    Route::post('.installModule', 'AdminPanelController@installModule')->name('installModule');
+    Route::post('.uninstallModule', 'AdminPanelController@uninstallModule')->name('uninstallModule');
+
+    // Voting
+    Route::get('/vote', 'AdminPanelController@voteIndex')->name('voteIndex');
+    Route::post('voteYes', 'AdminPanelController@voteYes')->name('voteYes');
+    Route::post('voteNo', 'AdminPanelController@voteNo')->name('voteNo');
+    Route::post('createVote', 'AdminPanelController@createVote')->name('createVote');
 
 });
 
@@ -102,4 +111,9 @@ Route::post('multimsg/dc/send', 'ModuleController@sendDCMultimsg')->name('send-d
 
 Route::post('/chooseAdmin', 'UserController@chooseAdmin')->name('chooseAdmin')->middleware('auth');
 
-Route::get('/test', 'AdminPanelController@test')->name('test');
+Route::get('/test', 'AdminPanelController@test')->name('test')->middleware('mod');
+
+
+Route::prefix('facebook')->group(function () {
+    Route::get('get-posts', 'ModuleController@getFacebookPosts')->name('get-fb-posts')->middleware('auth');
+});
