@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Topics;
 use App\Post;
+use App\Comment;
 use App\Course;
 use App\HasSeenPost;
 use App\User;
@@ -43,6 +44,7 @@ class ModuleController extends Controller
         $group_id = "1722428574572165"; // TODO: from request
         $facebook = new Facebook();
         $posts_raw = $facebook->getPostsFromGroup($group_id);
+
         $posts = [];
         foreach($posts_raw['data'] as $post_data) {
 
@@ -86,6 +88,19 @@ class ModuleController extends Controller
                 $new_post->downvotes = 0;
                 $new_post->type = 'Diskuze';
                 $new_post->save();
+
+                if(isset($post['comments'])){
+
+                    foreach($post['comments'] as $fb_comment) {
+                        $comment = new Comment();
+                        $comment->author_id = $author->id;
+                        $comment->post_id = $new_post->id;
+                        $comment->content = $fb_comment['message'];
+                        $comment->upvotes = 0;
+                        $comment->downvotes = 0;
+                        $comment->save();
+                    }
+                }
 
                 echo "post ".$post['id']." imported! ";
             } else {

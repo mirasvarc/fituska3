@@ -11059,6 +11059,46 @@ a.text-dark:focus {
   margin-bottom: 0rem;
 }
 
+.post-rating {
+  margin-left: 15px;
+  margin-right: 15px;
+  padding-bottom: 15px;
+}
+
+.post-rating .upvotes {
+  margin-right: 10px;
+  font-size: 20px;
+  color: grey;
+}
+
+.post-rating .upvotes:hover {
+  cursor: pointer;
+}
+
+.post-rating .downvotes {
+  margin-right: 15px;
+  font-size: 20px;
+  color: grey;
+}
+
+.post-rating .downvotes:hover {
+  cursor: pointer;
+}
+
+.post-rating .upvotes-disabled,
+.post-rating .downvotes-disabled {
+  margin-right: 10px;
+  font-size: 20px;
+  color: grey;
+}
+
+.post-rating .upvotes-active,
+.post-rating .downvotes-active {
+  margin-right: 10px;
+  font-size: 20px;
+  color: black;
+}
+
 .course-upper-menu {
   display: flex;
   flex-direction: row;

@@ -50,6 +50,8 @@ Route::prefix('/course')->middleware('auth')->group(function() {
     Route::get('/{code}/topic/{topic_id}/create-post', 'PostController@create')->name('create-post');
 });
 
+Route::get('/courses/import', 'CourseController@importCourses')->middleware('mod');
+
 Route::resource('posts', 'PostController')
         ->except('show', 'create')
         ->middleware('auth');
@@ -57,6 +59,8 @@ Route::resource('posts', 'PostController')
 
 Route::get('post/{code}/{id}/edit', 'PostController@edit')->name('edit-post')->middleware('auth');
 Route::get('post/{code}/{id}', 'PostController@show')->name('post')->middleware('auth');
+Route::post('/post/upvote', 'PostController@postUpvote')->name('post-upvote')->middleware('auth');
+Route::post('/post/downvote', 'PostController@postDownvote')->name('post-downvote')->middleware('auth');
 
 Route::prefix('/forum')->middleware('auth')->group(function() {
     Route::get('/', 'ForumController@index')->name('forum');

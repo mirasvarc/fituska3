@@ -153,6 +153,45 @@
     }
 }
 
+.post-rating {
+    margin-left: 15px;
+    margin-right: 15px;
+    padding-bottom: 15px;
+
+    .upvotes {
+        margin-right: 10px;
+        font-size: 20px;
+        color: grey;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .downvotes {
+        margin-right: 15px;
+        font-size: 20px;
+        color: grey;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .upvotes-disabled, .downvotes-disabled {
+        margin-right: 10px;
+        font-size: 20px;
+        color: grey;
+    }
+
+    .upvotes-active, .downvotes-active {
+        margin-right: 10px;
+        font-size: 20px;
+        color: black;
+    }
+
+}
+
 .course-upper-menu {
     display: flex;
     flex-direction: row;

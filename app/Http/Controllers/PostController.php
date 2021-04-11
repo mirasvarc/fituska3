@@ -9,6 +9,7 @@ use App\User;
 use App\File;
 use App\HasFile;
 use App\Topics;
+use App\UserVotedPost;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -136,7 +137,18 @@ class PostController extends Controller
             $hasSeenPost->save();
         }
 
-        return view('posts/post', ['post' => $post, 'course' => $course, 'content_json' => $post_content->toJson(), 'comments' => $comments, 'user' => $user, 'topic' => $topic]);
+        $userVotePost = UserVotedPost::where('post_id', $post->id)->where('user_id', auth()->user()->id)->first();
+        //dd($userVotePost);
+
+        return view('posts/post', [
+            'post' => $post,
+            'course' => $course,
+            'content_json' => $post_content->toJson(),
+            'comments' => $comments,
+            'user' => $user,
+            'topic' => $topic,
+            'user_vote' => $userVotePost
+            ]);
     }
 
     /**
@@ -210,5 +222,43 @@ class PostController extends Controller
         }
 
 
+    }
+
+    /**
+     * add upvote to post
+     * @param request post
+     * @return int number of upvotes
+     */
+    public function postUpvote(Request $request) {
+        $post = Post::find($request->post_id);
+        $post->upvotes = $post->upvotes + 1;
+        $post->save();
+
+        $userVoted = new UserVotedPost();
+        $userVoted->user_id = auth()->user()->id;
+        $userVoted->post_id = $post->id;
+        $userVoted->vote_value = 1;
+        $userVoted->save();
+
+        return $post->upvotes;
+    }
+
+    /**
+     * add downvote to post
+     * @param request post
+     * @return int number of downvotes
+     */
+    public function postDownvote(Request $request) {
+        $post = Post::find($request->post_id);
+        $post->downvotes = $post->downvotes + 1;
+        $post->save();
+
+        $userVoted = new UserVotedPost();
+        $userVoted->user_id = auth()->user()->id;
+        $userVoted->post_id = $post->id;
+        $userVoted->vote_value = 0;
+        $userVoted->save();
+
+        return $post->downvotes;
     }
 }

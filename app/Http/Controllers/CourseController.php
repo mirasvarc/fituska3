@@ -11,6 +11,7 @@ use App\HasFile;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
 
+
 class CourseController extends Controller
 {
     /**
@@ -132,5 +133,52 @@ class CourseController extends Controller
         }
 
         return redirect()->back();
+    }
+
+    /**
+     * get courses from faculty website and import them to database
+     */
+    public function importCourses() {
+
+
+        // get html from courses page
+        $html = file_get_contents('https://www.fit.vut.cz/study/courses/.cs');
+
+        // get only table wotch courses
+        $start = stripos($html, '<tbody');
+        $end = stripos($html, '</tbody>', $offset = $start);
+        $length = $end - $start;
+        $htmlSection = substr($html, $start, $length);
+
+        // get rows of table
+        preg_match_all('@<tr>(.+)</tr>@', $htmlSection, $matches);
+        $listItems = $matches[1];
+
+        $courses = [];
+
+        foreach ($listItems as $key => $item) {
+            // get course name
+            preg_match_all('@/.cs">(.+)</a>@', $item, $matchesName);
+
+            // get course code
+            preg_match_all('@</a></td><td>(.+)</td><td>[LZ]<@', $item, $matchesCode);
+
+            // make array with courses
+            if(!in_array(['code' => $matchesCode[1][0], 'name' => $matchesName[1][0]], $courses)){
+                $courses[] = ['code' => $matchesCode[1][0], 'name' => $matchesName[1][0]];
+            }
+        }
+
+        // TODO: create calendar for course
+
+        foreach($courses as $c) {
+            if($c['code'] != "" && $c['name'] != "") {
+                $course = new Course();
+                $course->code = $c['code'];
+                $course->full_name = $c['name'];
+                $course->save();
+            }
+        }
+
     }
 }

@@ -50,6 +50,31 @@
                     @endforeach
                 </div>
                 @endif
+                <div class="post-rating text-right">
+                    @if(isset($user_vote))
+                        @if($user_vote->vote_value = 1)
+                            <span class="upvotes-active" id="{{$post->id}}">
+                        @else
+                            <span class="upvotes-disabled" id="{{$post->id}}">
+                        @endif
+                                <i class="fas fa-thumbs-up"></i> <span id="upvotes-value">{{$post->upvotes}}</span>
+                            </span>
+                        @if($user_vote->vote_value = 0)
+                            <span class="downvotes-active" id="{{$post->id}}">
+                        @else
+                            <span class="downvotes-disabled" id="{{$post->id}}">
+                        @endif
+                                <i class="fas fa-thumbs-down"></i> <span id="downvotes-value">{{$post->downvotes}}</span>
+                            </span>
+                    @else
+                    <span class="upvotes" id="{{$post->id}}">
+                        <i class="fas fa-thumbs-up"></i> <span id="upvotes-value">{{$post->upvotes}}</span>
+                    </span>
+                    <span class="downvotes" id="{{$post->id}}">
+                        <i class="fas fa-thumbs-down"></i> <span id="downvotes-value">{{$post->downvotes}}</span>
+                    </span>
+                    @endif
+                </div>
             </div>
 
             <div class="comments">
@@ -195,7 +220,70 @@ document.getElementById("post-content").innerHTML = postContent.content;
 </script>
 
 <script>
-    // TODO: replies are added to last comment, idk why
+
+$(document).ready(function(){
+    $('.upvotes').on('click', function(e){
+        //e.preventDefault();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: "{{ url('post/upvote')}}",
+            method: 'post',
+            data: {post_id: $(this).attr('id')},
+            success: function(response){
+                $('#upvotes-value').html(response);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+
+        });
+
+        $('.upvotes').addClass('upvotes-active');
+        $('.upvotes').removeClass('upvotes');
+        $('.downvotes').addClass('downvotes-disabled');
+        $('.downvotes').removeClass('downvotes');
+    });
+
+    $('.downvotes').on('click', function(e){
+        //e.preventDefault();
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+
+        $.ajax({
+            url: "{{ url('post/downvote')}}",
+            method: 'post',
+            data: {post_id: $(this).attr('id')},
+            success: function(response){
+                $('#downvotes-value').html(response);
+            },
+            error: function(err) {
+                console.log(err);
+            }
+
+        });
+
+        $('.downvotes').addClass('downvotes-active');
+        $('.downvotes').removeClass('downvotes');
+        $('.upvotes').addClass('upvotes-disabled');
+        $('.upvotes').removeClass('upvotes');
+    });
+});
+
+
+</script>
+
+<script>
+
     $(document).ready(function(){
         $('#add-comment').click(function(e){
             console.log("test")
