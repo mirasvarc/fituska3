@@ -16,33 +16,41 @@
                         <div class="col-2">
                             <span class="followed-courses-content-header-col">Zkratka</span>
                         </div>
-                        <div class="col-6" style="text-align:center">
+                        <div class="col-6 text-center">
                             <span class="followed-courses-content-header-col">Název</span>
                         </div>
-                        <div class="col-2" style="text-align:center">
-                            <span class="followed-courses-content-header-col">Ročník</span>
+                        <div class="col-4 text-center">
+                            <span class="followed-courses-content-header-col">Přestat sledovat</span>
                         </div>
-                        <div class="col-2" style="text-align:center">
-                            <span class="followed-courses-content-header-col">Typ</span>
-                        </div>
+
                     </div>
                     @foreach($followed_courses as $followed_course)
-                    <a href="/course/{{$followed_course->code}}" class="followed-courses-content-link">
+
                     <div class="row followed-courses-content-course">
-                        <div class="col-2">
-                            {{$followed_course->code}}
-                        </div>
-                        <div class="col-6" style="text-align:center">
-                            <span>{{$followed_course->full_name}}</span>
-                        </div>
-                        <div class="col-2" style="text-align:center">
-                            <span>{{$followed_course->study_year}}</span>
-                        </div>
-                        <div class="col-2" style="text-align:center">
-                            <span>{{$followed_course->type}}</span>
+                        <a href="/course/{{$followed_course->code}}" class="followed-courses-content-link col-8">
+                            <div class="row">
+                                <div class="col-4">
+                                    {{$followed_course->code}}
+                                </div>
+                                <div class="col-7 text-center">
+                                    <span>{{$followed_course->full_name}}</span>
+                                </div>
+                            </div>
+                        </a>
+                        <div class="col-4 text-center">
+                            <span>
+                                <form method="POST" id="unfollow-course-form" action="{{ action('UserController@unfollowCourse') }}">
+                                @csrf
+                                <input type="hidden" name="course" value={{$followed_course->id}}>
+                                <input type="hidden" name="user" value={{auth()->user()->id}}>
+                                <span href="javascript:{}" onclick="document.getElementById('unfollow-course-form').submit();">
+                                    <i class="far fa-trash-alt"></i>
+                                </span>
+                                </form>
+                            </span>
                         </div>
                     </div>
-                    </a>
+
                     @endforeach
 
                 </div>

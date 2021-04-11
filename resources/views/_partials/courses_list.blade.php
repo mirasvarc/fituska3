@@ -14,13 +14,11 @@ var table = new Tabulator("#courses-table", {
     layout:"fitDataFill",
     responsiveLayout: "collapse",
     resizableColumns:false,
+
     columns:[
         {title:"id", field:"id", visible:false},
 	 	{title:"Zkratka", field:"code"},
-	 	{title:"Název", field:"full_name", hozAlign:"left", width:400},
-        {title:"Ročník", field:"study_year"},
-        {title:"Typ", field:"type"},
-
+	 	{title:"Název", field:"full_name", hozAlign:"left"},
  	],
  	rowClick:function(e, row){
         window.location = "/course/" + row.getData().code;

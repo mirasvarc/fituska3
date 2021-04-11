@@ -17,9 +17,6 @@
                     <a class="nav-link" href="/user">{{ __('Uživatelé') }}</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link disabled" href="">{{ __('Termíny') }}</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link" href="/forum">{{ __('Diskuze') }}</a>
                 </li>
                 <li class="nav-item">

@@ -44,7 +44,22 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
+        $content = $request->content;
 
+        // match all LaTex equations
+        preg_match_all("/\[([^\]]*)\]/", $content, $matches);
+
+        if($matches[1]) {
+            foreach($matches[1] as $eq){
+                // send request to online LaTex converter
+                $response = file_get_contents('http://www.sciweavers.org/tex2img.php?eq='.trim($eq).'&fc=Black&im=png&fs=25&edit=0');
+                $file = 'storage/uploads/latex/'.time().'.png';
+                // save response as png
+                file_put_contents($file, $response);
+                // replace text equation with response image
+                $content = preg_replace("/\[([^\]]*)\]/", '<img src="/'.$file.'">', $content, 1);
+            }
+        }
 
         $this->validate($request, [
             'title' => 'required',
@@ -56,7 +71,7 @@ class PostController extends Controller
         // create new post and save it to DB
         $post = new Post;
         $post->title = $request->title;
-        $post->content = $request->content;
+        $post->content = $content;
         $post->type = $request->type;
         $post->topic_id = $topic->id;
 
@@ -95,6 +110,8 @@ class PostController extends Controller
             }
         }
 
+        // TODO: !!!
+        /*
         if(!isset($request->isforum)){
             $response = Http::post('http://127.0.0.1:5000/send', [
                 'course' => $course->code,
@@ -102,6 +119,7 @@ class PostController extends Controller
                 'author' => auth()->user()->username
             ]);
         }
+        */
 
         if(!isset($request->isforum)){
             return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
