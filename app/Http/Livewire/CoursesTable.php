@@ -28,12 +28,7 @@ class CoursesTable extends TableComponent
             Column::make('Název', 'full_name')
                 ->searchable()
                 ->sortable(),
-            Column::make('Ročník', 'study_year')
-                ->searchable()
-                ->sortable(),
-            Column::make('Typ', 'type')
-                ->searchable()
-                ->sortable(),
+
         ];
     }
 }

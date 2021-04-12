@@ -83,6 +83,18 @@ class User extends Authenticatable
         return $this->isAdministrator() || $this->isSUManagement() || $this->isModerator();
     }
 
+    public function canSeeExams(){
+        if($this->isAdministrator() ||
+            $this->isSUManagement() ||
+            $this->isModerator() ||
+            $this->roles()->where('role', 'Ověřený učitel')->exists() ||
+            $this->roles()->where('role', 'Ověřený doktorand')->exists() ||
+            $this->roles()->where('role', 'Student')->exists()
+        ) {
+            return true;
+        } else return false;
+    }
+
     public function isTeacher(){
         return $this->roles()->where('role', 'Učitel')->exists();
     }

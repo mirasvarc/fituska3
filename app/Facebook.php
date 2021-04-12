@@ -4,9 +4,6 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-
-
 class Facebook extends Model
 {
 
@@ -40,13 +37,16 @@ class Facebook extends Model
      */
     public function parsePost($id, $message, $comments = null, $author = null) {
 
+        // get course code from post
         preg_match('/(?<=\[).+?(?=\])/', $message, $course_code);
 
+        // if there is no course code tag, skip post
         if(!$course_code) return false;
 
+        // get post content
         $content = str_replace("[".$course_code[0]."]", "", $message);
-
         $response = ['course_code' => $course_code[0], 'id' => $id, 'content' => $content, 'comments' => $comments, 'author' => $author];
+
         return $response;
     }
 

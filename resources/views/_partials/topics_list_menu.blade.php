@@ -4,7 +4,9 @@
         <div class="course-upper-menu">
             <div id="discussion-btn" class="course-menu-btn active-btn">Diskuze</div>
             <div id="files-btn" class="course-menu-btn">Soubory</div>
-            <div id="exams-btn" class="course-menu-btn">Zadání</div>
+            @if(auth()->user()->canSeeExams())
+                <div id="exams-btn" class="course-menu-btn">Zadání</div>
+            @endif
         </div>
     </div>
 </div>
@@ -14,7 +16,6 @@
     $('.course-menu-btn').on("click", function(){
         $('.active-btn').removeClass('active-btn');
         $(this).addClass('active-btn');
-
     });
 
     $('#discussion-btn').on('click', function(){

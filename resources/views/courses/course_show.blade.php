@@ -15,10 +15,11 @@
                 @include('courses.course_files')
             </span>
 
+            @if(auth()->user()->canSeeExams())
             <span id="exams-body" style="display: none">
                 @include('courses.course_exams')
             </span>
-
+            @endif
             {{--@if($user_settings['compact_mode'] == 'true')
                 @include('_partials/posts_list_compact')
             @else
