@@ -30,3 +30,5 @@ Route::get('/posts/get/{code}', 'ApiController@getCoursePosts');
 Route::get('/post/get/{id}', function($id){
     return Post::find($id);
 });
+
+Route::post('/post/create', 'ApiController@addPostFromDiscord');

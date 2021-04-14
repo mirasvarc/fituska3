@@ -26,4 +26,18 @@ class ApiController extends Controller
 
         return $posts;
     }
+
+
+    public function addPostFromDiscord(Request $request) {
+        $post = new Post();
+        $post->author_id = 6;
+        $post->topic_id = 3; // TODO
+        $post->course_id = $request->course;
+        $post->title = "Discord post";
+        $post->content = $request->content;
+        $post->downvotes = 0;
+        $post->upovotes = 0;
+        $post->type = 'Diskuze';
+        $post->save();
+    }
 }

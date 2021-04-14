@@ -2,9 +2,14 @@
 
 @section('content')
 <div class="container">
+    <div class="row justify-content-center mt-25">
+        <div class="col-md-6">
+            <h1 class="text-center text-white">FITuška<h1>
+        </div>
+    </div>
     <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
+        <div class="col-md-6">
+            <div class="card login-window">
                 <div class="card-header">{{ __('Registrace') }}</div>
 
                 <div class="card-body">
@@ -75,3 +80,12 @@
     </div>
 </div>
 @endsection
+
+@push('scripts')
+
+<script>
+    $('.navbar').addClass('hidden');
+    $('body').addClass('login-page');
+</script>
+
+@endpush

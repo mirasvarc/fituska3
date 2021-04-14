@@ -111,15 +111,19 @@ class PostController extends Controller
         }
 
         // TODO: !!!
-        /*
+
         if(!isset($request->isforum)){
-            $response = Http::post('http://127.0.0.1:5000/send', [
-                'course' => $course->code,
-                'post'  => $post,
-                'author' => auth()->user()->username
-            ]);
+            try {
+                $response = Http::post('http://127.0.0.1:5000/send', [
+                    'course' => $course->code,
+                    'post'  => $post,
+                    'author' => auth()->user()->username
+                ]);
+            } catch(\Illuminate\Http\Client\ConnectionException $e) {
+
+            }
         }
-        */
+
 
         if(!isset($request->isforum)){
             return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
