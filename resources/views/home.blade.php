@@ -82,4 +82,7 @@
         </div>
     </div>
 </div>
+
+@include('_partials.google_api')
+
 @endsection

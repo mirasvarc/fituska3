@@ -1,6 +1,6 @@
 <div class="row">
     <div class="col-12">
-        <h1>
+        <h1 class="course-h1" id="{{$course->code}}">
             @if(!auth()->user()->isFollowingCourse($course->id))
             <form method="POST" action="{{ action('UserController@followCourse') }}">
                 @csrf

@@ -47,7 +47,7 @@
                     @csrf
                     <div class="form-group">
                         <label for="event_name">Název: *&nbsp;</label>
-                        <input type="text" name="shared_file_name" class="form-control" required id="EventName">
+                        <input type="text" name="shared_file_name" class="form-control" required id="EventNameDrive">
                     </div>
                     <input type="submit" onclick="createSharedFile()" data-dismiss="modal" class="btn btn-success btn-addEvent" value="Přidat">
                 </form>

@@ -11,6 +11,7 @@
         var eventDesc = $('#EventDesc').val();
         var eventDate = $('#EventDate').val();
         console.log(moment(eventDate).format())
+        console.log(eventName)
         var event = {
             'summary': eventName,
             'description': eventDesc,
@@ -80,10 +81,31 @@
             updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
             authorizeButton.onclick = handleAuthClick;
             signoutButton.onclick = handleSignoutClick;
+
+            if(calendar_id == "primary") {
+                var code = $('.course-h1').attr('id');
+                var req = gapi.client.calendar.calendars.insert(
+                {
+                    "resource": {
+                        "summary": code,
+                        "description": "calendar",
+                        "timezone": "Europe/Prague"}
+                }).then(function(response) {
+                    console.log(response.result.id)
+                    $('#course-name').val(response.result.id);
+                    updateCalId(response.result.id);
+                });
+            }
+
         }, function(error) {
             appendPre(JSON.stringify(error, null, 2));
         });
     }
+
+    function updateCalId() {
+        // TODO
+    }
+
 
     /**
     *  Called when the signed in status changes, to update the UI
@@ -148,7 +170,6 @@
                     var when = event.start.dateTime;
                     if (!when) {
                         when = event.start.date;
-
                     }
                     // TODO: build event node
                     appendPre('<span class="event-name">' + event.summary + '</span><span class="event-date">' + moment(when).format('llll') + '</span>')
@@ -171,21 +192,37 @@
     var SCOPES_DRIVE = 'https://www.googleapis.com/auth/drive';
 
 
-
     function createSharedFile(){
-        console.log($('input[name=shared_file_name]').val());
-        var fileName = $('input[name=shared_file_name]').val();
-        var fileMetadata = {
-            'name' : fileName,
-            'mimeType' : 'application/vnd.google-apps.document'
-        };
 
-        gapi.client.drive.files.create({
-            resource: fileMetadata,
-        }).execute();
+        var code = $('.course-h1').attr('id');
+        var folder_id = "";
+        gapi.client.drive.files.list({
+            'pageSize': 10,
+            'fields': "nextPageToken, files(id, name)",
+            'q': "mimeType='application/vnd.google-apps.folder'",
+            'q': "name='"+code+"'"
+        }).then(function(response) {
+            var files = response.result.files;
+
+            if (files && files.length > 0) {
+
+                console.log(files[0].id)
+                folder_id = files[0].id;
+
+                console.log($('input[name=shared_file_name]').val());
+                var fileName = $('input[name=shared_file_name]').val();
+                var fileMetadata = {
+                    'name' : fileName,
+                    'mimeType' : 'application/vnd.google-apps.document',
+                    'parents' : [folder_id]
+                };
+
+                gapi.client.drive.files.create({
+                    resource: fileMetadata,
+                }).execute();
+            }
+        });
     }
-
-
 
     /**
      *  On load, called to load the auth2 library and API client library.
@@ -227,7 +264,7 @@
      */
     function appendDrivePre(message) {
       var pre = $('#shared-files');
-      console.log(message)
+      //console.log(message)
 
       pre.append('<div class="row course-post-compact">' +
                 '<div class="col-4"><span>' + message.name + '</span>' +
@@ -236,28 +273,54 @@
                 '<span class="normal"></span></div><div class="col-2" style="text-align:center"> ' +
                 '<span></span></div><div class="col-2" style="text-align:center"><span><a href=""></a>' +
                 '</span></div></div>');
-
-
     }
 
     /**
      * Print files.
      */
     function listFiles() {
-      gapi.client.drive.files.list({
-        'pageSize': 10,
-        'fields': "nextPageToken, files(id, name)"
-      }).then(function(response) {
-        var files = response.result.files;
-        if (files && files.length > 0) {
-          for (var i = 0; i < files.length; i++) {
-            var file = files[i];
-            appendDrivePre(file);
-          }
-        } else {
-          appendDrivePre('No files found.');
-        }
-      });
+
+        var code = $('.course-h1').attr('id');
+        var folder_id = "";
+        gapi.client.drive.files.list({
+            'pageSize': 10,
+            'fields': "nextPageToken, files(id, name)",
+            'q': "mimeType='application/vnd.google-apps.folder'",
+            'q': "name='"+code+"'"
+        }).then(function(response) {
+            var files = response.result.files;
+            if (files && files.length > 0) {
+
+                console.log(files[0].id)
+                folder_id = files[0].id;
+
+                gapi.client.drive.files.list({
+                    'pageSize': 10,
+                    'fields': "nextPageToken, files(id, name)",
+                    'q':"'"+folder_id+"' in  parents"
+                }).then(function(response) {
+                    var files = response.result.files;
+                    if (files && files.length > 0) {
+                        for (var i = 0; i < files.length; i++) {
+                            var file = files[i];
+                            appendDrivePre(file);
+                        }
+                    } else {
+                    appendDrivePre('No files found.');
+                    }
+                });
+            } else {
+                var fileMetadata = {
+                    'name' : code,
+                    'mimeType' : 'application/vnd.google-apps.folder',
+                };
+
+                gapi.client.drive.files.create({
+                    resource: fileMetadata,
+                }).execute();
+            }
+        });
+
     }
 
   </script>
