@@ -12,7 +12,7 @@
             </span>
 
             <span id="files-body" style="display: none">
-                @include('courses.course_files')
+               @include('courses.course_files')
             </span>
 
             @if(auth()->user()->canSeeExams())
@@ -27,14 +27,18 @@
             @endif--}}
         </div>
         <div class="col-md-4">
-            {{--@include('_partials.google_calendar')--}}
+            @include('_partials.google_calendar')
         </div>
     </div>
 </div>
 @endsection
 
 
+
 @push('scripts')
+
+@include('_partials.google_api')
+
 <script>
     $('#btn-following').hover(function () {
         $(this).addClass('btn-danger');
