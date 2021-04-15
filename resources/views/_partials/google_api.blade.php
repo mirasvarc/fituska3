@@ -1,8 +1,6 @@
 
 <script type="text/javascript">
 
-    var calendar_id = $('#course-name').val();
-
     moment.locale('cs');
 
     function addCalEvent(){
@@ -26,7 +24,7 @@
         };
 
         var request = gapi.client.calendar.events.insert({
-            'calendarId': calendar_id,
+            'calendarId': $('#course-name').val(),
             'resource': event
         });
 
@@ -82,28 +80,52 @@
             authorizeButton.onclick = handleAuthClick;
             signoutButton.onclick = handleSignoutClick;
 
-            if(calendar_id == "primary") {
+            if($('#course-name').val() == "primary" && $('#course-name').val() != undefined) {
                 var code = $('.course-h1').attr('id');
-                var req = gapi.client.calendar.calendars.insert(
-                {
-                    "resource": {
-                        "summary": code,
-                        "description": "calendar",
-                        "timezone": "Europe/Prague"}
-                }).then(function(response) {
-                    console.log(response.result.id)
-                    $('#course-name').val(response.result.id);
-                    updateCalId(response.result.id);
-                });
+                if($('.course-h1').attr('id') !== undefined) {
+                    var req = gapi.client.calendar.calendars.insert({
+                        "resource": {
+                            "summary": code,
+                            "description": "calendar",
+                            "timezone": "Europe/Prague"}
+                    }).then(function(response) {
+                        console.log(response.result.id)
+                        $('#course-name').val(response.result.id);
+                        updateCalId(code, response.result.id);
+                        listUpcomingEvents();
+                    });
+                }
+
+            } else {
+                listUpcomingEvents();
             }
+
 
         }, function(error) {
             appendPre(JSON.stringify(error, null, 2));
         });
     }
 
-    function updateCalId() {
-        // TODO
+    function updateCalId(course, calendar_id) {
+
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            $.ajax({
+                url: "{{ url('/course/calendar/update')}}",
+                method: 'post',
+                data: {'code':course, 'calendar_id': calendar_id},
+                success: function(response){
+                    console.log(response);
+                }
+            });
+
+        });
+
     }
 
 
@@ -115,7 +137,6 @@
         if (isSignedIn) {
             authorizeButton.style.display = 'none';
             //signoutButton.style.display = 'block';
-            listUpcomingEvents();
             listFiles();
         } else {
             authorizeButton.style.display = 'block';
@@ -154,7 +175,7 @@
     */
     function listUpcomingEvents() {
         gapi.client.calendar.events.list({
-            'calendarId': calendar_id,
+            'calendarId': $('#course-name').val(),
             'timeMin': (new Date()).toISOString(),
             'showDeleted': false,
             'singleEvents': true,
@@ -162,7 +183,7 @@
             'orderBy': 'startTime'
         }).then(function(response) {
             var events = response.result.items;
-
+            console.log(response)
             if (events.length > 0) {
                 for (i = 0; i < events.length; i++) {
                     console.log(event)
@@ -263,16 +284,24 @@
      * @param {string} message Text to be placed in pre element.
      */
     function appendDrivePre(message) {
-      var pre = $('#shared-files');
-      //console.log(message)
+        var pre = $('#shared-files');
 
-      pre.append('<div class="row course-post-compact">' +
-                '<div class="col-4"><span>' + message.name + '</span>' +
-                '</div><div class="col-2" style="text-align:center"> ' +
-                '<a href="https://docs.google.com/document/d/' + message.id + ' " target="_blank">Otevřít</a>' +
-                '<span class="normal"></span></div><div class="col-2" style="text-align:center"> ' +
-                '<span></span></div><div class="col-2" style="text-align:center"><span><a href=""></a>' +
-                '</span></div></div>');
+        if(message.id) {
+            pre.append('<div class="row course-post-compact">' +
+                    '<div class="col-4"><span>' + message.name + '</span>' +
+                    '</div><div class="col-2" style="text-align:center"> ' +
+                    '<a href="https://docs.google.com/document/d/' + message.id + ' " target="_blank">Otevřít</a>' +
+                    '<span class="normal"></span></div><div class="col-2" style="text-align:center"> ' +
+                    '<span></span></div><div class="col-2" style="text-align:center"><span><a href=""></a>' +
+                    '</span></div></div>');
+        } else {
+            pre.append('<div class="row course-post-compact">' +
+                    '<div class="col-4"><span>Žádný soubor nenalezen</span>' +
+                    '</div><div class="col-2" style="text-align:center"> ' +
+                    '<span class="normal"></span></div><div class="col-2" style="text-align:center"> ' +
+                    '<span></span></div><div class="col-2" style="text-align:center"><span><a href=""></a>' +
+                    '</span></div></div>');
+        }
     }
 
     /**
@@ -299,25 +328,31 @@
                     'fields': "nextPageToken, files(id, name)",
                     'q':"'"+folder_id+"' in  parents"
                 }).then(function(response) {
+                    console.log(response)
                     var files = response.result.files;
                     if (files && files.length > 0) {
                         for (var i = 0; i < files.length; i++) {
                             var file = files[i];
+                            console.log("test")
                             appendDrivePre(file);
                         }
                     } else {
-                    appendDrivePre('No files found.');
+                        appendDrivePre('No files found.');
                     }
                 });
             } else {
-                var fileMetadata = {
-                    'name' : code,
-                    'mimeType' : 'application/vnd.google-apps.folder',
-                };
+                console.log("Folder does not exist")
+                if(code != null) {
+                    var fileMetadata = {
+                        'name' : code,
+                        'mimeType' : 'application/vnd.google-apps.folder',
+                    };
 
-                gapi.client.drive.files.create({
-                    resource: fileMetadata,
-                }).execute();
+                    gapi.client.drive.files.create({
+                        resource: fileMetadata,
+                    }).execute();
+                }
+
             }
         });
 

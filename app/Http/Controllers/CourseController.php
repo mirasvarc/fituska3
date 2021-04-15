@@ -10,8 +10,6 @@ use App\File;
 use App\HasFile;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
-use PulkitJalan\Google\Client;
-use Google;
 
 class CourseController extends Controller
 {
@@ -170,13 +168,6 @@ class CourseController extends Controller
             }
         }
 
-
-        $googleClient = Google::getClient();
-
-        //$calendar = Google::make('calendar');
-
-        // TODO: create calendar for course
-
         foreach($courses as $c) {
             if($c['code'] != "" && $c['name'] != "") {
                 $course = new Course();
@@ -185,5 +176,12 @@ class CourseController extends Controller
                 $course->save();
             }
         }
+    }
+
+    public function updateCourseCalendar(Request $request) {
+        $course = Course::where('code', $request->code)->first();
+        $course->calendar_id = $request->calendar_id;
+        $course->save();
+        return true;
     }
 }

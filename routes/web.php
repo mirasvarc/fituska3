@@ -48,6 +48,7 @@ Route::prefix('/course')->middleware('auth')->group(function() {
     Route::get('/{code}', 'CourseController@show')->name('course');
     Route::get('/{code}/files', 'CourseController@showFiles')->name('show.files');
     Route::get('/{code}/topic/{topic_id}/create-post', 'PostController@create')->name('create-post');
+    Route::post('/calendar/update', 'CourseController@updateCourseCalendar')->name('update-course-calendar');
 });
 
 Route::get('/courses/import', 'CourseController@importCourses')->middleware('mod');

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "265d071ab33d038808dc154cb1fd777f",
+    "content-hash": "fa67e705988a15374d1766145dea22b7",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -745,7 +745,7 @@
         },
         {
             "name": "google/apiclient-services",
-            "version": "v0.167.0",
+            "version": "v0.168.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/googleapis/google-api-php-client-services.git",
@@ -780,7 +780,7 @@
             ],
             "support": {
                 "issues": "https://github.com/googleapis/google-api-php-client-services/issues",
-                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.167.0"
+                "source": "https://github.com/googleapis/google-api-php-client-services/tree/v0.168.0"
             },
             "time": "2021-03-22T11:26:04+00:00"
         },
@@ -1653,32 +1653,30 @@
         },
         {
             "name": "livewire/livewire",
-            "version": "v1.3.7",
+            "version": "v1.3.8",
             "source": {
                 "type": "git",
                 "url": "https://github.com/livewire/livewire.git",
-                "reference": "96f957556b84496b93a5a115a5624802e7bebad4"
+                "reference": "49a249aff329283a50d9d9659e266be365362986"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/livewire/livewire/zipball/96f957556b84496b93a5a115a5624802e7bebad4",
-                "reference": "96f957556b84496b93a5a115a5624802e7bebad4",
+                "url": "https://api.github.com/repos/livewire/livewire/zipball/49a249aff329283a50d9d9659e266be365362986",
+                "reference": "49a249aff329283a50d9d9659e266be365362986",
                 "shasum": ""
             },
             "require": {
-                "illuminate/database": "^7.0|^8.0",
-                "illuminate/support": "^7.0|^8.0",
-                "illuminate/validation": "^7.0|^8.0",
-                "php": "^7.2.5|^8.0",
-                "symfony/http-kernel": "^5.0"
+                "illuminate/database": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
+                "illuminate/support": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
+                "illuminate/validation": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0|^8.0",
+                "php": "^7.1.3",
+                "symfony/http-kernel": "^4.0|^5.0"
             },
             "require-dev": {
-                "calebporzio/sushi": "^2.1",
-                "laravel/framework": "^7.0|^8.0",
+                "laravel/framework": "~5.6.0|~5.7.0|~5.8.0|^6.0|^7.0",
                 "mockery/mockery": "^1.3.1",
-                "orchestra/testbench": "^5.0|^6.0",
-                "orchestra/testbench-dusk": "^5.2|^6.0",
-                "phpunit/phpunit": "^8.4|^9.0",
+                "orchestra/testbench": "~3.6.0|~3.7.0|~3.8.0|^4.0|^5.0",
+                "phpunit/phpunit": "^7.5.15|^8.4|^9.0",
                 "psy/psysh": "@stable"
             },
             "type": "library",
@@ -1693,9 +1691,6 @@
                 }
             },
             "autoload": {
-                "files": [
-                    "src/helpers.php"
-                ],
                 "psr-4": {
                     "Livewire\\": "src/"
                 }
@@ -1713,7 +1708,7 @@
             "description": "A front-end framework for Laravel.",
             "support": {
                 "issues": "https://github.com/livewire/livewire/issues",
-                "source": "https://github.com/livewire/livewire/tree/v1.3.7"
+                "source": "https://github.com/livewire/livewire/tree/v1.3.8"
             },
             "funding": [
                 {
@@ -1721,7 +1716,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-03-22T14:44:07+00:00"
+            "time": "2021-03-22T14:41:27+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -2586,70 +2581,6 @@
                 "source": "https://github.com/bobthecow/psysh/tree/v0.10.8"
             },
             "time": "2021-04-10T16:23:39+00:00"
-        },
-        {
-            "name": "pulkitjalan/google-apiclient",
-            "version": "4.1.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/pulkitjalan/google-apiclient.git",
-                "reference": "7ca0966780e01decdd3d40ec1967e44647df581d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/pulkitjalan/google-apiclient/zipball/7ca0966780e01decdd3d40ec1967e44647df581d",
-                "reference": "7ca0966780e01decdd3d40ec1967e44647df581d",
-                "shasum": ""
-            },
-            "require": {
-                "google/apiclient": "^2.4",
-                "illuminate/support": "^5.8|^6.0|^7.0|^8.0",
-                "php": "^7.2"
-            },
-            "require-dev": {
-                "mockery/mockery": "^1.2.3",
-                "phpunit/phpunit": "^8.3"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.1.x-dev"
-                },
-                "laravel": {
-                    "providers": [
-                        "PulkitJalan\\Google\\GoogleServiceProvider"
-                    ],
-                    "aliases": {
-                        "Google": "PulkitJalan\\Google\\Facades\\Google"
-                    }
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "PulkitJalan\\Google\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Pulkit Jalan"
-                }
-            ],
-            "description": "Google api php client wrapper with Cloud Platform and Laravel support",
-            "homepage": "https://github.com/pulkitjalan/google-apiclient",
-            "keywords": [
-                "cloud platform",
-                "google",
-                "laravel"
-            ],
-            "support": {
-                "issues": "https://github.com/pulkitjalan/google-apiclient/issues",
-                "source": "https://github.com/pulkitjalan/google-apiclient/tree/4.1.1"
-            },
-            "time": "2020-09-14T10:00:30+00:00"
         },
         {
             "name": "ralouphie/getallheaders",
@@ -5590,16 +5521,16 @@
         },
         {
             "name": "facade/flare-client-php",
-            "version": "1.6.1",
+            "version": "1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/facade/flare-client-php.git",
-                "reference": "f2b0969f2d9594704be74dbeb25b201570a98098"
+                "reference": "6bf380035890cb0a09b9628c491ae3866b858522"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/f2b0969f2d9594704be74dbeb25b201570a98098",
-                "reference": "f2b0969f2d9594704be74dbeb25b201570a98098",
+                "url": "https://api.github.com/repos/facade/flare-client-php/zipball/6bf380035890cb0a09b9628c491ae3866b858522",
+                "reference": "6bf380035890cb0a09b9628c491ae3866b858522",
                 "shasum": ""
             },
             "require": {
@@ -5643,7 +5574,7 @@
             ],
             "support": {
                 "issues": "https://github.com/facade/flare-client-php/issues",
-                "source": "https://github.com/facade/flare-client-php/tree/1.6.1"
+                "source": "https://github.com/facade/flare-client-php/tree/1.7.0"
             },
             "funding": [
                 {
@@ -5651,7 +5582,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2021-04-08T08:50:01+00:00"
+            "time": "2021-04-12T09:30:36+00:00"
         },
         {
             "name": "facade/ignition",
