@@ -47,7 +47,7 @@ class PostController extends Controller
         $content = $request->content;
 
         // match all LaTex equations
-        preg_match_all("/\[([^\]]*)\]/", $content, $matches);
+        preg_match_all("/\[{2}([^\]]*)\]{2}/", $content, $matches);
 
         if($matches[1]) {
             foreach($matches[1] as $eq){
@@ -57,7 +57,7 @@ class PostController extends Controller
                 // save response as png
                 file_put_contents($file, $response);
                 // replace text equation with response image
-                $content = preg_replace("/\[([^\]]*)\]/", '<img src="/'.$file.'">', $content, 1);
+                $content = preg_replace("/\[{2}([^\]]*)\]{2}/", '<img src="/'.$file.'">', $content, 1);
             }
         }
 

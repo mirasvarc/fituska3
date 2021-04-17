@@ -41,6 +41,8 @@ Route::resource('courses', 'CourseController')
         ->except('show')
         ->middleware('auth');
 
+Route::get('/courses/fetch_data', 'CourseController@fetch_data');
+
 Route::prefix('/course')->middleware('auth')->group(function() {
     Route::get('/{code}/topic/{id}', 'TopicController@show')->name('topic');
     Route::post('/{code}/create-topic', 'TopicController@store')->name('create-topic');
@@ -105,6 +107,8 @@ Route::get('/su-members', 'ModuleController@showSUMembers')->middleware('auth');
 Route::get('/su-contact', 'ModuleController@showSUContact')->middleware('auth');
 Route::get('/su-forms', 'ModuleController@showSUForms')->middleware('auth');
 Route::post('/su-contact/form-send', 'ModuleController@SUContactFormSave')->name('su-send-form')->middleware('auth');
+Route::post('/su/file/upload', 'ModuleController@uploadFile')->name('su.file.upload')->middleware('auth');
+Route::get('/su/files', 'ModuleController@showSUFiles')->name('su.files.show')->middleware('auth');
 
 Route::post('/file/upload', 'CourseController@uploadFile')->name('file.upload')->middleware('auth');
 Route::post('/exam/upload', 'CourseController@uploadExam')->name('exam.upload')->middleware('auth');

@@ -20,17 +20,26 @@ class CourseController extends Controller
      */
     public function index()
     {
-        $courses = Course::All();
-
-        $subset = $courses->map(function ($course) {
-            return collect($course)
-                ->only(['id', 'code', 'full_name', 'study_year', 'type'])
-                ->all();
-        });
-
-
-        return view('courses/courses', ['courses' => $subset->toJson()]);
+        $data = Course::orderBy('id', 'asc')->paginate(15);
+        return view('courses/courses', compact('data'));
     }
+
+    function fetch_data(Request $request) {
+        if($request->ajax()) {
+            $sort_by = $request->get('sortby');
+            $sort_type = $request->get('sorttype');
+                    $query = $request->get('query');
+                    $query = str_replace(" ", "%", $query);
+            $data = Course::where('id', 'like', '%'.$query.'%')
+                            ->orWhere('code', 'like', '%'.$query.'%')
+                            ->orWhere('full_name', 'like', '%'.$query.'%')
+                            ->orderBy($sort_by, $sort_type)
+                            ->paginate(15);
+
+            return view('courses.courses_data', compact('data'))->render();
+        }
+    }
+
 
     /**
      * Display the specified resource.

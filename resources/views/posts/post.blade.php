@@ -307,7 +307,7 @@ $(document).ready(function(){
                     $('#add-comment').html('Submit');
                     document.getElementById("add-comment-form").reset();
                     console.log(response);
-
+                    location.reload();
                 }
             });
         });
@@ -331,6 +331,7 @@ $(document).ready(function(){
                     console.log($('.add-reply-form-' + comm_id).serialize());
                     $(this).html('Submit');
                     document.getElementById("form-" + comm_id).reset();
+                    location.reload();
                 }
             });
         });

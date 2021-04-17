@@ -181,4 +181,46 @@ class ModuleController extends Controller
         return view('su.forms', ['forms' => $forms]);
     }
 
+
+
+     /**
+     * upload file to server
+     */
+    public function uploadFile(Request $request){
+
+        if($request->file('files')){
+            // check for files in request
+            foreach($request->file('files') as $file){
+
+                // upload files and store path to DB
+                $file->storeAs('public/files/su/', $file->getClientOriginalName());
+                $new_file = new File;
+                $new_file->author_id = auth()->user()->id;
+                $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
+                $new_file->type = $file->getClientOriginalExtension();
+                $new_file->path = $file->getClientOriginalName();
+                $new_file->is_exam = 0;
+                $new_file->is_su = 1;
+                if($request->su_private == 'on') {
+                    $new_file->is_su_private = 1;
+                }
+                $new_file->save();
+            }
+        }
+
+        return redirect()->back();
+    }
+
+
+     /**
+     * upload file to server
+     */
+    public function showSUFiles(){
+
+        $su_files = File::where('is_su', 1)->where('is_su_private', null)->get();
+        $su_files_private = File::where('is_su', 1)->where('is_su_private', 1)->get();
+
+        return view('su.file_storage', ['su_files' => $su_files, 'su_files_private' => $su_files_private]);
+    }
+
 }

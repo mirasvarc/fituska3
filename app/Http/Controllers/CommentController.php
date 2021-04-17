@@ -95,10 +95,28 @@ class CommentController extends Controller
      */
     public function store(Request $request)
     {
+
+        $content = $request->content;
+
+        // match all LaTex equations
+        preg_match_all("/\[{2}([^\]]*)\]{2}/", $content, $matches);
+
+        if($matches[1]) {
+            foreach($matches[1] as $eq){
+                // send request to online LaTex converter
+                $response = file_get_contents('http://www.sciweavers.org/tex2img.php?eq='.trim($eq).'&fc=Black&im=png&fs=25&edit=0');
+                $file = 'storage/uploads/latex/'.time().'.png';
+                // save response as png
+                file_put_contents($file, $response);
+                // replace text equation with response image
+                $content = preg_replace("/\[{2}([^\]]*)\]{2}/", '<img src="/'.$file.'">', $content, 1);
+            }
+        }
+
         $comment = new Comment;
         $comment->post_id = $request->post_id;
         $comment->author_id = $request->author_id;
-        $comment->content = $request->content;
+        $comment->content = $content;
 
         if($request->parent_id){
             $comment->parent_id = $request->parent_id;

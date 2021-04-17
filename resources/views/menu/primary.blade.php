@@ -31,6 +31,7 @@
                             <a class="dropdown-item" href="/hromadne">{{ __('Hromadné zprávy') }}</a>
                             <a class="dropdown-item" href="/su-forms">{{ __('Formuláře') }}</a>
                         @endif
+                        <a class="dropdown-item" href="/su/files">{{ __('Sklad souborů') }}</a>
                         <a class="dropdown-item" href="/su-members">{{ __('Členové') }}</a>
                         <a class="dropdown-item" href="/su-contact">{{ __('Kontakt') }}</a>
                     </div>

@@ -3,13 +3,15 @@
 
     moment.locale('cs');
 
+    /*
+     * Add new event to course calendar
+    */
     function addCalEvent(){
 
         var eventName = $('#EventName').val();
         var eventDesc = $('#EventDesc').val();
         var eventDate = $('#EventDate').val();
-        console.log(moment(eventDate).format())
-        console.log(eventName)
+
         var event = {
             'summary': eventName,
             'description': eventDesc,
@@ -29,26 +31,23 @@
         });
 
         request.execute(function(event) {
-            console.log("Event created!")
             $('#add-event-modal').modal('hide');
             var when = event.start.dateTime;
             if (!when) {
                 when = event.start.date;
             }
             appendPre('<span class="event-name">' + event.summary + '</span><span class="event-date">' + moment(when).format('llll') + '</span>')
-            //appendPre('Event created: ' + event.htmlLink);
         });
     }
 
-    // Client ID and API key from the Developer Console
+    // Client ID and API key for Google Calendar
     var CLIENT_ID = '923025024916-8m1fat5k5g2puvo5vlfkinahhme341eg.apps.googleusercontent.com';
     var API_KEY = 'AIzaSyB4YivkSauKMid6EXKVdJap5_wNHCYLxQ4';
 
-    // Array of API discovery doc URLs for APIs used by the quickstart
+    // Array of API discovery doc URLs for Calendar API
     var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
 
-    // Authorization scopes required by the API; multiple scopes can be
-    // included, separated by spaces.
+    // Authorization scopes required by the calendar API
     var SCOPES = "https://www.googleapis.com/auth/calendar";
 
     var authorizeButton = document.getElementById('authorize_button');
@@ -80,6 +79,7 @@
             authorizeButton.onclick = handleAuthClick;
             signoutButton.onclick = handleSignoutClick;
 
+            // Check if calendar exist for current course
             if($('#course-name').val() == "primary" && $('#course-name').val() != undefined) {
                 var code = $('.course-h1').attr('id');
                 if($('.course-h1').attr('id') !== undefined) {
@@ -89,23 +89,27 @@
                             "description": "calendar",
                             "timezone": "Europe/Prague"}
                     }).then(function(response) {
-                        console.log(response.result.id)
                         $('#course-name').val(response.result.id);
                         updateCalId(code, response.result.id);
                         listUpcomingEvents();
                     });
+                } else {
+                    listUpcomingEvents();
                 }
-
             } else {
                 listUpcomingEvents();
             }
-
 
         }, function(error) {
             appendPre(JSON.stringify(error, null, 2));
         });
     }
 
+    /*
+     * Update course calendar id in database
+     * @param course code of the course
+     * @param colendar_id id of the created calendar
+    */
     function updateCalId(course, calendar_id) {
 
         $(document).ready(function(){
@@ -114,7 +118,6 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
-
             $.ajax({
                 url: "{{ url('/course/calendar/update')}}",
                 method: 'post',
@@ -123,9 +126,7 @@
                     console.log(response);
                 }
             });
-
         });
-
     }
 
 
@@ -159,19 +160,15 @@
     }
 
     /**
-    * Append a pre element to the body containing the given message
-    * as its text node. Used to display the results of the API call.
-    *
-    * @param {string} message Text to be placed in pre element.
+    * Add new event to event list
+    * @param message Event name and date.
     */
     function appendPre(message) {
         $('.calendar-events').append('<div class="calendar-event">' + message + '</div>\n');
     }
 
     /**
-    * Print the summary and start datetime/date of the next ten events in
-    * the authorized user's calendar. If no events are found an
-    * appropriate message is printed.
+    * Show list of all uopcoming events for current course (or primary cal when on homepage)
     */
     function listUpcomingEvents() {
         gapi.client.calendar.events.list({
@@ -183,16 +180,13 @@
             'orderBy': 'startTime'
         }).then(function(response) {
             var events = response.result.items;
-            console.log(response)
             if (events.length > 0) {
                 for (i = 0; i < events.length; i++) {
-                    console.log(event)
                     var event = events[i];
                     var when = event.start.dateTime;
                     if (!when) {
                         when = event.start.date;
                     }
-                    // TODO: build event node
                     appendPre('<span class="event-name">' + event.summary + '</span><span class="event-date">' + moment(when).format('llll') + '</span>')
                 }
             } else {
@@ -201,18 +195,19 @@
         });
     }
 
-    // Client ID and API key from the Developer Console
+    // Client ID and API key for Google Drive API
     var CLIENT_ID_DRIVE = '923025024916-8m1fat5k5g2puvo5vlfkinahhme341eg.apps.googleusercontent.com';
     var API_KEY_DRIVE = 'AIzaSyAgSNCOWIH9pOcLzMN8UtITD58KunSFpxE';
 
-    // Array of API discovery doc URLs for APIs used by the quickstart
+    // Array of API discovery doc URLs for Google Drive API
     var DISCOVERY_DOCS_DRIVE = ["https://www.googleapis.com/discovery/v1/apis/drive/v3/rest"];
 
-    // Authorization scopes required by the API; multiple scopes can be
-    // included, separated by spaces.
+    // Authorization scopes required by the Google Drive API
     var SCOPES_DRIVE = 'https://www.googleapis.com/auth/drive';
 
-
+    /*
+     * Create new shared document and save it to course folder on drive
+    */
     function createSharedFile(){
 
         var code = $('.course-h1').attr('id');
@@ -226,11 +221,8 @@
             var files = response.result.files;
 
             if (files && files.length > 0) {
-
-                console.log(files[0].id)
                 folder_id = files[0].id;
 
-                console.log($('input[name=shared_file_name]').val());
                 var fileName = $('input[name=shared_file_name]').val();
                 var fileMetadata = {
                     'name' : fileName,
@@ -278,10 +270,8 @@
     }
 
     /**
-     * Append a pre element to the body containing the given message
-     * as its text node. Used to display the results of the API call.
-     *
-     * @param {string} message Text to be placed in pre element.
+     * Add newly created file to list
+     * @param message File name and id
      */
     function appendDrivePre(message) {
         var pre = $('#shared-files');
@@ -305,22 +295,23 @@
     }
 
     /**
-     * Print files.
+     * Show list of files
      */
     function listFiles() {
 
         var code = $('.course-h1').attr('id');
         var folder_id = "";
+
+        // Search for course folder
         gapi.client.drive.files.list({
             'pageSize': 10,
             'fields': "nextPageToken, files(id, name)",
             'q': "mimeType='application/vnd.google-apps.folder'",
             'q': "name='"+code+"'"
         }).then(function(response) {
+            // if folder exist, list all file in it
             var files = response.result.files;
             if (files && files.length > 0) {
-
-                console.log(files[0].id)
                 folder_id = files[0].id;
 
                 gapi.client.drive.files.list({
@@ -328,7 +319,6 @@
                     'fields': "nextPageToken, files(id, name)",
                     'q':"'"+folder_id+"' in  parents"
                 }).then(function(response) {
-                    console.log(response)
                     var files = response.result.files;
                     if (files && files.length > 0) {
                         for (var i = 0; i < files.length; i++) {
@@ -341,6 +331,7 @@
                     }
                 });
             } else {
+                // if folder does not exist, create new one
                 console.log("Folder does not exist")
                 if(code != null) {
                     var fileMetadata = {
@@ -355,7 +346,6 @@
 
             }
         });
-
     }
 
   </script>
