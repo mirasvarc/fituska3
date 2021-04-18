@@ -58,6 +58,11 @@ class User extends Authenticatable
         return $this->belongsToMany('App\Post', 'has_seen_post', 'user_id', 'post_id');
     }
 
+    public function isFollowingCalendar()
+    {
+        return $this->belongsToMany('App\Calendar', 'is_following_calendar', 'user_id', 'calendar_id');
+    }
+
     /**
      * Check if current user is administrator
      */

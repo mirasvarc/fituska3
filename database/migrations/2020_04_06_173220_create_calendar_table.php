@@ -15,6 +15,7 @@ class CreateCalendarTable extends Migration
     {
         Schema::create('calendar', function (Blueprint $table) {
             $table->increments('id');
+            $table->unsignedInteger('calendar_id');
             $table->timestamps();
         });
     }

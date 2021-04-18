@@ -5,8 +5,8 @@
     </button>
 </h2>
 
-<button id="authorize_button" style="display: none;" class="btn btn-secondary">Autorizovat</button>
-<button id="signout_button" style="display: none;" class="btn btn-secondary">Odhlásit</button>
+{{--<button id="authorize_button" style="display: none;" class="btn btn-secondary">Autorizovat</button>
+<button id="signout_button" style="display: none;" class="btn btn-secondary">Odhlásit</button>--}}
 <div class="row">
     <div class="col-10">
         <div class="course-posts">

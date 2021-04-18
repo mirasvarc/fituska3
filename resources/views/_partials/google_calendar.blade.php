@@ -1,7 +1,7 @@
 @if(isset($course->calendar_id))
     <input type="hidden" value="{{$course->calendar_id}}" id="course-name">
 @else
-    <input type="hidden" value="primary" id="course-name">
+    <input type="hidden" value="fituska.mail@gmail.com" id="course-name">
 @endif
 
 <div class="calendar-container">
@@ -10,8 +10,25 @@
 
 
         &nbsp;
-        <button id="authorize_button" style="display: none;" class="btn btn-secondary">Autorizovat</button>
-        <button id="signout_button" style="display: none;" class="btn btn-secondary">Odhlásit</button>
+        <button id="authorize_button" style="display: none;" class="btn btn-primary">
+            Autorizovat
+        </button>
+        <button id="signout_button" style="display: none;" class="btn btn-secondary">
+            <span>XXX</span>
+        </button>
+
+
+        &nbsp;
+        <button id="follow_button" class="btn btn-primary" onclick="followCalendar();">
+            <i class="fa fa-plus-circle"></i>
+            &nbsp;
+            Sledovat
+        </button>
+        <button id="unfollow_button" style="display: none;" class="btn btn-secondary" onclick="unfollowCalendar();">
+            <i class="fa fa-check-circle"></i>
+            &nbsp;
+            <span>Sledováno</span>
+        </button>
     </div>
     <div class="calendar-body">
         <div class="calendar-events">

@@ -53,6 +53,8 @@
     var authorizeButton = document.getElementById('authorize_button');
     var signoutButton = document.getElementById('signout_button');
 
+
+
     /**
     *  On load, called to load the auth2 library and API client library.
     */
@@ -80,7 +82,7 @@
             signoutButton.onclick = handleSignoutClick;
 
             // Check if calendar exist for current course
-            if($('#course-name').val() == "primary" && $('#course-name').val() != undefined) {
+            if($('#course-name').val() == "fituska.mail@gmail.com" && $('#course-name').val() != undefined) {
                 var code = $('.course-h1').attr('id');
                 if($('.course-h1').attr('id') !== undefined) {
                     var req = gapi.client.calendar.calendars.insert({
@@ -89,6 +91,7 @@
                             "description": "calendar",
                             "timezone": "Europe/Prague"}
                     }).then(function(response) {
+                        storeCalToDB(response.result.id, "{{ auth()->user()->id }}");
                         $('#course-name').val(response.result.id);
                         updateCalId(code, response.result.id);
                         listUpcomingEvents();
@@ -102,6 +105,85 @@
 
         }, function(error) {
             appendPre(JSON.stringify(error, null, 2));
+        });
+    }
+
+
+    function storeCalToDB(calendar_id, user_id) {
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ url('/calendar/store')}}",
+                method: 'post',
+                data: {'calendar_id': calendar_id, 'user_id': user_id},
+                success: function(response){
+                    console.log(response);
+                }
+            });
+        });
+    }
+
+
+    function followCalendar() {
+        var calendar_id = $('#course-name').val();
+        var user_id = "{{ auth()->user()->id }}";
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ url('/calendar/follow')}}",
+                method: 'post',
+                data: {'calendar_id': calendar_id, 'user_id': user_id},
+                success: function(response){
+                    console.log(response);
+                    $('#followButton').hide();
+                }
+            });
+
+
+            var req = {
+                "calendarId": calendar_id,
+                "resource": {
+                    "role": "writer",
+                    "scope": {
+                        "type": "user",
+                        "value": "{{ auth()->user()->mail }}"
+                    }
+                }
+            }
+            var request = gapi.client.calendar.acl.insert(req);
+            request.execute(function(resp) {
+                console.log(resp);
+            });
+
+        });
+    }
+
+    function unfollowCalendar() {
+        var calendar_id = $('#course-name').val();
+        var user_id = "{{ auth()->user()->id }}";
+        $(document).ready(function(){
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: "{{ url('/calendar/follow')}}",
+                method: 'post',
+                data: {'calendar_id': calendar_id, 'user_id': user_id},
+                success: function(response){
+                    console.log(response);
+                    $('#unfollowButton').hide();
+                }
+            });
         });
     }
 
@@ -137,7 +219,7 @@
     function updateSigninStatus(isSignedIn) {
         if (isSignedIn) {
             authorizeButton.style.display = 'none';
-            //signoutButton.style.display = 'block';
+            signoutButton.style.display = 'block';
             listFiles();
         } else {
             authorizeButton.style.display = 'block';
@@ -150,6 +232,7 @@
     */
     function handleAuthClick(event) {
         gapi.auth2.getAuthInstance().signIn();
+
     }
 
     /**
@@ -157,6 +240,7 @@
     */
     function handleSignoutClick(event) {
         gapi.auth2.getAuthInstance().signOut();
+
     }
 
     /**

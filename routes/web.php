@@ -126,3 +126,9 @@ Route::get('/test', 'AdminPanelController@test')->name('test')->middleware('mod'
 Route::prefix('facebook')->group(function () {
     Route::get('get-posts', 'ModuleController@getFacebookPosts')->name('get-fb-posts')->middleware('auth');
 });
+
+Route::prefix('calendar')->group(function () {
+    Route::post('/store', 'CalendarController@storeCalendar')->name('store-calendar')->middleware('auth');
+    Route::post('/follow', 'CalendarController@followCalendar')->name('follow-calendar')->middleware('auth');
+    Route::post('/unfollow', 'CalendarController@unfollowCalendar')->name('unfollow-calendar')->middleware('auth');
+});
