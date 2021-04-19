@@ -113,11 +113,6 @@ class UserController extends Controller
 
             return redirect('/user/' . $user->id);
         }
-
-
-
-
-
     }
 
     /**
@@ -139,10 +134,6 @@ class UserController extends Controller
                 return redirect('/user/'.$user->id.'?delErr');
             }
         }
-
-
-
-
     }
 
     /**
@@ -187,6 +178,10 @@ class UserController extends Controller
         return redirect('/user/'.$user_id);
     }
 
+    /**
+     * Follow course
+     * @param Request
+     */
     public function followCourse(Request $request)
     {
         $followedCourse = new IsFollowingCourse();
@@ -197,6 +192,10 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Předmět je sledován!');
     }
 
+    /**
+     * Unfollow course
+     * @param Request
+     */
     public function unfollowCourse(Request $request)
     {
         $user_id = $request->input('user');
@@ -209,6 +208,10 @@ class UserController extends Controller
         return redirect()->back()->with('success', 'Předmět odebrán ze sledovaných!');
     }
 
+    /**
+     * Change user settings
+     * @param Request
+     */
     public function changeSettings(Request $request){
 
         $userSettings = User::find($request->user)->userSettings()->first();
@@ -226,6 +229,9 @@ class UserController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Show contact page
+     */
     public function contacts(){
 
         $su = User::whereHas(
@@ -249,9 +255,10 @@ class UserController extends Controller
         return view('contacts', ['su' => $su, 'moderators' => $moderators, 'admins' => $admins]);
     }
 
+    /**
+     * Show vote page
+     */
     public function voteIndex() {
-
-
         return view('_partials.vote');
     }
 
@@ -290,5 +297,16 @@ class UserController extends Controller
         }
 
         return redirect('/user/'.$request->curr_user);
+    }
+
+    public function importUsers() {
+
+        // TODO: Request
+
+        $users = [['login' => "xjmeno00", 'jmeno' => "Jméno", 'prijmeni' => 'Příjmení', 'zarazení' => '3BIT']];
+
+        dd($users);
+
+
     }
 }

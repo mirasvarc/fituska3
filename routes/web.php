@@ -27,7 +27,7 @@ Route::resource('user' , 'UserController' )->middleware('auth');
 Route::delete('users/{id}', 'UserController@destroy')->middleware('auth');
 Route::get('/users', 'AdminPanelController@all_users')->name('users')->middleware('auth');
 Route::get('/kontakty', 'UserController@contacts')->name('contacts')->middleware('auth');
-
+Route::get('users/import', 'UserController@importUsers')->name('import-users')->middleware(['auth', 'mod']);
 
 Route::prefix('/user')->middleware('auth')->group(function() {
     Route::post('.addRole', 'UserController@addRole')->name('addRole');
