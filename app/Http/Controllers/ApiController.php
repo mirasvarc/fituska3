@@ -29,15 +29,27 @@ class ApiController extends Controller
 
 
     public function addPostFromDiscord(Request $request) {
+
+        $course = Course::where('code', trim($request->course, "[]"))->first();
+        $topic = Topics::where('course_id', $course->id)->where('name', 'Discord')->first();
+
+        if($topic == null) {
+            $topic = new Topics();
+            $topic->name = "Discord";
+            $topic->course_id =$course->id;
+            $topic->save();
+        }
+
         $post = new Post();
         $post->author_id = 6;
-        $post->topic_id = 3; // TODO
-        $post->course_id = $request->course;
+        $post->topic_id = $topic->id;
+        $post->course_id = $course->id;
         $post->title = "Discord post";
         $post->content = $request->content;
         $post->downvotes = 0;
-        $post->upovotes = 0;
+        $post->upvotes = 0;
         $post->type = 'Diskuze';
         $post->save();
+        return true;
     }
 }

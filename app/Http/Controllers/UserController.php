@@ -57,7 +57,7 @@ class UserController extends Controller
         $userSettings = User::find($id)->userSettings()->first();
 
         $roles_user_have = $user->roles->pluck('role', 'id')->toArray();
-        $all_roles = Role::All()->pluck('role', 'id')->toArray();
+        $all_roles = Role::whereIn('id', [1, 3, 4, 9])->pluck('role', 'id')->toArray();
 
         $roles_user_dont_have = array_diff($all_roles, $roles_user_have);
 

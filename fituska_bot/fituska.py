@@ -102,14 +102,11 @@ async def on_message(message):
     if str(message.content).split(" ")[0] == "$addpost":
 
         course = str(message.content).split(" ")[1]
-        content = str(message.content).split(" ")[2]
+        content = message.content.removeprefix("$addpost " + course + " ")
 
         await message.channel.send("Adding post")
         await message.channel.send(content)
         response = requests.post("http://localhost:8000/api/post/create", {"course":course, "content":content})
-        #r = requests.get("http://localhost:8000/api/post/get/{id}".format(id = id))
-        f = open("log.txt", "a")
-        f.write(response.text)
-        f.close()
+
 
 client.run('ODEyMzMzMjk2MDI4ODc2ODEx.YC_OVg.YUHowf7VO3ZDunRpU6e2D4oOhUQ')

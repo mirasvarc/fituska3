@@ -40,6 +40,9 @@ class User extends Authenticatable
     ];
 
 
+    /**
+     * Return user personal settings
+     */
     public function userSettings(){
         return $this->hasOne('App\UserSettings');
     }
@@ -53,11 +56,17 @@ class User extends Authenticatable
     }
 
 
+    /**
+     * Post user has seen
+     */
     public function hasSeenPost()
     {
         return $this->belongsToMany('App\Post', 'has_seen_post', 'user_id', 'post_id');
     }
 
+    /**
+     * Calendars that user is following
+     */
     public function isFollowingCalendar()
     {
         return $this->belongsToMany('App\Calendar', 'is_following_calendar', 'user_id', 'calendar_id');
@@ -84,10 +93,16 @@ class User extends Authenticatable
         return $this->roles()->where('role', 'Moderátor')->exists();
     }
 
+    /**
+     * Check if user can moderate
+     */
     public function canModerate(){
         return $this->isAdministrator() || $this->isSUManagement() || $this->isModerator();
     }
 
+    /**
+     * Check if user can see exams
+     */
     public function canSeeExams(){
         if($this->isAdministrator() ||
             $this->isSUManagement() ||
@@ -100,10 +115,31 @@ class User extends Authenticatable
         } else return false;
     }
 
+    /**
+     * Check if user can see student sripts
+     */
+    public function canSeeStudentScripts(){
+        if($this->isAdministrator() ||
+            $this->isSUManagement() ||
+            $this->isModerator() ||
+            $this->roles()->where('role', 'Ověřený učitel')->exists() ||
+            $this->roles()->where('role', 'Ověřený doktorand')->exists() ||
+            $this->roles()->where('role', 'Student')->exists()
+        ) {
+            return true;
+        } else return false;
+    }
+
+    /**
+     * Check if user is teacher
+     */
     public function isTeacher(){
         return $this->roles()->where('role', 'Učitel')->exists();
     }
 
+    /**
+     * Check if user is doctoral student
+     */
     public function isDoctoral(){
         return $this->roles()->where('role', 'Doktorand')->exists();
     }
@@ -138,6 +174,9 @@ class User extends Authenticatable
         return User::find($id);
     }
 
+    /**
+     * Check if there is more than one admin
+     */
     public static function isMoreThanOneAdmin(){
 
         $role = Role::where('role', 'Administrátor')->first();

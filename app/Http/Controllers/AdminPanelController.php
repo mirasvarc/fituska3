@@ -9,6 +9,7 @@ use App\UserHasVoted;
 use App\HasRole;
 use App\User;
 use App\Facebook;
+use App\Topics;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -134,7 +135,9 @@ class AdminPanelController extends Controller
 
     public function test(){
 
-
+        $topic = Topics::where('name', 'Discord')->first();
+        dd($topic);
+/*
         $url = 'https://knot.fit.vutbr.cz/knotis/exportVO.php';
         $data = array('xs8iKIXhJ0Ut65Q7BTvvu2uFC5d31C');
 
@@ -145,7 +148,7 @@ class AdminPanelController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        dd($response);
+        dd($response);*/
     }
 
 }
