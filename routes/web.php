@@ -131,4 +131,5 @@ Route::prefix('calendar')->group(function () {
     Route::post('/store', 'CalendarController@storeCalendar')->name('store-calendar')->middleware('auth');
     Route::post('/follow', 'CalendarController@followCalendar')->name('follow-calendar')->middleware('auth');
     Route::post('/unfollow', 'CalendarController@unfollowCalendar')->name('unfollow-calendar')->middleware('auth');
+    Route::get('/update/all', 'CourseController@updateGoogleCalendars')->name('update-all-calendars')->middleware('auth');
 });

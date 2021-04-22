@@ -22,7 +22,7 @@ class ApiController extends Controller
         foreach($topics as $topic){
             $topics_ids[] = $topic->id;
         }
-        $posts = Post::whereIn('topic_id', $topics_ids)->get();
+        $posts = Post::whereIn('topic_id', $topics_ids)->limit(10)->orderBy('created_at', 'desc')->get();
 
         return $posts;
     }

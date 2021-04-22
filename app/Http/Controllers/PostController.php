@@ -52,7 +52,7 @@ class PostController extends Controller
         if($matches[1]) {
             foreach($matches[1] as $eq){
                 // send request to online LaTex converter
-                $response = file_get_contents('http://www.sciweavers.org/tex2img.php?eq='.trim($eq).'&fc=Black&im=png&fs=25&edit=0');
+                $response = file_get_contents('http://www.sciweavers.org/tex2img.php?eq='.urlencode($eq).'&fc=Black&im=png&fs=25&edit=0');
                 $file = 'storage/uploads/latex/'.time().'.png';
                 // save response as png
                 file_put_contents($file, $response);

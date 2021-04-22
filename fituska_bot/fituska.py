@@ -55,7 +55,6 @@ async def on_message(message):
         subject_code = str(message.content.split(" ")[1])
         r = requests.get("http://localhost:8000/api/posts/get/{code}".format(code = subject_code))
 
-
         try:
             data = r.json()
 

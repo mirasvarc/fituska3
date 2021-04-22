@@ -8,6 +8,7 @@ use App\User;
 use App\Topics;
 use App\File;
 use App\HasFile;
+use App\Calendar;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
 
@@ -148,7 +149,6 @@ class CourseController extends Controller
      */
     public function importCourses() {
 
-
         // get html from courses page
         $html = file_get_contents('https://www.fit.vut.cz/study/courses/.cs');
 
@@ -182,11 +182,103 @@ class CourseController extends Controller
                 $course = new Course();
                 $course->code = $c['code'];
                 $course->full_name = $c['name'];
+                $course->calendar_id = $this->createCalendarForCourse($c['code']);
                 $course->save();
             }
         }
     }
 
+    /**
+     * Check if every course has own google calendar. If not, create one.
+     */
+    public function updateGoogleCalendars() {
+        $courses = Course::get();
+
+        foreach($courses as $course) {
+            if($course->calendar_id == null)  {
+                $course->calendar_id = $this->createCalendarForCourse($course->code);
+                $course->save();
+                echo "Calendar for ".$course->code. "loaded\n";
+            }
+        }
+
+        echo "Calendars updated.";
+    }
+
+
+    /**
+     * Get google client
+     */
+    function getGoogleClient(){
+
+        $credentialsPath = base_path().'\google_api_auth.json';
+
+        $client = new \Google_client();
+        $client->setAuthConfig(base_path().'\google_api_creds.json');
+        $client->setAccessType( 'offline' );
+        $client->setApplicationName("FITuska");
+        $client->setDeveloperKey("AIzaSyB4YivkSauKMid6EXKVdJap5_wNHCYLxQ4");
+        $client->setRedirectUri( 'http://' . $_SERVER['HTTP_HOST'] . '/courses/import');
+        $client->setScopes(\Google_Service_Calendar::CALENDAR);
+
+        // check if file with token access alreay exist
+        if ( file_exists( $credentialsPath ) ) {
+            $accessToken = json_decode( file_get_contents( $credentialsPath ), true );
+        }
+        // if the file do not exist, generate new access token and save it to file
+        else {
+            $authUrl = $client->createAuthUrl();
+            if ( ! isset( $_GET['code'] ) ) {
+                header( "Location: $authUrl", true, 302 );
+                exit;
+            }
+
+            $authCode = $_GET['code'];
+            $accessToken = $client->fetchAccessTokenWithAuthCode( $authCode );
+
+            if ( ! file_exists( dirname( $credentialsPath ) ) ) {
+                mkdir( dirname( $credentialsPath ), 0700, true );
+            }
+
+            file_put_contents( $credentialsPath, json_encode( $accessToken ) );
+        }
+
+        $client->setAccessToken( $accessToken );
+
+        if ( $client->isAccessTokenExpired() ) {
+            $client->fetchAccessTokenWithRefreshToken( $client->getRefreshToken() );
+            file_put_contents( $credentialsPath, json_encode( $client->getAccessToken() ) );
+        }
+
+        return $client;
+    }
+
+    /**
+     * Crate Google calendar for given course
+     */
+    public function createCalendarForCourse($course) {
+
+        $client = $this->getGoogleClient();
+
+        $service = new \Google_Service_Calendar($client);
+
+        $calendar = new \Google_Service_Calendar_Calendar();
+        $calendar->setSummary($course);
+        $calendar->setTimeZone('Europe/Prague');
+
+        $createdCalendar = $service->calendars->insert($calendar);
+
+        $db_cal = new Calendar();
+        $db_cal->calendar_id = $createdCalendar->getId();
+        $db_cal->save();
+
+        return $createdCalendar->getId();
+    }
+
+
+    /**
+     * Check if course has id of Google calendar stored
+     */
     public function updateCourseCalendar(Request $request) {
         $course = Course::where('code', $request->code)->first();
         $course->calendar_id = $request->calendar_id;
