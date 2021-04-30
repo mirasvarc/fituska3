@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "fituska-1605820378185",
+  "private_key_id": "5d75864b2589b62fa04eeae1c903b59e764cd2cd",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvgIBADANBgkqhkiG9w0BAQEFAASCBKgwggSkAgEAAoIBAQDuFsl34z6DnuUf\nw6VUkc5IflX9Elatv+7bV/IKm5R948AzOMMAR1Ov896JNjgUZDMqkFSaydKbUYOj\nc+v7HN36v5fFdOMyByr3B+6cZ9ems7gWMJ5hIwS6pzVDvD3j2QAvSSwrTcQT0Gef\nChV335oni33/LMGXeuxTGqV9uYzOPLFGjldSxU6waOi6I59EPbuSR85mVo5r6Gc/\nzaaQU4nek3+K3JK6rP9cmcE77+iZStcOpSX8b7jknkuIkySGyrsK1SppOkvgMK3W\nAxzBjUHTibitQUn92llxgusf+l+R4fGPqXc6rK/yUidIJbzFYKNS5tMQAj79Cu/8\nTPNC8QRjAgMBAAECggEAYZ+GTFopL97fI/8cs2h1pNPofjQexm+EiPuuixrv8A6K\nqHYFvv+AGQ1tmeVZaUMMl89GYZGPgZAS4dqOUBCuFDqrCJO89K5rt47RD+CkU/4s\n5SxaRIoPTllxRazR07MOmFTwf3ELjPRPCK8hzl0o4D4aE59OYcZNUGYEpWCHk6gU\nshviTzZNjn+NCfc4rpc2qoh/fB9y2M1L0Od8c1ZwxIUMG/5GGZ4O7c8Cpe+V07QQ\nAyw18Othtkg/jc3+IZ4sxBwUKmyvo4TlGQpP8yLYV3MuCstyX+F+muSXjPcXv29N\nE65qOIZ+kOxfuNylV0v9GNyLrcOkCGb6o8zHqnSEgQKBgQD32A8SZ9xBF7lWB5/L\norMWfng3oxDDgm4dSmmdNJMM2eOAUk3vIj0v/EyOiFPGpBR7oJhb+lYyEHTer0x3\nWul7Wx99L1aGsntKcSK3hbgCS+sgQ7TfxOnak8wkW6ZPVNpJRjgaU0qm9JBgryQH\n86ZiWIldAPCWHowaiRfzi1OiWwKBgQD17IxV9boPdL2jhqbcCQpAdZmv3n2qq+Vm\njj4vDpi9//urrm+tMwicu9pqq9CbkA85cjOSK9oXni8payvjXNgK2VBjAj76TBMM\nYNfGH/0TE1xj2DIhGjBM55dadAM7ip+8YPWc21We+/nczVLQcnLM2/C86kO27hcn\nqFVHvve0mQKBgQC3Y1K7rsgmDhTgWGHf/vJ+6XOwz2L/F4q896uwXA+XCb6x27S5\nBl+6GvjW2n8K06woUguKu3B+OPkRMSrmggmTcjiZm6ZtorFhwtcKbtJaOKyxQggb\nL4xOZOA/4uTrfIDMiT3IFOt/ICWYtN93Vs09pf92JtTeb5oBpIFpfyWSUwKBgQDt\ngOdDeU6Y8LjZPgjWBlEFUc38gJbDBsJE2mkJz0IKdTdcZdnq3peZrv7Q+GA+bNGX\nPEi8CWfWWWnYyW0YZqkrSRcOl7O0zVW0Ja8d4/TowFEBCGHZgE5XZ27P56zbixSb\nvNRYCafWJCn6ab1qHK3sVRlZibGd8LEiFrtN0AuwOQKBgC8SQP+VNGqNelECNNzm\nNzM3NPJHP8swrdaoY+bNNdGkQGbFzrqMgDvW2MBoIYziyKY/1BXzkg3AMCcSzKPb\nRWEBhCqZqWZyC8nOeuTj3NryK+b5FZv4yQ3X5K0O7+gvRu3gGhufjjKVgegIgdWh\nXJwb2zmINzGsOn9Uxw2RxoLp\n-----END PRIVATE KEY-----\n",
+  "client_email": "fituska@fituska-1605820378185.iam.gserviceaccount.com",
+  "client_id": "111026451121350237288",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/fituska%40fituska-1605820378185.iam.gserviceaccount.com"
+}

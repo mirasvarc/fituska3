@@ -18,10 +18,16 @@ use Illuminate\Support\Facades\DB;
 class AdminPanelController extends Controller
 {
 
+    /**
+     * Show Admin panel
+     */
     public function index(){
         return view('admin.index');
     }
 
+    /**
+     * Show module panel
+     */
     public function modulesIndex(){
 
         $modules = Modules::get();
@@ -29,6 +35,10 @@ class AdminPanelController extends Controller
         return view('admin.modules', ['modules' => $modules]);
     }
 
+    /**
+     * Install selected module
+     * @param Request
+     */
     public function installModule(Request $request){
         $module = Modules::find($request->module_id);
         $module->installed = 1;
@@ -36,6 +46,10 @@ class AdminPanelController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Unninstall selected module
+     * @param Request
+     */
     public function uninstallModule(Request $request){
         $module = Modules::find($request->module_id);
         $module->installed = 0;
@@ -43,6 +57,9 @@ class AdminPanelController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Show user voting
+     */
     public function voteIndex(){
         $all_votes = count(Vote::All()) != 0 ? Vote::All() : null;
         $users = User::All()->pluck('username', 'id')->toArray();
@@ -50,6 +67,9 @@ class AdminPanelController extends Controller
         return view('admin.vote', ['all_votes' => $all_votes,  'users' => $users]);
     }
 
+    /**
+     * Vote Yes
+     */
     public function voteYes(){
 
         $vote = Vote::find($_REQUEST['vote_id']);
@@ -67,6 +87,9 @@ class AdminPanelController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Vote No
+     */
     public function voteNo(){
 
         $vote = Vote::find($_REQUEST['vote_id']);
@@ -84,9 +107,12 @@ class AdminPanelController extends Controller
         return redirect()->back();
     }
 
+    /**
+     * Check number of votes and proceed role change
+     */
     private function checkVotes($vote){
 
-        if($vote->vote_yes > 9 && $vote->vote_no < 3){
+        if($vote->vote_yes == count(HasRole::where('role_id', 3)->get()) && $vote->vote_no == 0){
 
             $new_role = new HasRole();
             $new_role->user_id = $vote->user_id;
@@ -98,6 +124,9 @@ class AdminPanelController extends Controller
 
     }
 
+    /**
+     * Create new vote for selected user
+     */
     public function createVote(Request $request){
 
         $user = User::find($request->users);
@@ -133,11 +162,13 @@ class AdminPanelController extends Controller
     }
 
 
+    /**
+     * Function for testing purposes
+     */
     public function test(){
 
-        $topic = Topics::where('name', 'Discord')->first();
-        dd($topic);
-/*
+
+
         $url = 'https://knot.fit.vutbr.cz/knotis/exportVO.php';
         $data = array('xs8iKIXhJ0Ut65Q7BTvvu2uFC5d31C');
 
@@ -148,7 +179,7 @@ class AdminPanelController extends Controller
         $response = curl_exec($curl);
         curl_close($curl);
 
-        dd($response);*/
+        dd($response);
     }
 
 }

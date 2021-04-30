@@ -81,27 +81,10 @@
             authorizeButton.onclick = handleAuthClick;
             signoutButton.onclick = handleSignoutClick;
 
-            // Check if calendar exist for current course
-            if($('#course-name').val() == "fituska.mail@gmail.com" && $('#course-name').val() != undefined) {
-                var code = $('.course-h1').attr('id');
-                if($('.course-h1').attr('id') !== undefined) {
-                    var req = gapi.client.calendar.calendars.insert({
-                        "resource": {
-                            "summary": code,
-                            "description": "calendar",
-                            "timezone": "Europe/Prague"}
-                    }).then(function(response) {
-                        storeCalToDB(response.result.id, "{{ auth()->user()->id }}");
-                        $('#course-name').val(response.result.id);
-                        updateCalId(code, response.result.id);
-                        listUpcomingEvents();
-                    });
-                } else {
-                    listUpcomingEvents();
-                }
-            } else {
-                listUpcomingEvents();
-            }
+            followCalendar();
+
+            listUpcomingEvents();
+
 
         }, function(error) {
             appendPre(JSON.stringify(error, null, 2));

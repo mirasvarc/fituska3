@@ -9,6 +9,10 @@ use App\Topics;
 
 class ApiController extends Controller
 {
+
+    /**
+     * Return posts for given course
+     */
     public function getCoursePosts($code){
 
         $course = Course::where('code', $code)->first();
@@ -28,6 +32,9 @@ class ApiController extends Controller
     }
 
 
+    /**
+     * Store post from Discord to database
+     */
     public function addPostFromDiscord(Request $request) {
 
         $course = Course::where('code', trim($request->course, "[]"))->first();

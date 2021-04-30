@@ -49,6 +49,8 @@ $app = require_once __DIR__.'/../bootstrap/app.php';
 |
 */
 
+set_time_limit(0);
+
 $kernel = $app->make(Illuminate\Contracts\Http\Kernel::class);
 
 $response = $kernel->handle(

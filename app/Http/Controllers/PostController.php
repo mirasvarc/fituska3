@@ -96,7 +96,7 @@ class PostController extends Controller
                     $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
                     $new_file = new File;
                     $new_file->author_id = auth()->user()->id;
-                    $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
+                    $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName();
                     $new_file->type = $file->getClientOriginalExtension();
                     $new_file->path = $file->getClientOriginalName();
                     $new_file->save();

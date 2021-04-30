@@ -24,35 +24,40 @@
                         </div>
 
                     </div>
-                    @foreach($followed_courses as $followed_course)
+                    @if(!$followed_courses->isEmpty())
+                        @foreach($followed_courses as $followed_course)
 
-                    <div class="row followed-courses-content-course">
-                        <a href="/course/{{$followed_course->code}}" class="followed-courses-content-link col-8">
-                            <div class="row">
-                                <div class="col-4">
-                                    {{$followed_course->code}}
+                        <div class="row followed-courses-content-course">
+                            <a href="/course/{{$followed_course->code}}" class="followed-courses-content-link col-8">
+                                <div class="row">
+                                    <div class="col-4">
+                                        {{$followed_course->code}}
+                                    </div>
+                                    <div class="col-7 text-center">
+                                        <span>{{$followed_course->full_name}}</span>
+                                    </div>
                                 </div>
-                                <div class="col-7 text-center">
-                                    <span>{{$followed_course->full_name}}</span>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="col-4 text-center">
-                            <span>
-                                <form method="POST" id="unfollow-course-form" action="{{ action('UserController@unfollowCourse') }}">
-                                @csrf
-                                <input type="hidden" name="course" value={{$followed_course->id}}>
-                                <input type="hidden" name="user" value={{auth()->user()->id}}>
-                                <span href="javascript:{}" onclick="document.getElementById('unfollow-course-form').submit();">
-                                    <i class="far fa-trash-alt"></i>
+                            </a>
+                            <div class="col-4 text-center">
+                                <span>
+                                    <form method="POST" id="unfollow-course-form" action="{{ action('UserController@unfollowCourse') }}">
+                                    @csrf
+                                    <input type="hidden" name="course" value={{$followed_course->id}}>
+                                    <input type="hidden" name="user" value={{auth()->user()->id}}>
+                                    <span href="javascript:{}" onclick="document.getElementById('unfollow-course-form').submit();">
+                                        <i class="far fa-trash-alt"></i>
+                                    </span>
+                                    </form>
                                 </span>
-                                </form>
-                            </span>
+                            </div>
                         </div>
+
+                        @endforeach
+                    @else
+                    <div class="row followed-courses-content-course">
+                        <span>Nesledujete žádný předmět (<a href="/courses">seznam předmětů</a>).</span>
                     </div>
-
-                    @endforeach
-
+                    @endif
                 </div>
             </div>
         </div>

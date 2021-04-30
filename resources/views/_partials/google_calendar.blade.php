@@ -17,7 +17,7 @@
             <span>XXX</span>
         </button>
 
-
+{{--
         &nbsp;
         <button id="follow_button" class="btn btn-primary" onclick="followCalendar();">
             <i class="fa fa-plus-circle"></i>
@@ -28,7 +28,7 @@
             <i class="fa fa-check-circle"></i>
             &nbsp;
             <span>Sledováno</span>
-        </button>
+        </button>--}}
     </div>
     <div class="calendar-body">
         <div class="calendar-events">
