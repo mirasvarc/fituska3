@@ -4,6 +4,10 @@
     <input type="hidden" value="fituska.mail@gmail.com" id="course-name">
 @endif
 
+@if(isset($course->code))
+<input type="hidden" value="{{$course->code}}" id="course-code">
+@endif
+
 <div class="calendar-container">
     <div class="calendar-header">
         <h1>Kalendář</h1>
@@ -17,7 +21,7 @@
             <span>XXX</span>
         </button>
 
-{{--
+        @if(isset($course->code))
         &nbsp;
         <button id="follow_button" class="btn btn-primary" onclick="followCalendar();">
             <i class="fa fa-plus-circle"></i>
@@ -28,11 +32,29 @@
             <i class="fa fa-check-circle"></i>
             &nbsp;
             <span>Sledováno</span>
-        </button>--}}
+        </button>
+        @endif
     </div>
     <div class="calendar-body">
         <div class="calendar-events">
-
+            @if(empty($calendar_events))
+            <div class="calendar-event">
+                <span class="event-name">
+                    Žádná událost nenalezena
+                </span>
+            </div>
+            @else
+                @foreach ($calendar_events as $event)
+                <div class="calendar-event">
+                    <span class="event-name">
+                        {{$event->summary}}
+                    </span>
+                    <span class="event-date">
+                        {{date_format(date_create($event->start->dateTime), "d.m.Y H:i")}}
+                    </span>
+                </div>
+                @endforeach
+            @endif
         </div>
         <div class="calendar-add-btn text-center">
             @if(Auth()->user()->canModerate())
@@ -56,8 +78,11 @@
                     </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="javascript:void(0);">
+                <form method="post" action="{{ route('add-calendar-event') }}" id="add-event-form">
                     @csrf
+                    @if(isset($course->code))
+                        <input type="hidden" name="course" value="{{$course->code}}" id="course">
+                    @endif
                     <div class="form-group">
                         <label for="event_name">Název: *&nbsp;</label>
                         <input type="text" name="event_name" class="form-control" required id="EventName">
@@ -70,10 +95,15 @@
                         <label for="event_date">Datum a čas: *&nbsp;</label>
                         <input type="datetime-local" name="event_date" class="form-control" required id="EventDate">
                     </div>
-                    <input type="submit" onclick="addCalEvent()" data-dismiss="modal" class="btn btn-success btn-addEvent" value="Přidat">
+                    <input type="submit" data-dismiss="modal" class="btn btn-success btn-addEvent" onclick="add_event()" value="Přidat">
                 </form>
             </div>
         </div>
     </div>
 </div>
 
+<script>
+    function add_event() {
+        document.getElementById("add-event-form").submit();
+    }
+</script>

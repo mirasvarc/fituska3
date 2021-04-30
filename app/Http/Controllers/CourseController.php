@@ -10,7 +10,6 @@ use App\File;
 use App\HasFile;
 use App\Calendar;
 use App\Google;
-use GMP;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
 
@@ -65,7 +64,11 @@ class CourseController extends Controller
 
         $all_files = $course->files()->get();
 
-        return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files, 'all_files' => $all_files]);
+        $google = new Google();
+        $calendar_events = $google->getEventsFromCalendar($course->calendar_id);
+
+
+        return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files, 'all_files' => $all_files, 'calendar_events' => $calendar_events]);
     }
 
     /**
@@ -207,7 +210,7 @@ class CourseController extends Controller
                 $course->save();
                 echo "Calendar for ".$course->code. "loaded\n";
                 return $course;
-                sleep(300);
+                //sleep(300);
             }
         }
 
@@ -231,6 +234,8 @@ class CourseController extends Controller
 
         $createdCalendar = $service->calendars->insert($calendar);
 
+        $google->shareCalendarWithUser($createdCalendar->getId(), "fituska.mail@gmail.com" , $service);
+
         $db_cal = new Calendar();
         $db_cal->calendar_id = $createdCalendar->getId();
         $db_cal->save();
@@ -238,6 +243,11 @@ class CourseController extends Controller
         return $createdCalendar->getId();
     }
 
+
+    public function createSharedFolderForCourse($course) {
+        $google = new Google();
+        $client =  $google->getGoogleClient();
+    }
 
     /**
      * Check if course has id of Google calendar stored

@@ -72,7 +72,7 @@ class PostController extends Controller
         $post = new Post;
         $post->title = $request->title;
         $post->content = $content;
-        $post->type = $request->type;
+        $post->type = isset($request->type) ? $request->type : "Diskuze";
         $post->topic_id = $topic->id;
 
         if(!isset($request->isforum)){
@@ -128,7 +128,7 @@ class PostController extends Controller
         if(!isset($request->isforum)){
             return redirect('/post/'.$request->code."/".$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
         } else {
-            return redirect('/forum/topic/'.$topic->id.'/post/'.$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
+            return redirect('/forum/'.$topic->id.'/post/'.$post->id)->with('success', 'Příspěvek byl úspěšně vytvořen!');
         }
     }
 
