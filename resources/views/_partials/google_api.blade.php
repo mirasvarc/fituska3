@@ -40,73 +40,6 @@
         });
     }
 
-    // Client ID and API key for Google Calendar
-    var CLIENT_ID = '923025024916-8m1fat5k5g2puvo5vlfkinahhme341eg.apps.googleusercontent.com';
-    var API_KEY = 'AIzaSyB4YivkSauKMid6EXKVdJap5_wNHCYLxQ4';
-
-    // Array of API discovery doc URLs for Calendar API
-    var DISCOVERY_DOCS = ["https://www.googleapis.com/discovery/v1/apis/calendar/v3/rest"];
-
-    // Authorization scopes required by the calendar API
-    var SCOPES = "https://www.googleapis.com/auth/calendar";
-
-    var authorizeButton = document.getElementById('authorize_button');
-    var signoutButton = document.getElementById('signout_button');
-
-
-
-    /**
-    *  On load, called to load the auth2 library and API client library.
-    */
-    function handleClientLoad() {
-        gapi.load('client:auth2', initClient);
-    }
-
-    /**
-    *  Initializes the API client library and sets up sign-in state
-    *  listeners.
-    */
-    function initClient() {
-        gapi.client.init({
-            apiKey: API_KEY,
-            clientId: CLIENT_ID,
-            discoveryDocs: DISCOVERY_DOCS,
-            scope: SCOPES
-        }).then(function () {
-            // Listen for sign-in state changes.
-            gapi.auth2.getAuthInstance().isSignedIn.listen(updateSigninStatus);
-
-            // Handle the initial sign-in state.
-            updateSigninStatus(gapi.auth2.getAuthInstance().isSignedIn.get());
-            authorizeButton.onclick = handleAuthClick;
-            signoutButton.onclick = handleSignoutClick;
-
-            // Check if calendar exist for current course
-            if($('#course-name').val() == "fituska.mail@gmail.com" && $('#course-name').val() != undefined) {
-                var code = $('.course-h1').attr('id');
-                if($('.course-h1').attr('id') !== undefined) {
-                    var req = gapi.client.calendar.calendars.insert({
-                        "resource": {
-                            "summary": code,
-                            "description": "calendar",
-                            "timezone": "Europe/Prague"}
-                    }).then(function(response) {
-                        storeCalToDB(response.result.id, "{{ auth()->user()->id }}");
-                        $('#course-name').val(response.result.id);
-                        updateCalId(code, response.result.id);
-                        listUpcomingEvents();
-                    });
-                } else {
-                    listUpcomingEvents();
-                }
-            } else {
-                listUpcomingEvents();
-            }
-
-        }, function(error) {
-            appendPre(JSON.stringify(error, null, 2));
-        });
-    }
 
 
     function storeCalToDB(calendar_id, user_id) {
@@ -130,6 +63,7 @@
 
     function followCalendar() {
         var calendar_id = $('#course-name').val();
+        var course = $('#course-code').val();
         var user_id = "{{ auth()->user()->id }}";
         $(document).ready(function(){
             $.ajaxSetup({
@@ -140,27 +74,11 @@
             $.ajax({
                 url: "{{ url('/calendar/follow')}}",
                 method: 'post',
-                data: {'calendar_id': calendar_id, 'user_id': user_id},
+                data: {'course': course, 'user_id': user_id},
                 success: function(response){
                     console.log(response);
                     $('#followButton').hide();
                 }
-            });
-
-
-            var req = {
-                "calendarId": calendar_id,
-                "resource": {
-                    "role": "writer",
-                    "scope": {
-                        "type": "user",
-                        "value": "{{ auth()->user()->mail }}"
-                    }
-                }
-            }
-            var request = gapi.client.calendar.acl.insert(req);
-            request.execute(function(resp) {
-                console.log(resp);
             });
 
         });
@@ -169,6 +87,7 @@
     function unfollowCalendar() {
         var calendar_id = $('#course-name').val();
         var user_id = "{{ auth()->user()->id }}";
+        var course = $('#course-code').val();
         $(document).ready(function(){
             $.ajaxSetup({
                 headers: {
@@ -178,7 +97,7 @@
             $.ajax({
                 url: "{{ url('/calendar/follow')}}",
                 method: 'post',
-                data: {'calendar_id': calendar_id, 'user_id': user_id},
+                data: {'course': course, 'user_id': user_id},
                 success: function(response){
                     console.log(response);
                     $('#unfollowButton').hide();
@@ -212,73 +131,11 @@
     }
 
 
-    /**
-    *  Called when the signed in status changes, to update the UI
-    *  appropriately. After a sign-in, the API is called.
-    */
-    function updateSigninStatus(isSignedIn) {
-        if (isSignedIn) {
-            authorizeButton.style.display = 'none';
-            signoutButton.style.display = 'block';
-            listFiles();
-        } else {
-            authorizeButton.style.display = 'block';
-            signoutButton.style.display = 'none';
-        }
-    }
 
-    /**
-    *  Sign in the user upon button click.
-    */
-    function handleAuthClick(event) {
-        gapi.auth2.getAuthInstance().signIn();
 
-    }
-
-    /**
-    *  Sign out the user upon button click.
-    */
-    function handleSignoutClick(event) {
-        gapi.auth2.getAuthInstance().signOut();
-
-    }
-
-    /**
-    * Add new event to event list
-    * @param message Event name and date.
-    */
-    function appendPre(message) {
-        $('.calendar-events').append('<div class="calendar-event">' + message + '</div>\n');
-    }
-
-    /**
-    * Show list of all uopcoming events for current course (or primary cal when on homepage)
-    */
-    function listUpcomingEvents() {
-        gapi.client.calendar.events.list({
-            'calendarId': $('#course-name').val(),
-            'timeMin': (new Date()).toISOString(),
-            'showDeleted': false,
-            'singleEvents': true,
-            'maxResults': 10,
-            'orderBy': 'startTime'
-        }).then(function(response) {
-            var events = response.result.items;
-            if (events.length > 0) {
-                for (i = 0; i < events.length; i++) {
-                    var event = events[i];
-                    var when = event.start.dateTime;
-                    if (!when) {
-                        when = event.start.date;
-                    }
-                    appendPre('<span class="event-name">' + event.summary + '</span><span class="event-date">' + moment(when).format('llll') + '</span>')
-                }
-            } else {
-                appendPre('Žádné nadcházející události.');
-            }
-        });
-    }
-
+   </script>
+ <!--
+<script>
     // Client ID and API key for Google Drive API
     var CLIENT_ID_DRIVE = '923025024916-8m1fat5k5g2puvo5vlfkinahhme341eg.apps.googleusercontent.com';
     var API_KEY_DRIVE = 'AIzaSyAgSNCOWIH9pOcLzMN8UtITD58KunSFpxE';
@@ -438,3 +295,4 @@
     onload="this.onload=function(){};handleClientLoad();handleDriveClientLoad()"
     onreadystatechange="if (this.readyState === 'complete') this.onload()">
   </script>
+-->

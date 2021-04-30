@@ -9,6 +9,7 @@ use App\Topics;
 use App\File;
 use App\HasFile;
 use App\Calendar;
+use App\Google;
 use Illuminate\Http\Request;
 use phpDocumentor\Reflection\Types\Collection;
 
@@ -63,7 +64,11 @@ class CourseController extends Controller
 
         $all_files = $course->files()->get();
 
-        return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files, 'all_files' => $all_files]);
+        $google = new Google();
+        $calendar_events = $google->getEventsFromCalendar($course->calendar_id);
+
+
+        return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files, 'all_files' => $all_files, 'calendar_events' => $calendar_events]);
     }
 
     /**
@@ -178,12 +183,17 @@ class CourseController extends Controller
         }
 
         foreach($courses as $c) {
+
             if($c['code'] != "" && $c['name'] != "") {
-                $course = new Course();
-                $course->code = $c['code'];
-                $course->full_name = $c['name'];
-                $course->calendar_id = $this->createCalendarForCourse($c['code']);
-                $course->save();
+                $old_course = Course::where('code', $c['code'])->first();
+                if($old_course == null) { // check if course already exist
+                    $course = new Course();
+                    $course->code = $c['code'];
+                    $course->full_name = $c['name'];
+                    $course->calendar_id = $this->createCalendarForCourse($c['code']);
+                    $course->save();
+                    echo "Course ".$c['code']." imported.\n";
+                }
             }
         }
     }
@@ -199,6 +209,8 @@ class CourseController extends Controller
                 $course->calendar_id = $this->createCalendarForCourse($course->code);
                 $course->save();
                 echo "Calendar for ".$course->code. "loaded\n";
+                return $course;
+                //sleep(300);
             }
         }
 
@@ -207,58 +219,12 @@ class CourseController extends Controller
 
 
     /**
-     * Get google client
-     */
-    function getGoogleClient(){
-
-        $credentialsPath = base_path().'\google_api_auth.json';
-
-        $client = new \Google_client();
-        $client->setAuthConfig(base_path().'\google_api_creds.json');
-        $client->setAccessType( 'offline' );
-        $client->setApplicationName("FITuska");
-        $client->setDeveloperKey("AIzaSyB4YivkSauKMid6EXKVdJap5_wNHCYLxQ4");
-        $client->setRedirectUri( 'http://' . $_SERVER['HTTP_HOST'] . '/courses/import');
-        $client->setScopes(\Google_Service_Calendar::CALENDAR);
-
-        // check if file with token access alreay exist
-        if ( file_exists( $credentialsPath ) ) {
-            $accessToken = json_decode( file_get_contents( $credentialsPath ), true );
-        }
-        // if the file do not exist, generate new access token and save it to file
-        else {
-            $authUrl = $client->createAuthUrl();
-            if ( ! isset( $_GET['code'] ) ) {
-                header( "Location: $authUrl", true, 302 );
-                exit;
-            }
-
-            $authCode = $_GET['code'];
-            $accessToken = $client->fetchAccessTokenWithAuthCode( $authCode );
-
-            if ( ! file_exists( dirname( $credentialsPath ) ) ) {
-                mkdir( dirname( $credentialsPath ), 0700, true );
-            }
-
-            file_put_contents( $credentialsPath, json_encode( $accessToken ) );
-        }
-
-        $client->setAccessToken( $accessToken );
-
-        if ( $client->isAccessTokenExpired() ) {
-            $client->fetchAccessTokenWithRefreshToken( $client->getRefreshToken() );
-            file_put_contents( $credentialsPath, json_encode( $client->getAccessToken() ) );
-        }
-
-        return $client;
-    }
-
-    /**
      * Crate Google calendar for given course
      */
     public function createCalendarForCourse($course) {
 
-        $client = $this->getGoogleClient();
+        $google = new Google();
+        $client =  $google->getGoogleClient();
 
         $service = new \Google_Service_Calendar($client);
 
@@ -268,6 +234,8 @@ class CourseController extends Controller
 
         $createdCalendar = $service->calendars->insert($calendar);
 
+        $google->shareCalendarWithUser($createdCalendar->getId(), "fituska.mail@gmail.com" , $service);
+
         $db_cal = new Calendar();
         $db_cal->calendar_id = $createdCalendar->getId();
         $db_cal->save();
@@ -275,6 +243,11 @@ class CourseController extends Controller
         return $createdCalendar->getId();
     }
 
+
+    public function createSharedFolderForCourse($course) {
+        $google = new Google();
+        $client =  $google->getGoogleClient();
+    }
 
     /**
      * Check if course has id of Google calendar stored

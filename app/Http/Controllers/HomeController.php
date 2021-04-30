@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Course;
 use App\Modules;
+use App\Google;
 class HomeController extends Controller
 {
     /**
@@ -28,6 +29,9 @@ class HomeController extends Controller
         $followed_courses = Course::getFollowedCourses(auth()->user()->id);
         $modules = Modules::get();
 
-        return view('home', ['courses' => $courses, 'followed_courses' => $followed_courses, 'modules' => $modules]);
+        $google = new Google();
+        $calendar_events = $google->getEventsFromCalendar('primary');
+
+        return view('home', ['courses' => $courses, 'followed_courses' => $followed_courses, 'modules' => $modules, 'calendar_events' => $calendar_events]);
     }
 }

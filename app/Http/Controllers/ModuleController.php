@@ -40,6 +40,9 @@ class ModuleController extends Controller
         // TODO: FB Api
     }
 
+    /**
+     * Get posts from Facebook group
+     */
     public function getFacebookPosts(Request $request) {
         $group_id = "1722428574572165"; // TODO: from request
         $facebook = new Facebook();
@@ -63,14 +66,26 @@ class ModuleController extends Controller
         $this->storeFacebookPosts($posts);
     }
 
+
+    /**
+     * Save post from Facebook to database
+     * @param Object post data
+     */
     public function storeFacebookPosts($posts) {
-
-        $topic = Topics::where('name', 'Facebook')->first();
-
 
         foreach($posts as $post) {
 
             $course = Course::where('code', $post['course_code'])->first();
+
+            $topic = Topics::where('course_id', $course->id)->where('name', 'Facebook')->first();
+
+            if($topic == null) {
+                $topic = new Topics();
+                $topic->name = "Facebook";
+                $topic->course_id =$course->id;
+                $topic->save();
+            }
+
             if($post['author'] == null) {
                 $author = User::where('username', 'FITuška')->first();
             }
