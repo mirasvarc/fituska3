@@ -9,7 +9,6 @@
 
             <span id="discussion-body">
                 @include('_partials.topics')
-                @include('courses.course_scriptum')
             </span>
 
             <span id="files-body" style="display: none">
@@ -22,7 +21,7 @@
             </span>
             @endif
 
-            <span id="scriptum-body" style="display: none">
+            <span id="scriptum-body" class="scriptum-hidden">
                 @include('courses.course_scriptum')
             </span>
 

@@ -23,26 +23,32 @@
         $('#discussion-body').show();
         $('#files-body').hide();
         $('#exams-body').hide();
-        $('#scriptum-body').hide();
+        $('#scriptum-body').addClass('scriptum-hidden');
     });
     $('#files-btn').on('click', function(){
         $('#discussion-body').hide();
         $('#files-body').show();
         $('#exams-body').hide();
-        $('#scriptum-body').hide();
+        $('#scriptum-body').addClass('scriptum-hidden');
     });
     $('#exams-btn').on('click', function(){
         $('#exams-body').show();
         $('#discussion-body').hide();
         $('#files-body').hide();
-        $('#scriptum-body').hide();
+        $('#scriptum-body').addClass('scriptum-hidden');
     });
 
     $('#scriptum-btn').on('click', function(){
         $('#exams-body').hide();
         $('#discussion-body').hide();
         $('#files-body').hide();
-        $('#scriptum-body').show();
+        $('.scriptum-hidden').removeClass('scriptum-hidden');
+
     });
 </script>
 
+<style>
+    .scriptum-hidden {
+        visibility: hidden;
+    }
+</style>
