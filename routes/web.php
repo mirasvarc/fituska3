@@ -127,10 +127,15 @@ Route::prefix('facebook')->group(function () {
     Route::get('get-posts', 'ModuleController@getFacebookPosts')->name('get-fb-posts')->middleware('auth');
 });
 
-Route::prefix('calendar')->group(function () {
-    Route::post('/store', 'CalendarController@storeCalendar')->name('store-calendar')->middleware('auth');
-    Route::post('/follow', 'CalendarController@followCalendar')->name('follow-calendar')->middleware('auth');
-    Route::post('/unfollow', 'CalendarController@unfollowCalendar')->name('unfollow-calendar')->middleware('auth');
-    Route::get('/update/all', 'CourseController@updateGoogleCalendars')->name('update-all-calendars')->middleware('auth');
-    Route::post('/calendar/event/add', 'CalendarController@addNewEvent')->name('add-calendar-event')->middleware('auth');
+Route::prefix('calendar')->middleware('auth')->group(function () {
+    Route::post('/store', 'CalendarController@storeCalendar')->name('store-calendar');
+    Route::post('/follow', 'CalendarController@followCalendar')->name('follow-calendar');
+    Route::post('/unfollow', 'CalendarController@unfollowCalendar')->name('unfollow-calendar');
+    Route::get('/update/all', 'CourseController@updateGoogleCalendars')->name('update-all-calendars');
+    Route::post('/event/add', 'CalendarController@addNewEvent')->name('add-calendar-event');
+    Route::post('/check', 'CalendarController@checkIfCalendarExist')->name('calendar-check');
+});
+
+Route::prefix('drive')->middleware('auth')->group(function () {
+    Route::post('/create', 'CourseController@createSharedFile')->name('create-shared-file');
 });

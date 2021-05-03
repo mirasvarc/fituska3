@@ -9,6 +9,7 @@
 
             <span id="discussion-body">
                 @include('_partials.topics')
+                @include('courses.course_scriptum')
             </span>
 
             <span id="files-body" style="display: none">
@@ -20,6 +21,11 @@
                 @include('courses.course_exams')
             </span>
             @endif
+
+            <span id="scriptum-body" style="display: none">
+                @include('courses.course_scriptum')
+            </span>
+
             {{--@if($user_settings['compact_mode'] == 'true')
                 @include('_partials/posts_list_compact')
             @else

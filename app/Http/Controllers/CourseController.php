@@ -65,10 +65,26 @@ class CourseController extends Controller
         $all_files = $course->files()->get();
 
         $google = new Google();
-        $calendar_events = $google->getEventsFromCalendar($course->calendar_id);
+        $calendar_events = $google->getEventsFromCalendar($course->calendar_id, $course->code);
+
+        $shared_files = $google->getSharedFilesForCourse($course->code);
+
+        $scriptum = $google->getStudentScriptumForCourse($course->code);
 
 
-        return view('courses/course_show', ['course' => $course, 'user_settings' => $userSettings->user_settings_json, 'user' => $user, 'topics' => $topics, 'files' => $files, 'all_files' => $all_files, 'calendar_events' => $calendar_events]);
+        return view(
+            'courses/course_show',
+            [
+                'course' => $course,
+                'user_settings' => $userSettings->user_settings_json,
+                'user' => $user,
+                'topics' => $topics,
+                'files' => $files,
+                'all_files' => $all_files,
+                'calendar_events' => $calendar_events,
+                'shared_files' => $shared_files,
+                'scriptum' => $scriptum
+            ]);
     }
 
     /**
@@ -154,6 +170,8 @@ class CourseController extends Controller
      */
     public function importCourses() {
 
+        $google = new Google();
+
         // get html from courses page
         $html = file_get_contents('https://www.fit.vut.cz/study/courses/.cs');
 
@@ -190,7 +208,7 @@ class CourseController extends Controller
                     $course = new Course();
                     $course->code = $c['code'];
                     $course->full_name = $c['name'];
-                    $course->calendar_id = $this->createCalendarForCourse($c['code']);
+                    $course->calendar_id = $google->createCalendarForCourse($c['code']);
                     $course->save();
                     echo "Course ".$c['code']." imported.\n";
                 }
@@ -203,10 +221,11 @@ class CourseController extends Controller
      */
     public function updateGoogleCalendars() {
         $courses = Course::get();
+        $google = new Google();
 
         foreach($courses as $course) {
             if($course->calendar_id == null)  {
-                $course->calendar_id = $this->createCalendarForCourse($course->code);
+                $course->calendar_id = $google->createCalendarForCourse($course->code);
                 $course->save();
                 echo "Calendar for ".$course->code. "loaded\n";
                 return $course;
@@ -218,35 +237,14 @@ class CourseController extends Controller
     }
 
 
-    /**
-     * Crate Google calendar for given course
-     */
-    public function createCalendarForCourse($course) {
+
+
+    public function createSharedFile(Request $request) {
 
         $google = new Google();
-        $client =  $google->getGoogleClient();
+        $file = $google->createSharedFile($request->file_course_code, $request->shared_file_name);
 
-        $service = new \Google_Service_Calendar($client);
-
-        $calendar = new \Google_Service_Calendar_Calendar();
-        $calendar->setSummary($course);
-        $calendar->setTimeZone('Europe/Prague');
-
-        $createdCalendar = $service->calendars->insert($calendar);
-
-        $google->shareCalendarWithUser($createdCalendar->getId(), "fituska.mail@gmail.com" , $service);
-
-        $db_cal = new Calendar();
-        $db_cal->calendar_id = $createdCalendar->getId();
-        $db_cal->save();
-
-        return $createdCalendar->getId();
-    }
-
-
-    public function createSharedFolderForCourse($course) {
-        $google = new Google();
-        $client =  $google->getGoogleClient();
+        return redirect()->back();
     }
 
     /**

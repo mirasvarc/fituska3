@@ -7,6 +7,7 @@
             @if(auth()->user()->canSeeExams())
                 <div id="exams-btn" class="course-menu-btn">Zadání</div>
             @endif
+            <div id="scriptum-btn" class="course-menu-btn">Skripta</div>
         </div>
     </div>
 </div>
@@ -22,16 +23,26 @@
         $('#discussion-body').show();
         $('#files-body').hide();
         $('#exams-body').hide();
+        $('#scriptum-body').hide();
     });
     $('#files-btn').on('click', function(){
         $('#discussion-body').hide();
         $('#files-body').show();
         $('#exams-body').hide();
+        $('#scriptum-body').hide();
     });
     $('#exams-btn').on('click', function(){
         $('#exams-body').show();
         $('#discussion-body').hide();
         $('#files-body').hide();
+        $('#scriptum-body').hide();
+    });
+
+    $('#scriptum-btn').on('click', function(){
+        $('#exams-body').hide();
+        $('#discussion-body').hide();
+        $('#files-body').hide();
+        $('#scriptum-body').show();
     });
 </script>
 

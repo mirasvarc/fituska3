@@ -79,4 +79,19 @@ class CalendarController extends Controller
         $following->delete();
         return true;
     }
+
+    /**
+     * Check if calednar for given course exist. If not, create one.
+     */
+    public function checkIfCalendarExist(Request $request) {
+        $course = Course::where('code', $request->course)->first();
+        if($course->calendar_id == null) {
+            $google = new Google();
+            $google->createCalendarForCourse($course->code);
+            return true;
+        } else {
+            return false;
+        }
+
+    }
 }

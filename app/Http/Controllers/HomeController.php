@@ -30,7 +30,7 @@ class HomeController extends Controller
         $modules = Modules::get();
 
         $google = new Google();
-        $calendar_events = $google->getEventsFromCalendar('primary');
+        $calendar_events = $google->getEventsFromCalendar('primary', null);
 
         return view('home', ['courses' => $courses, 'followed_courses' => $followed_courses, 'modules' => $modules, 'calendar_events' => $calendar_events]);
     }

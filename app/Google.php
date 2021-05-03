@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use DateTime;
+use App\Calendar;
 class Google extends Model
 {
 
@@ -14,47 +15,13 @@ class Google extends Model
      */
     public function getGoogleClient(){
 
-        $credentialsPath = base_path().'\google_api_auth.json';
-
-        $user = "fituska.mail@gmail.com";
-
         $client = new \Google_client();
         $client->setAuthConfig(base_path().'\fituska_service_acc.json');
         $client->setAccessType( 'offline' );
         $client->setApplicationName("FITuska");
         $client->setDeveloperKey($this->developer_key);
         $client->setRedirectUri( 'http://' . $_SERVER['HTTP_HOST'] . '/courses/import');
-        $client->setScopes(\Google_Service_Calendar::CALENDAR);
-        //$client->setSubject($user);
-
-        // check if file with token access alreay exist
-      /*  if ( file_exists( $credentialsPath ) ) {
-            $accessToken = json_decode( file_get_contents( $credentialsPath ), true );
-        }
-        // if the file do not exist, generate new access token and save it to file
-        else {
-            $authUrl = $client->createAuthUrl();
-            if ( ! isset( $_GET['code'] ) ) {
-                header( "Location: $authUrl", true, 302 );
-                exit;
-            }
-
-            $authCode = $_GET['code'];
-            $accessToken = $client->fetchAccessTokenWithAuthCode( $authCode );
-
-            if ( ! file_exists( dirname( $credentialsPath ) ) ) {
-                mkdir( dirname( $credentialsPath ), 0700, true );
-            }
-
-            file_put_contents( $credentialsPath, json_encode( $accessToken ) );
-        }
-
-        $client->setAccessToken( $accessToken );
-
-        if ( $client->isAccessTokenExpired() ) {
-            $client->fetchAccessTokenWithRefreshToken( $client->getRefreshToken() );
-            file_put_contents( $credentialsPath, json_encode( $client->getAccessToken() ) );
-        }*/
+        $client->setScopes([\Google_Service_Calendar::CALENDAR, \Google_Service_Drive::DRIVE]);
 
         return $client;
     }
@@ -85,10 +52,14 @@ class Google extends Model
      * Get list of events from given calendar
      * @param calendar_id
      */
-    public function getEventsFromCalendar($calendar_id) {
+    public function getEventsFromCalendar($calendar_id, $course) {
 
         $client =  $this->getGoogleClient();
         $service = new \Google_Service_Calendar($client);
+
+        if($calendar_id == null && $course != null) {
+            $calendar_id = $this->createCalendarForCourse($course);
+        }
 
 
         $calendarId = $calendar_id;
@@ -112,8 +83,6 @@ class Google extends Model
      */
     public function addEvent($calendar_id, $summary, $desc, $date) {
 
-        $dt = new DateTime($date);
-        $date = $dt->format('Y-m-d\TH:i:s.').substr($dt->format('u'),0,3).'Z'; // convert to correct format for google api
         $client =  $this->getGoogleClient();
         $service = new \Google_Service_Calendar($client);
 
@@ -121,18 +90,198 @@ class Google extends Model
             'summary' => $summary,
             'description' => $desc,
             'start' => array(
-              'dateTime' => $date,
+              'dateTime' => date_format(date_create($date), 'c'),
               'timeZone' => 'Europe/Prague',
             ),
             'end' => array(
-              'dateTime' => $date,
+              'dateTime' => date_format(date_create($date), 'c'),
               'timeZone' => 'Europe/Prague',
             ),
         ));
-
         $event = $service->events->insert($calendar_id, $event);
 
         return $event;
     }
+
+
+    /**
+     * Create Google calendar for given course
+     * @param course course code¨
+     * @return Google_Service_Calendar created calendar
+     */
+    public function createCalendarForCourse($course) {
+
+        $client =  $this->getGoogleClient();
+
+        $service = new \Google_Service_Calendar($client);
+
+        $calendar = new \Google_Service_Calendar_Calendar();
+        $calendar->setSummary($course);
+        $calendar->setTimeZone('Europe/Prague');
+
+        $createdCalendar = $service->calendars->insert($calendar);
+
+        $this->shareCalendarWithUser($createdCalendar->getId(), "fituska.mail@gmail.com" , $service);
+
+        $db_cal = new Calendar();
+        $db_cal->calendar_id = $createdCalendar->getId();
+        $db_cal->save();
+
+        $course = Course::where('code', $course)->first();
+        $course->calendar_id = $createdCalendar->getId();
+        $course->save();
+
+        return $createdCalendar->getId();
+    }
+
+    /**
+     * Create folder on Google drive for given course
+     * @param course course code
+     * @return Google_Service_Drive_DriveFile created folder
+     */
+    public function createDriveFolderForCourse($course) {
+
+        $client =  $this->getGoogleClient();
+        $service = new \Google_Service_Drive($client);
+
+        $file = new \Google_Service_Drive_DriveFile();
+        $file->setName($course);
+        $file->setMimeType('application/vnd.google-apps.folder');
+
+        $folder = $service->files->create($file);
+
+        return $folder;
+    }
+
+    /**
+     * Get all files from Google drive folder for given course
+     * @param course course code
+     * @return Google_Service_Drive_DriveFile files
+     */
+    public function getSharedFilesForCourse($course) {
+
+        $client =  $this->getGoogleClient();
+        $service = new \Google_Service_Drive($client);
+
+        $optParams = array(
+            'pageSize' => 10,
+            'fields' => 'nextPageToken, files(id, name)',
+            'q' => "mimeType = 'application/vnd.google-apps.folder' and name contains '".$course."'"
+        );
+
+        $results = $service->files->listFiles($optParams);
+
+        if (count($results->getFiles()) == 0) {
+            $new_folder = $this->createDriveFolderForCourse($course); // if folder does not exist, create it
+        } else {
+            $files = $this->getFilesFromFolder($results[0]->getId());
+            return $files;
+        }
+
+        return $this->getFilesFromFolder($new_folder->getId());
+
+    }
+
+    /**
+     * Get files from given Google drive folder ID
+     * @param folder_id folder id
+     * @return Google_Service_Drive_DriveFile files
+     */
+    public function getFilesFromFolder($folder_id) {
+        $client =  $this->getGoogleClient();
+        $service = new \Google_Service_Drive($client);
+
+        $optParams = array(
+            'pageSize' => 10,
+            'fields' => 'nextPageToken, files(id, name)',
+            'q' => "'".$folder_id."' in  parents"
+        );
+
+        $results = $service->files->listFiles($optParams);
+
+        return $results->getFiles();
+    }
+
+    /**
+     * Get Google drive folder for given course
+     * @param course course code
+     * @return id folder id
+     */
+    public function getSharedFolderIdByCourse($course){
+        $client =  $this->getGoogleClient();
+        $service = new \Google_Service_Drive($client);
+
+        $optParams = array(
+            'pageSize' => 10,
+            'fields' => 'nextPageToken, files(id, name)',
+            'q' => "mimeType = 'application/vnd.google-apps.folder' and name contains '".$course."'"
+        );
+
+        $results = $service->files->listFiles($optParams);
+
+        return $results[0]->getId();
+    }
+
+    /**
+     * Create new shared file in Google drive folder for given course
+     * @param course course code
+     * @param file_name name of the file
+     * @return Google_Service_Drive_DriveFile created file
+     */
+    public function createSharedFile($course, $file_name) {
+
+        $folder_id[] = $this->getSharedFolderIdByCourse($course);
+
+        $client =  $this->getGoogleClient();
+        $service = new \Google_Service_Drive($client);
+
+        $file = new \Google_Service_Drive_DriveFile();
+        $file->setName($file_name);
+        $file->setParents($folder_id);
+        $file->setMimeType('application/vnd.google-apps.document');
+
+
+        $file = $service->files->create($file);
+
+        // add writer permission for everyone
+        $permissionService = new \Google_Service_Drive_Permission();
+        $permissionService->role = "writer";
+        $permissionService->type = "anyone";
+        $service->permissions->create($file->getId(), $permissionService);
+
+        return $file;
+    }
+
+    /**
+     * Get student scriptum file form Google drive folder for given course
+     * @param course course code
+     * @return Google_Service_Drive_DriveFile scriptum file
+     */
+    public function getStudentScriptumForCourse($course) {
+
+        $folder_id = $this->getSharedFolderIdByCourse($course);
+
+        $client =  $this->getGoogleClient();
+        $service = new \Google_Service_Drive($client);
+
+        $optParams = array(
+            'pageSize' => 10,
+            'fields' => 'nextPageToken, files(id, name)',
+            'q' => "'".$folder_id."' in  parents and name contains 'Skripta'"
+        );
+
+        $results = $service->files->listFiles($optParams);
+
+        $files = $results->getFiles();
+
+        if (count($results->getFiles()) == 0) {
+            $file = $this->createSharedFile($course, "Skripta"); // if scriptum does not exist, create it
+        } else {
+            return $files[0];
+        }
+
+        return $file;
+    }
+
 
 }
