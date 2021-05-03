@@ -25,12 +25,35 @@
                 </div>
             </div>
             <div id="shared-files">
-
+                @if(count($shared_files) != 0)
+                    @foreach($shared_files as $file)
+                    <div class="row course-post-compact">
+                        <div class="col-4">
+                            <span>{{$file->name}}</span>
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <a href="https://docs.google.com/document/d/{{$file->getId()}}" target="_blank">Otevřít</a>
+                            <span class="normal"></span>
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <span></span>
+                        </div>
+                        <div class="col-2" style="text-align:center">
+                            <span><a href=""></a></span>
+                        </div>
+                    </div>
+                    @endforeach
+                @else
+                <div class="row course-post-compact">
+                    <div class="col-6">
+                        <span>Žádný soubor nenalezen.</span>
+                    </div>
+                </div>
+                @endif
             </div>
         </div>
     </div>
 </div>
-
 
 <!-- Modal -->
 <div class="modal fade" id="add-shared-file-modal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
@@ -43,8 +66,9 @@
                     </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="javascript:void(0);">
+                <form method="post" action="{{ route('create-shared-file') }}" id="add-file-form">
                     @csrf
+                    <input type="hidden" name="file_course_code" value="{{$course->code}}">
                     <div class="form-group">
                         <label for="event_name">Název: *&nbsp;</label>
                         <input type="text" name="shared_file_name" class="form-control" required id="EventNameDrive">
@@ -56,3 +80,8 @@
     </div>
 </div>
 
+<script>
+    function createSharedFile() {
+        document.getElementById("add-file-form").submit();
+    }
+</script>

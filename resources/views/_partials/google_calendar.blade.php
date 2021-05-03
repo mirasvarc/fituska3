@@ -50,6 +50,7 @@
                         {{$event->summary}}
                     </span>
                     <span class="event-date">
+
                         {{date_format(date_create($event->start->dateTime), "d.m.Y H:i")}}
                     </span>
                 </div>
@@ -57,12 +58,10 @@
             @endif
         </div>
         <div class="calendar-add-btn text-center">
-            @if(Auth()->user()->canModerate())
-                <button id="addCalendarEvent" class="btn btn-success btn-addEvent" data-toggle="modal" data-target="#add-event-modal">
-                    <i class="fa fa-plus-circle"></i>
-                    &nbsp;Přidat událost
-                </button>
-            @endif
+            <button id="addCalendarEvent" class="btn btn-success btn-addEvent" data-toggle="modal" data-target="#add-event-modal">
+                <i class="fa fa-plus-circle"></i>
+                &nbsp;Přidat událost
+            </button>
         </div>
     </div>
 </div>
@@ -107,3 +106,4 @@
         document.getElementById("add-event-form").submit();
     }
 </script>
+
