@@ -33,7 +33,7 @@ Portál pro studenty FIT VUT v Brně.
 5. Spuštění aplikace na lokálním stroji  
 
         php artisan serve  
-        
+
 Poté aplikace běží na adrese [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 
@@ -49,7 +49,7 @@ Poté aplikace běží na adrese [http://127.0.0.1:8000/](http://127.0.0.1:8000/
 
 Pro plnou funkčnost je potřeba spustit oba skripty ve složce *fituska_bot*  
 
-    $ python fituska.py  
-    $ python fituska_api.py  
+    python fituska.py  
+    python fituska_api.py  
 
 A oba skripty nechat běžet v pozadí.  
