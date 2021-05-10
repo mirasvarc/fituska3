@@ -10,14 +10,14 @@ Portál pro studenty FIT VUT v Brně.
 
 ### Instalace
 1. Stažení repozitáře z GitHubu
-    git clone git@github.com:mirasvarc/fituska3.git  
+        git clone git@github.com:mirasvarc/fituska3.git  
 
 2. Ve kořenové složce projektu nainstalovat závislosti
-    composer install  
+        composer install  
 
 3. Spustit migrace, nebo importovat soubor fituska.sql do databáze  
-    Spuštění migrací:  
-    php artisan migrate  
+        Spuštění migrací:  
+        php artisan migrate  
 
 4. Do .env souboru vyplnit údaje k databázi
     >DB_CONNECTION=mysql  
@@ -28,7 +28,7 @@ Portál pro studenty FIT VUT v Brně.
     >DB_PASSWORD=  
 
 5. Spuštění aplikace na lokálním stroji
-    php artisan serve  
+        php artisan serve  
 Poté aplikace běží na adrese [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 
