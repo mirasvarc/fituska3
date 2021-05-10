@@ -11,7 +11,9 @@ class SearchController extends Controller
     public function search(Request $request) {
         if($request->ajax()) {
             $output = "";
-            $posts = DB::table('posts')->where('title','LIKE','%'.$request->search."%")->orderBy('created_at', 'DESC')->get();
+            $posts = DB::table('posts')->where('title','LIKE','%'.$request->search."%")
+                                        ->orWhere('content', 'LIKE', '%'.$request->search."%")
+                                        ->orderBy('created_at', 'DESC')->get();
             $courses = DB::table('courses')->where('code','LIKE','%'.$request->search."%")->get();
 
             if($request->search != "") {

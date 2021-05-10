@@ -23,12 +23,12 @@
 
         @if(isset($course->code))
         &nbsp;
-        <button id="follow_button" class="btn btn-primary" onclick="followCalendar();">
+        <button id="follow_button" class="btn btn-primary" @if(auth()->user()->isFollowingCalendar($course->calendar_id)) style="display: none;" @endif onclick="followCalendar();">
             <i class="fa fa-plus-circle"></i>
             &nbsp;
             Sledovat
         </button>
-        <button id="unfollow_button" style="display: none;" class="btn btn-secondary" onclick="unfollowCalendar();">
+        <button id="unfollow_button" @if(!auth()->user()->isFollowingCalendar($course->calendar_id)) style="display: none;" @endif class="btn btn-success" onclick="unfollowCalendar();">
             <i class="fa fa-check-circle"></i>
             &nbsp;
             <span>Sledováno</span>
@@ -105,5 +105,21 @@
     function add_event() {
         document.getElementById("add-event-form").submit();
     }
+
+
+    $('#unfollow_button').hover(function () {
+        $(this).addClass('btn-danger');
+        $(this).removeClass('btn-success');
+        $('#unfollow_button svg').removeClass('fa-check-circle');
+        $('#unfollow_button svg').addClass('fa-times-circle');
+        //$('#btn-following span').html("Přestat sledovat");
+    }, function () {
+        $(this).removeClass('btn-danger');
+        $(this).addClass('btn-success');
+        //$('#btn-following span').html("Sledováno");
+        $('#unfollow_button svg').addClass('fa-check-circle');
+        $('#unfollow_button svg').removeClass('fa-times-circle');
+    });
+
 </script>
 

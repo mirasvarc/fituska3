@@ -37,7 +37,8 @@
                 data: {'course': course, 'user_id': user_id},
                 success: function(response){
                     console.log(response);
-                    $('#followButton').hide();
+                    $('#follow_button').hide();
+                    $('#unfollow_button').show();
                 }
             });
 
@@ -55,12 +56,13 @@
                 }
             });
             $.ajax({
-                url: "{{ url('/calendar/follow')}}",
+                url: "{{ url('/calendar/unfollow')}}",
                 method: 'post',
                 data: {'course': course, 'user_id': user_id},
                 success: function(response){
                     console.log(response);
-                    $('#unfollowButton').hide();
+                    $('#unfollow_button').hide();
+                    $('#follow_button').show();
                 }
             });
         });

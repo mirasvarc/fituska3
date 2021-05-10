@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use App\Role;
 use App\HasRole;
+use App\UsersImport;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -51,7 +53,7 @@ class RegisterController extends Controller
     protected function validator(array $data)
     {
         return Validator::make($data, [
-            'username' => ['required', 'string', 'max:255'],
+            'username' => ['required', 'string', 'max:255', 'unique:users'],
             'school_mail' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
@@ -66,6 +68,25 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
+        $login = explode("@", $data['school_mail']);
+
+        $ustavy = ["UPSY", "UPGM", "UITS", "UIFS"];
+
+        $act_user = UsersImport::where('login', $login[0])->first();
+
+        if(isset($act_user)) {
+            if(in_array($act_user->class, $ustavy) && $login[1] == "fit.vut.cz") {
+                $role = Role::where('role', 'Učitel')->first();
+            } else if(strpos($act_user->class, "FIT") !== false && $login[1] == "stud.fit.vut.cz") {
+                $role = Role::where('role', 'Student')->first();
+            } else {
+                $role = Role::where('role', 'Registrovaný uživatel')->first();
+            }
+        } else {
+            $role = Role::where('role', 'Registrovaný uživatel')->first();
+        }
+
+
         $user = User::create([
             'username' => $data['username'],
             'school_mail' => $data['school_mail'],
@@ -74,7 +95,7 @@ class RegisterController extends Controller
 
         $hasRole = new hasRole();
         $hasRole->user_id = $user->id;
-        $hasRole->role_id = 1;
+        $hasRole->role_id = $role->id;
         $hasRole->save();
 
         return $user;
