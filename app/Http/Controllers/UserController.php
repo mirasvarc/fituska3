@@ -8,6 +8,7 @@ use App\UserSettings;
 use App\Role;
 use App\hasRole;
 use App\IsFollowingCourse;
+use App\UsersImport;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\DB;
 
@@ -301,11 +302,33 @@ class UserController extends Controller
 
     public function importUsers() {
 
-        // TODO: Request
+        $url = 'http://knot.fit.vutbr.cz/knotis/exportVO.php';
 
-        $users = [['login' => "xjmeno00", 'jmeno' => "Jméno", 'prijmeni' => 'Příjmení', 'zarazení' => '3BIT']];
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_POST, true);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, 'xs8iKIXhJ0Ut65Q7BTvvu2uFC5d31C');
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($curl);
+        curl_close($curl);
 
-        dd($users);
+        $lines = explode("\n", $response);
+
+        $users = [];
+
+        foreach($lines as $line) {
+            $users[] = explode(",", $line);
+        }
+
+        foreach($users as $user) {
+            $imported = new UsersImport();
+            $imported->login = isset($user[0]) ? $user[0] : null;
+            $imported->name = isset($user[1]) ? $user[1] : null;
+            $imported->surname = isset($user[2]) ? $user[2] : null;
+            $imported->class = isset($user[3]) ? $user[3] : null;
+            $imported->save();
+        }
+
+        return true;
 
 
     }

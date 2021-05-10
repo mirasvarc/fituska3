@@ -67,9 +67,14 @@ class User extends Authenticatable
     /**
      * Calendars that user is following
      */
-    public function isFollowingCalendar()
+    public function followedCalendars()
     {
         return $this->belongsToMany('App\Calendar', 'is_following_calendar', 'user_id', 'calendar_id');
+    }
+
+    public function isFollowingCalendar($calendar_id){
+        $calendar = Calendar::where('calendar_id', $calendar_id)->first();
+        if($calendar) return $this->followedCalendars()->where('is_following_calendar.calendar_id', $calendar->id)->exists();
     }
 
     /**
@@ -92,6 +97,14 @@ class User extends Authenticatable
     public function isModerator(){
         return $this->roles()->where('role', 'Moderátor')->exists();
     }
+
+    /**
+     * Check if current user is moderator
+     */
+    public function isValidated(){
+        return !$this->roles()->where('role', 'Registrovaný uživatel')->exists();
+    }
+
 
     /**
      * Check if user can moderate

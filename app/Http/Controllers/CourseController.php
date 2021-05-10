@@ -26,6 +26,10 @@ class CourseController extends Controller
         return view('courses/courses', compact('data'));
     }
 
+
+    /**
+     * get courses for course table
+     */
     function fetch_data(Request $request) {
         if($request->ajax()) {
             $sort_by = $request->get('sortby');
@@ -111,14 +115,20 @@ class CourseController extends Controller
         if($request->file('files')){
             // check for files in request
             foreach($request->file('files') as $file){
+                
+                if(File::where('name', $file->getClientOriginalName())->exists()) {
+                    $filename = $file->getClientOriginalName() . " " . time();
+                } else {
+                    $filename = $file->getClientOriginalName();
+                }
 
                 // upload files and store path to DB
-                $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
+                $file->storeAs('public/files/'.$course->code.'/', $filename);
                 $new_file = new File;
                 $new_file->author_id = auth()->user()->id;
-                $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
+                $new_file->name = isset($file->name) ? $file->name : $filename; 
                 $new_file->type = $file->getClientOriginalExtension();
-                $new_file->path = $file->getClientOriginalName();
+                $new_file->path = $filename;
                 $new_file->is_exam = 0;
                 $new_file->save();
 
@@ -144,13 +154,20 @@ class CourseController extends Controller
             // check for files in request
             foreach($request->file('files') as $file){
 
+
+                if(File::where('name', $file->getClientOriginalName())->exists()) {
+                    $filename = $file->getClientOriginalName() . " " . time();
+                } else {
+                    $filename = $file->getClientOriginalName();
+                }
+
                 // upload files and store path to DB
-                $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
+                $file->storeAs('public/files/'.$course->code.'/', $filename);
                 $new_file = new File;
                 $new_file->author_id = auth()->user()->id;
-                $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName(); // TODO: user can specify name if file (not path)
+                $new_file->name = isset($file->name) ? $file->name : $filename; // TODO: user can specify name if file (not path)
                 $new_file->type = $file->getClientOriginalExtension();
-                $new_file->path = $file->getClientOriginalName();
+                $new_file->path = $filename;
                 $new_file->is_exam = 1;
                 $new_file->save();
 
@@ -208,7 +225,8 @@ class CourseController extends Controller
                     $course = new Course();
                     $course->code = $c['code'];
                     $course->full_name = $c['name'];
-                    $course->calendar_id = $google->createCalendarForCourse($c['code']);
+                    //$course->calendar_id = $google->createCalendarForCourse($c['code']);
+                    $course->calendar_id = null;
                     $course->save();
                     echo "Course ".$c['code']." imported.\n";
                 }

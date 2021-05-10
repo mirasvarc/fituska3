@@ -74,7 +74,8 @@ class CalendarController extends Controller
      * Unfollow selected calendar
      */
     public function unfollowCalendar(Request $request) {
-        $calendar = Calendar::where('calendar_id', $request->calendar_id)->first();
+        $course = Course::where('code', $request->course)->first();
+        $calendar = Calendar::where('calendar_id', $course->calendar_id)->first();
         $following = IsFollowingCalendar::where('calendar_id', $calendar->id)->where('user_id', $request->user_id)->first();
         $following->delete();
         return true;

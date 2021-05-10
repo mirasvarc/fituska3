@@ -10946,7 +10946,7 @@ a.text-dark:focus {
   width: 100%;
   padding: 15px;
   margin-left: 0px;
-  background-color: #f6f8fa;
+  background-color: #ced3d8;
 }
 
 .course-posts .course-post:hover {
@@ -11316,6 +11316,7 @@ a.text-dark:focus {
 
 .scriptum {
   margin-top: 25px;
+  margin-bottom: 100px;
 }
 
 .login-window {

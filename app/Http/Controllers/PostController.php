@@ -81,7 +81,13 @@ class PostController extends Controller
             $post->course_id = $course->id;
         }
 
-        $post->author_id = auth()->user()->id;
+        if($request->anonym == "on") {
+            $user = User::where('username', "FITuška")->first();
+            $post->author_id = $user->id;
+        } else {
+            $post->author_id = auth()->user()->id;
+        }
+
         $post->upvotes = 0;
         $post->downvotes = 0;
 
@@ -91,14 +97,21 @@ class PostController extends Controller
             if($request->file('files')){
                 // check for files in request
                 foreach($request->file('files') as $file){
+                   
+                    if(File::where('name', $file->getClientOriginalName())->exists()) {
+                        $filename = $file->getClientOriginalName() . time();
+                    } else {
+                        $filename = $file->getClientOriginalName();
+                    }
+                    
 
                     // upload files and store path to DB
-                    $file->storeAs('public/files/'.$course->code.'/', $file->getClientOriginalName());
+                    $file->storeAs('public/files/'.$course->code.'/', $filename);
                     $new_file = new File;
                     $new_file->author_id = auth()->user()->id;
-                    $new_file->name = isset($file->name) ? $file->name : $file->getClientOriginalName();
+                    $new_file->name = isset($file->name) ? $file->name : $filename;
                     $new_file->type = $file->getClientOriginalExtension();
-                    $new_file->path = $file->getClientOriginalName();
+                    $new_file->path = $filename;
                     $new_file->save();
 
                     $has_file = new HasFile;

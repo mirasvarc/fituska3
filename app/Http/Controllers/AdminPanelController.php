@@ -64,6 +64,30 @@ class AdminPanelController extends Controller
         $all_votes = count(Vote::All()) != 0 ? Vote::All() : null;
         $users = User::All()->pluck('username', 'id')->toArray();
 
+        if($all_votes != null){
+            foreach($all_votes as $vote) {
+                date_default_timezone_set('Europe/Prague');
+                $date1 = new \DateTime(date("Y-m-d H:i:s"));
+                $date2 = new \DateTime($vote->created_at->toDateTimeString());
+                $interval = date_diff($date1, $date2);
+    
+                if($interval->days > 14) {
+                    if($vote->vote_yes > 2 && $vote->vote_no == 0){
+                    
+                        $new_role = new HasRole();
+                        $new_role->user_id = $vote->user_id;
+                        $new_role->role_id = $vote->role_new;
+                        $new_role->save();
+            
+                        $vote->delete();
+
+                        return redirect('/admin/vote');
+                    }
+                }
+            }
+        
+        }
+
         return view('admin.vote', ['all_votes' => $all_votes,  'users' => $users]);
     }
 
@@ -167,14 +191,13 @@ class AdminPanelController extends Controller
      */
     public function test(){
 
+       // dd(file_get_contents('http://knot.fit.vutbr.cz/knotis/exportVO.php'));
 
-
-        $url = 'https://knot.fit.vutbr.cz/knotis/exportVO.php';
-        $data = array('xs8iKIXhJ0Ut65Q7BTvvu2uFC5d31C');
+        $url = 'http://knot.fit.vutbr.cz/knotis/exportVO.php';
 
         $curl = curl_init($url);
         curl_setopt($curl, CURLOPT_POST, true);
-        curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+        curl_setopt($curl, CURLOPT_POSTFIELDS, 'xs8iKIXhJ0Ut65Q7BTvvu2uFC5d31C');
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
         $response = curl_exec($curl);
         curl_close($curl);

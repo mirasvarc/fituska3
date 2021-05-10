@@ -37,6 +37,11 @@
                 </div>
                 @endif
                 <div class="form-group">
+                    <label for="files">Vložit příspěvek anonymně</label>
+                    &nbsp;
+                    <input type="checkbox" class="checkbox" name="anonym">
+                </div>
+                <div class="form-group">
                     <input type="submit" value="Submit" class="btn btn-primary"/>
                 </div>
             </form>
